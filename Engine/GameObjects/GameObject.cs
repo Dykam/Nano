@@ -10,16 +10,16 @@ namespace Engine.GameObjects
     {
         protected string id;
         protected GameObject parentObject;
-        protected Vector2 position, velocity;
+		protected Vector2 velocity;
+
+		public Transform Transform { get; private set; }
         
-        public string ID
-        {
-            get { return this.id; }
-        }
+        public string ID { get { return this.id; } }
 
 		public GameObject(string id)
 		{
 			this.id = id ?? GetType().Name;
+			Transform = new Transform();
 		}
 		public GameObject()
 			: this(null)
@@ -32,42 +32,25 @@ namespace Engine.GameObjects
 
         public virtual void Update(GameTime gameTime)
         {
-            this.position += this.velocity * gameTime.ElapsedGameTime.Milliseconds / 10;
+            Transform.Position += this.velocity * gameTime.ElapsedGameTime.Milliseconds / 10;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, bool isGridObject = false)
         {
         }
 
-        public virtual Vector2 Position
-        {
-            get { return this.position; }
-            set { this.position = value; }
-        }
-
-        public virtual Vector2 GlobalPosition
-        {
-            get
-            {
-                if (parentObject != null)
-                    return parentObject.GlobalPosition + this.Position;
-                else
-                    return this.Position;
-            }
-        }
-
         public virtual Rectangle BoundingBox
         {
             get
             {
-                return new Rectangle((int)(GlobalPosition.X - Camera.CameraPos.X), (int)(GlobalPosition.Y - Camera.CameraPos.Y), 0, 0);
+				return new Rectangle((int)(Transform.Position.X - Camera.CameraPos.X), (int)(Transform.Position.Y - Camera.CameraPos.Y), 0, 0);
             }
         }
 
         public GameObject ParentObject
         {
             get { return parentObject; }
-            set { parentObject = value; }
+			set { parentObject = value; Transform.Parent = parentObject.Transform; }
         }
 
 

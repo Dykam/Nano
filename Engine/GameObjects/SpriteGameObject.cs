@@ -59,9 +59,9 @@ namespace Engine.GameObjects
 
         public override void Draw(SpriteBatch spriteBatch, bool isGridObject = false)
         {
-            drawPosition = this.GlobalPosition - Camera.CameraPos;
+            drawPosition = this.Transform.Position - Camera.CameraPos;
             if (isGridObject)
-                drawPosition = this.GlobalPosition * 32 - Camera.CameraPos;
+				drawPosition = this.Transform.Position * 32 - Camera.CameraPos;
 
             spriteBatch.Draw(texture, drawPosition, new Rectangle(0,0,texture.Width,texture.Height),drawColor,0f,origin,scale,SpriteEffects.None,1f); //draws the sprite on its position minus the cameraposition
         }

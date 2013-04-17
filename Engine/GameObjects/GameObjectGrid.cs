@@ -29,7 +29,7 @@ namespace Engine.GameObjects
         {
             grid[x, y] = obj;
             obj.ParentObject = this;
-            obj.Position = new Vector2(x, y);
+            obj.Transform.Position = new Vector2(x, y);
         }
 
         public override void Update(GameTime gameTime)

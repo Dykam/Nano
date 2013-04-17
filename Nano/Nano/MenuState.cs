@@ -79,7 +79,7 @@ namespace Nano
 			{
 				get
 				{
-					return new Rectangle((int)position.X, (int)position.Y, Width * Tiles.TileSize / 2, Height * Tiles.TileSize / 2);
+					return new Rectangle((int)Transform.Position.X, (int)Transform.Position.Y, Width * Tiles.TileSize / 2, Height * Tiles.TileSize / 2);
 				}
 			}
 
@@ -88,8 +88,8 @@ namespace Nano
 				spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 				for (int y = 0; y < 3; y++) {
 					for (int x = 0; x < 3; x++) {
-						spriteBatch.Draw(Tiles, new Vector2(x, y) * 64 + GlobalPosition, x + 3, y, Inner, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
-						spriteBatch.Draw(Tiles, new Vector2(x, y) * 64 + GlobalPosition, x, y, Border, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+						spriteBatch.Draw(Tiles, new Vector2(x, y) * 64 + Transform.Position, x + 3, y, Inner, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+						spriteBatch.Draw(Tiles, new Vector2(x, y) * 64 + Transform.Position, x, y, Border, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
 					}
 				}
 				spriteBatch.End();
