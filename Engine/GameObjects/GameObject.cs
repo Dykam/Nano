@@ -10,7 +10,6 @@ namespace Engine.GameObjects
     {
         protected string id;
         protected GameObject parentObject;
-		protected Vector2 velocity;
 
 		public Transform Transform { get; private set; }
         
