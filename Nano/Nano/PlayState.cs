@@ -15,7 +15,13 @@ namespace Nano
 	{
 		NanoGame nanoGame;
 		GameObjectList root;
+		/// <summary>
+		/// Contains all GUI gameobjects
+		/// </summary>
 		InterfaceManager @interface;
+		/// <summary>
+		/// Contains all interactive gameobjects
+		/// </summary>
 		EntityManager entities;
 		TileSheet uisheet;
 
@@ -29,7 +35,8 @@ namespace Nano
 				}),
 				(entities = new EntityManager("entities", true) {
 					new PlayerEntity()
-				})
+				}),
+				// TODO: Add world
 			};
 		}
 
