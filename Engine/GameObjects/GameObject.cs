@@ -31,7 +31,6 @@ namespace Engine.GameObjects
 
         public virtual void Update(GameTime gameTime)
         {
-            Transform.Position += this.velocity * gameTime.ElapsedGameTime.Milliseconds / 10;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, bool isGridObject = false)
