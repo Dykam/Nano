@@ -21,7 +21,7 @@ namespace Nano
 			tileSheet = new TileSheet(nanoGame.Content.Load<Texture2D>("MenuSheet"), 128);
 			Button button = null;
 			root = new GameObjectList("menu", true) {
-				(button = new Button(tileSheet, 3, 3, () => nanoGame.Engine.GameStateManager.SetCurrentState("play")) {
+				(button = new Button(tileSheet, 3, 3, () => NanoGame.Engine.GameStateManager.SetCurrentState("play")) {
 					Inner = Color.White,
 					Border = Color.Red
 				})
@@ -41,7 +41,7 @@ namespace Nano
 		public override void Update(GameTime gameTime)
 		{
 			root.Update(gameTime);
-			root.HandleInput(nanoGame.Engine.InputHelper);
+			root.HandleInput(NanoGame.Engine.InputHelper);
 		}
 		public override void Draw(SpriteBatch spriteBatch)
 		{

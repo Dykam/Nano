@@ -53,14 +53,13 @@ namespace Nano
 				}),
 				// TODO: Add world
 			};
-            player.Transform.Position = new Vector2(nanoGame.GraphicsDevice.Viewport.Width / 2, nanoGame.GraphicsDevice.Viewport.Height / 2);
-			level.Transform.LocalPosition += new Vector2(100, 100);
+            player.Transform.Position = (NanoGame.Engine.Screen - new Vector2(player.BoundingBox.Width, player.BoundingBox.Height)) / 2;
 		}
 		public override void Update(GameTime gameTime)
 		{
 			root.Update(gameTime);
             UpdateCamera(gameTime);
-			root.HandleInput(nanoGame.Engine.InputHelper);
+			root.HandleInput(NanoGame.Engine.InputHelper);
 		}
 
         private void UpdateCamera(GameTime gameTime)

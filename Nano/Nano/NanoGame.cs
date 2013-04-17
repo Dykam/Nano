@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Engine;
+using System.Threading.Tasks;
 
 namespace Nano
 {
@@ -16,8 +17,8 @@ namespace Nano
 	{
 		GraphicsDeviceManager graphics;
 		public SpriteBatch SpriteBatch { get; set; }
-		public GameEngine Engine { get; set; }
-		public GameAwaiter Awaiter;
+		public static GameEngine Engine { get; set; }
+		public static GameAwaiter Awaiter;
 
 		public NanoGame()
 		{

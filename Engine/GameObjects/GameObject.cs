@@ -10,6 +10,9 @@ namespace Engine.GameObjects
     {
         protected string id;
 		protected GameObject parentObject;
+		/// <summary>
+		/// Optional texture. If omitted the gameobject has to override GameObject.Draw().
+		/// </summary>
 		protected Texture2D Texture;
 		protected bool HasDefaultTexture { get { return Texture != null; } }
 

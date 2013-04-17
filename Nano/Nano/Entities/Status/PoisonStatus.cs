@@ -15,7 +15,7 @@ namespace Nano.Entities.Status
 
 		public override void Activate()
 		{
-			throw new NotImplementedException();
+			NanoGame.Awaiter.Delay(1000).ContinueWith(t => Entity.Damage(5));
 		}
 	}
 }
