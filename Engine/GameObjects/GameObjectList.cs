@@ -50,13 +50,13 @@ namespace Engine.GameObjects
 			}
 		}
 
-		public override void Draw(SpriteBatch spriteBatch, bool isGridObject = false)
+		public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
 		{
 			if (!draw)
 				return;
 
 			foreach (var obj in gameObjects) {
-				obj.Draw(spriteBatch, isGridObject);
+				obj.Draw(spriteBatch, viewingOffset);
 			}
 		}
 

@@ -56,13 +56,13 @@ namespace Nano.Entities
 			}
 		}
 
-		public override void Draw(SpriteBatch spriteBatch, bool isGridObject = false)
+		public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
 		{
 			if (!draw)
 				return;
             spriteBatch.Begin();
 			foreach (var entity in entities) {
-				entity.Draw(spriteBatch, isGridObject);
+				entity.Draw(spriteBatch, viewingOffset);
 			}
             spriteBatch.End();
 		}

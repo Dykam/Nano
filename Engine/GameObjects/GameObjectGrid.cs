@@ -39,11 +39,11 @@ namespace Engine.GameObjects
                     obj.Update(gameTime);
         }
 
-        public override void Draw(SpriteBatch spriteBatch, bool isGridObject = false)
+        public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
         {
             foreach (GameObject obj in grid)
                 if (obj != null)
-                    obj.Draw(spriteBatch, true);
+					obj.Draw(spriteBatch, viewingOffset);
         }
 
         //gets the gameobject on position (x,y)

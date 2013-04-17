@@ -27,6 +27,7 @@ namespace Nano
 		Level level;
 		TileSheet uisheet;
 		PlayerEntity player;
+		Vector2 cameraOffset;
 
 		public PlayState(NanoGame nanoGame)
 		{
@@ -64,15 +65,15 @@ namespace Nano
 
         private void UpdateCamera(GameTime gameTime)
         {
-            Vector2 desiredLevelPosition = level.Transform.LocalPosition - player.Transform.Position - new Vector2(64,64) + new Vector2(nanoGame.GraphicsDevice.Viewport.Width/2,nanoGame.GraphicsDevice.Viewport.Height/2);
-            level.Transform.LocalPosition = Vector2.Lerp(level.Transform.LocalPosition, desiredLevelPosition, (float)(.99 * gameTime.ElapsedGameTime.TotalSeconds));
-            
-            Console.WriteLine(level.Transform.LocalPosition);
+			var bb = player.BoundingBox;
+			Vector2 desiredCameraOffset = -player.Transform.Position + nanoGame.Engine.Screen / 2 - new Vector2(bb.Width, bb.Height) / 2;
+			cameraOffset = Vector2.Lerp(cameraOffset, desiredCameraOffset, (float)(.99 * gameTime.ElapsedGameTime.TotalSeconds));
+			Console.WriteLine(desiredCameraOffset);
         }
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			root.Draw(spriteBatch, false);
+			root.Draw(spriteBatch, cameraOffset);
 		}
 	}
 }

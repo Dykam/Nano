@@ -10,10 +10,9 @@ namespace Nano.Entities
 	class PlayerEntity : LivingEntity
 	{
         int speed;
-        Texture2D texture;
 		public PlayerEntity(Texture2D texture)
 		{
-            this.texture = texture;
+            Texture = texture;
 			Health = MaxHealth = 20;
             speed = 5;
 		}
@@ -30,11 +29,6 @@ namespace Nano.Entities
                 Transform.LocalPosition.Y += speed;
 
             base.HandleInput(inputHelper);
-        }
-
-        public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, bool isGridObject = false)
-        {
-            spriteBatch.Draw(texture, Color.White, Transform);
         }
 
 	}

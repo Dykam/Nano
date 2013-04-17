@@ -6,9 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Engine;
 
-namespace Nano
+namespace Engine
 {
-	class TileSheet
+	public class TileSheet
 	{
 		public Texture2D Texture { get; private set; }
 		public int TileSize { get; private set; }
@@ -22,7 +22,7 @@ namespace Nano
 			Columns = texture.Width / tileSize;
 		}
 	}
-	static class TileSheetExtensions
+	public static class TileSheetExtensions
 	{
 		public static void Draw(this SpriteBatch spriteBatch, TileSheet texture, Rectangle destinationRectangle, int x, int y, Color color)
 		{
@@ -48,9 +48,9 @@ namespace Nano
 		{
 			spriteBatch.Draw(texture.Texture, transform.Position, new Rectangle(texture.TileSize * x, texture.TileSize * y, texture.TileSize, texture.TileSize), color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
 		}
-		public static void Draw(this SpriteBatch spriteBatch, Texture2D texture, Color color, Transform transform)
+		public static void Draw(this SpriteBatch spriteBatch, Texture2D texture, Color color, Transform transform, Vector2 offset)
 		{
-			spriteBatch.Draw(texture, transform.Position, null, color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
+			spriteBatch.Draw(texture, transform.Position + offset, null, color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
 		}
 	}
 }

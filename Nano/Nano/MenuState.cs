@@ -45,7 +45,7 @@ namespace Nano
 		}
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			root.Draw(spriteBatch, false);
+			root.Draw(spriteBatch, Vector2.Zero);
 		}
 
 		class Button : GameObject
@@ -83,7 +83,7 @@ namespace Nano
 				}
 			}
 
-			public override void Draw(SpriteBatch spriteBatch, bool isGridObject = false)
+			public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
 			{
 				spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 				for (int y = 0; y < 3; y++) {

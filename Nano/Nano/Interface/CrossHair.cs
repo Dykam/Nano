@@ -26,7 +26,7 @@ namespace Nano.Interface
 			Transform.LocalPosition = inputHelper.MousePosition - Vector2.One * sheet.TileSize / 2;
 		}
 
-		public override void Draw(SpriteBatch spriteBatch, bool isGridObject = false)
+		public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
 		{
 			spriteBatch.Draw(sheet, x, y, Color.Red, Transform);
 		}

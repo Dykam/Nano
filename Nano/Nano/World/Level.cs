@@ -6,6 +6,7 @@ using Engine.GameObjects;
 using PathFinding;
 using Engine;
 using Nano.Entities;
+using Microsoft.Xna.Framework;
 
 namespace Nano.World
 {
@@ -27,16 +28,20 @@ namespace Nano.World
 			base.Update(gameTime);
 		}
 
-		public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, bool isGridObject = false)
+		public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Vector2 viewingOffset)
 		{
-			Entities.Draw(spriteBatch, isGridObject);
-			base.Draw(spriteBatch, isGridObject);
+			Entities.Draw(spriteBatch, viewingOffset);
+			base.Draw(spriteBatch, viewingOffset);
 		}
 
 		public override void HandleInput(InputHelper inputHelper)
 		{
 			Entities.HandleInput(inputHelper);
 			base.HandleInput(inputHelper);
+		}
+
+		public static Level Load(string path, EntityManager entities) {
+			return null;
 		}
 	}
 }

@@ -9,7 +9,9 @@ namespace Engine.GameObjects
     public abstract class GameObject
     {
         protected string id;
-        protected GameObject parentObject;
+		protected GameObject parentObject;
+		protected Texture2D Texture;
+		protected bool HasDefaultTexture { get { return Texture != null; } }
 
 		public Transform Transform { get; private set; }
         
@@ -33,15 +35,22 @@ namespace Engine.GameObjects
         {
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, bool isGridObject = false)
+        public virtual void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
         {
+			if (HasDefaultTexture) {
+				spriteBatch.Draw(Texture, Color.White, Transform, viewingOffset);
+			}
         }
 
         public virtual Rectangle BoundingBox
         {
             get
             {
-				return new Rectangle((int)(Transform.Position.X - Camera.CameraPos.X), (int)(Transform.Position.Y - Camera.CameraPos.Y), 0, 0);
+				if (!HasDefaultTexture) {
+					return new Rectangle((int)(Transform.Position.X), (int)(Transform.Position.Y), 0, 0);
+				} else {
+					return new Rectangle((int)(Transform.Position.X), (int)(Transform.Position.Y), Texture.Width, Texture.Height);
+				}
             }
         }
 

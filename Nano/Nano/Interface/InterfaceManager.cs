@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.GameObjects;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace Nano.Interface
 {
@@ -14,10 +15,10 @@ namespace Nano.Interface
 		{
 		}
 
-		public override void Draw(SpriteBatch spriteBatch, bool isGridObject = false)
+		public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
 		{
 			spriteBatch.Begin();
-			base.Draw(spriteBatch, isGridObject);
+			base.Draw(spriteBatch, viewingOffset);
 			spriteBatch.End();
 		}
 	}
