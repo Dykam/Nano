@@ -36,6 +36,7 @@ namespace Nano.Entities
 				entities.Add(entity);
 				entity.Manager = this;
 			}
+			entity.ParentObject = this;
 		}
 		public void Remove(Entity entity)
 		{
@@ -44,6 +45,7 @@ namespace Nano.Entities
 			} else {
 				entities.Remove(entity);
 			}
+			entity.ParentObject = null;
 		}
 		public void Clear()
 		{

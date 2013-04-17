@@ -23,7 +23,7 @@ namespace Nano.Interface
 
 		public override void HandleInput(InputHelper inputHelper)
 		{
-			Transform.Position = inputHelper.MousePosition - Vector2.One * sheet.TileSize / 2;
+			Transform.LocalPosition = inputHelper.MousePosition - Vector2.One * sheet.TileSize / 2;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, bool isGridObject = false)

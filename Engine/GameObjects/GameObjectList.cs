@@ -30,6 +30,7 @@ namespace Engine.GameObjects
 			} else {
 				gameObjects.Add(obj);
 			}
+			obj.ParentObject = this;
         }
 		public void Remove(GameObject obj)
 		{
@@ -38,11 +39,12 @@ namespace Engine.GameObjects
 			} else {
 				gameObjects.Remove(obj);
 			}
+			obj.ParentObject = null;
 		}
 		public void Clear()
 		{
 			if (lockMutations) {
-				mutations.Add(() => gameObjects.Clear());
+				mutations.Add(gameObjects.Clear);
 			} else {
 				gameObjects.Clear();
 			}

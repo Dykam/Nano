@@ -48,7 +48,7 @@ namespace Engine.GameObjects
         public GameObject ParentObject
         {
             get { return parentObject; }
-			set { parentObject = value; Transform.Parent = parentObject.Transform; }
+			set { parentObject = value; Transform.Parent = value == null ? null : value.Transform; }
         }
 
 

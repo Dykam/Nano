@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Nano.Interface;
 using Microsoft.Xna.Framework;
 using Nano.Entities;
+using Nano.World;
 
 namespace Nano
 {
@@ -23,22 +24,24 @@ namespace Nano
 		/// Contains all interactive gameobjects
 		/// </summary>
 		EntityManager entities;
+		Level level;
 		TileSheet uisheet;
 
 		public PlayState(NanoGame nanoGame)
 		{
 			this.nanoGame = nanoGame;
 			uisheet = new TileSheet(nanoGame.Content.Load<Texture2D>("Interface"), 128);
+			entities = new EntityManager("entities", true) {
+				new PlayerEntity(nanoGame.Content.Load<Texture2D>("Sprites/playerTexture"))
+			};
 			root = new GameObjectList("play", true) {
-				(entities = new EntityManager("entities", true) {
-					new PlayerEntity(nanoGame.Content.Load<Texture2D>("Sprites/playerTexture"))
-				}),
+				(level = new Level(100, 100, entities)),
 				(@interface = new InterfaceManager("interface", true) {
 					new CrossHair(uisheet, 0, 0)
 				}),
 				// TODO: Add world
 			};
-			root.Transform.LocalScale = Vector2.One * 2;
+			level.Transform.LocalPosition += new Vector2(100, 100);
 		}
 
 		public override void Enable()

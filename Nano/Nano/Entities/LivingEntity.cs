@@ -4,15 +4,21 @@ using System.Linq;
 using System.Text;
 using Nano.Entities.Status;
 using Nano.Entities.Actions;
+using Microsoft.Xna.Framework;
 
 namespace Nano.Entities
 {
 	abstract class LivingEntity : Entity
 	{
-		List<EntityStatus> statuses;
+		List<EntityStatus> statusses;
 		public float Health { get; protected set; }
 		public float MaxHealth { get; protected set; }
 		public bool Alive { get { return Health > 0; } }
+
+		public LivingEntity()
+		{
+			statusses = new List<EntityStatus>();
+		}
 
 		public virtual void Damage(float hp)
 		{
@@ -40,7 +46,7 @@ namespace Nano.Entities
 		}
 		public virtual void AddStatus(EntityStatus status)
 		{
-			statuses.Add(status);
+			statusses.Add(status);
 			status.Activate();
 		}
 
