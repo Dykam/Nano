@@ -36,5 +36,6 @@ namespace Nano.Entities
         {
             spriteBatch.Draw(texture, Color.White, Transform);
         }
+
 	}
 }

@@ -52,13 +52,24 @@ namespace Nano
 				}),
 				// TODO: Add world
 			};
+            player.Transform.Position = new Vector2(nanoGame.GraphicsDevice.Viewport.Width / 2, nanoGame.GraphicsDevice.Viewport.Height / 2);
 			level.Transform.LocalPosition += new Vector2(100, 100);
 		}
 		public override void Update(GameTime gameTime)
 		{
 			root.Update(gameTime);
+            UpdateCamera(gameTime);
 			root.HandleInput(nanoGame.Engine.InputHelper);
 		}
+
+        private void UpdateCamera(GameTime gameTime)
+        {
+            Vector2 desiredLevelPosition = level.Transform.LocalPosition - player.Transform.Position - new Vector2(64,64) + new Vector2(nanoGame.GraphicsDevice.Viewport.Width/2,nanoGame.GraphicsDevice.Viewport.Height/2);
+            level.Transform.LocalPosition = Vector2.Lerp(level.Transform.LocalPosition, desiredLevelPosition, (float)(.99*gameTime.ElapsedGameTime.TotalSeconds));
+            
+            Console.WriteLine(level.Transform.LocalPosition);
+        }
+
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			root.Draw(spriteBatch, false);
