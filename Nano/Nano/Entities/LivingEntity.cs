@@ -14,6 +14,7 @@ namespace Nano.Entities
 		public float Health { get; protected set; }
 		public float MaxHealth { get; protected set; }
 		public bool Alive { get { return Health > 0; } }
+        public float Speed { get; protected set; }
 
 		public LivingEntity()
 		{

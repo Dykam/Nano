@@ -122,6 +122,7 @@
     <Compile Include="Entities\PlayerEntity.cs" />
     <Compile Include="Entities\Status\EntityStatus.cs" />
     <Compile Include="Entities\Status\PoisonStatus.cs" />
+    <Compile Include="Entities\Status\RegenerationStatus.cs" />
     <Compile Include="Interface\CrossHair.cs" />
     <Compile Include="Interface\InterfaceManager.cs" />
     <Compile Include="MenuState.cs" />
