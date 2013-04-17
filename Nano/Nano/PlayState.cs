@@ -34,7 +34,7 @@ namespace Nano
 					new CrossHair(uisheet, 0, 0)
 				}),
 				(entities = new EntityManager("entities", true) {
-					new PlayerEntity()
+					new PlayerEntity(nanoGame.Content.Load<Texture2D>("Sprites/playerTexture"))
 				}),
 				// TODO: Add world
 			};
