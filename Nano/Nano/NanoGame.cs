@@ -17,7 +17,7 @@ namespace Nano
 		GraphicsDeviceManager graphics;
 		public SpriteBatch SpriteBatch { get; set; }
 		public GameEngine Engine { get; set; }
-		GameAwaiter taskAwaiter;
+		public GameAwaiter Awaiter;
 
 		public NanoGame()
 		{
@@ -30,7 +30,7 @@ namespace Nano
 
 		protected override void Initialize()
 		{
-			taskAwaiter = new GameAwaiter(this);
+			Awaiter = new GameAwaiter(this);
 			base.Initialize();
 		}
 
@@ -53,7 +53,7 @@ namespace Nano
 		{
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 				this.Exit();
-			taskAwaiter.Update(gameTime);
+			Awaiter.Update(gameTime);
 			Engine.Update(gameTime);
 
 			base.Update(gameTime);

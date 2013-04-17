@@ -26,22 +26,13 @@ namespace Nano
 		EntityManager entities;
 		Level level;
 		TileSheet uisheet;
+		PlayerEntity player;
 
 		public PlayState(NanoGame nanoGame)
 		{
 			this.nanoGame = nanoGame;
 			uisheet = new TileSheet(nanoGame.Content.Load<Texture2D>("Interface"), 128);
-			entities = new EntityManager("entities", true) {
-				new PlayerEntity(nanoGame.Content.Load<Texture2D>("Sprites/playerTexture"))
-			};
-			root = new GameObjectList("play", true) {
-				(level = new Level(100, 100, entities)),
-				(@interface = new InterfaceManager("interface", true) {
-					new CrossHair(uisheet, 0, 0)
-				}),
-				// TODO: Add world
-			};
-			level.Transform.LocalPosition += new Vector2(100, 100);
+			Reset();
 		}
 
 		public override void Enable()
@@ -51,7 +42,17 @@ namespace Nano
 
 		public override void Reset()
 		{
-			root.Clear();
+			entities = new EntityManager("entities", true) {
+				(player = new PlayerEntity(nanoGame.Content.Load<Texture2D>("Sprites/playerTexture")))
+			};
+			root = new GameObjectList("play", true) {
+				(level = new Level(100, 100, entities)),
+				(@interface = new InterfaceManager("interface", true) {
+					new CrossHair(uisheet, 0, 0)
+				}),
+				// TODO: Add world
+			};
+			level.Transform.LocalPosition += new Vector2(100, 100);
 		}
 		public override void Update(GameTime gameTime)
 		{
