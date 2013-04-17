@@ -65,7 +65,7 @@ namespace Nano
         private void UpdateCamera(GameTime gameTime)
         {
             Vector2 desiredLevelPosition = level.Transform.LocalPosition - player.Transform.Position - new Vector2(64,64) + new Vector2(nanoGame.GraphicsDevice.Viewport.Width/2,nanoGame.GraphicsDevice.Viewport.Height/2);
-            level.Transform.LocalPosition = Vector2.Lerp(level.Transform.LocalPosition, desiredLevelPosition, (float)(.99*gameTime.ElapsedGameTime.TotalSeconds));
+            level.Transform.LocalPosition = Vector2.Lerp(level.Transform.LocalPosition, desiredLevelPosition, (float)(.99 * gameTime.ElapsedGameTime.TotalSeconds));
             
             Console.WriteLine(level.Transform.LocalPosition);
         }
