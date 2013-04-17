@@ -126,6 +126,7 @@
     <Compile Include="Tile.cs" />
     <Compile Include="TileSheet.cs" />
     <Compile Include="World\Level.cs" />
+    <Compile Include="World\Tile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -135,6 +136,10 @@
     <ProjectReference Include="..\..\Engine\Engine.csproj">
       <Project>{CAD54AB3-92DD-4733-A6CF-6C6769702C71}</Project>
       <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PathFinding\PathFinding.csproj">
+      <Project>{02B3ACA3-7ACB-49EE-BBA1-D66EE093860A}</Project>
+      <Name>PathFinding</Name>
     </ProjectReference>
     <ProjectReference Include="..\NanoContent\NanoContent.contentproj">
       <Name>NanoContent</Name>
