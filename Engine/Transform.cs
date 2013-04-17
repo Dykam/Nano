@@ -8,8 +8,8 @@ namespace Engine
 {
 	public class Transform
 	{
-		public Vector2 LocalPosition { get; set; }
-		public Vector2 LocalScale { get; set; }
+		public Vector2 LocalPosition;
+		public Vector2 LocalScale;
 		//public float LocalRotation { get; set; }
 		public Transform Parent { get; set; }
 
