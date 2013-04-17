@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Engine;
 
 namespace Nano
 {
@@ -23,7 +24,6 @@ namespace Nano
 	}
 	static class TileSheetExtensions
 	{
-
 		public static void Draw(this SpriteBatch spriteBatch, TileSheet texture, Rectangle destinationRectangle, int x, int y, Color color)
 		{
 			spriteBatch.Draw(texture.Texture, destinationRectangle, new Rectangle(texture.TileSize * x, texture.TileSize * y, texture.TileSize, texture.TileSize), color);
@@ -43,6 +43,10 @@ namespace Nano
 		public static void Draw(this SpriteBatch spriteBatch, TileSheet texture, Vector2 position, int x, int y, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth)
 		{
 			spriteBatch.Draw(texture.Texture, position, new Rectangle(texture.TileSize * x, texture.TileSize * y, texture.TileSize, texture.TileSize), color, rotation, origin, scale, effects, layerDepth);
+		}
+		public static void Draw(this SpriteBatch spriteBatch, TileSheet texture, int x, int y, Color color, Transform transform)
+		{
+			spriteBatch.Draw(texture.Texture, transform.Position, new Rectangle(texture.TileSize * x, texture.TileSize * y, texture.TileSize, texture.TileSize), color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
 		}
 	}
 }

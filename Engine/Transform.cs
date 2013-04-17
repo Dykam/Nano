@@ -13,6 +13,11 @@ namespace Engine
 		//public float LocalRotation { get; set; }
 		public Transform Parent { get; set; }
 
+		public Transform()
+		{
+			LocalScale = Vector2.One;
+		}
+
 		public Vector2 Position {
 			get { return Parent != null ? LocalPosition * Parent.LocalScale + Parent.Position : LocalPosition; }
 			set

@@ -38,6 +38,7 @@ namespace Nano
 				}),
 				// TODO: Add world
 			};
+			root.Transform.LocalScale = Vector2.One * 2;
 		}
 
 		public override void Enable()

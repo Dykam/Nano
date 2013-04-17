@@ -28,7 +28,7 @@ namespace Nano.Interface
 
 		public override void Draw(SpriteBatch spriteBatch, bool isGridObject = false)
 		{
-			spriteBatch.Draw(sheet, Transform.Position, x, y, Color.Red);
+			spriteBatch.Draw(sheet, x, y, Color.Red, Transform);
 		}
 	}
 }
