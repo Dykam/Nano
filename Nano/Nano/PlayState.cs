@@ -30,11 +30,11 @@ namespace Nano
 			this.nanoGame = nanoGame;
 			uisheet = new TileSheet(nanoGame.Content.Load<Texture2D>("Interface"), 128);
 			root = new GameObjectList("play", true) {
-				(@interface = new InterfaceManager("interface", true) {
-					new CrossHair(uisheet, 0, 0)
-				}),
 				(entities = new EntityManager("entities", true) {
 					new PlayerEntity()
+				}),
+				(@interface = new InterfaceManager("interface", true) {
+					new CrossHair(uisheet, 0, 0)
 				}),
 				// TODO: Add world
 			};

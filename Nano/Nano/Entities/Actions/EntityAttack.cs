@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Nano.Entities
+namespace Nano.Entities.Actions
 {
-	abstract class Attack
+	abstract class EntityAttack
 	{
 	}
 }
