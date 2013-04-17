@@ -68,6 +68,7 @@ namespace Nano
 			var bb = player.BoundingBox;
 			Vector2 desiredCameraOffset = -player.Transform.Position + nanoGame.Engine.Screen / 2 - new Vector2(bb.Width, bb.Height) / 2;
 			cameraOffset = Vector2.Lerp(cameraOffset, desiredCameraOffset, (float)(.99 * gameTime.ElapsedGameTime.TotalSeconds));
+            
 			Console.WriteLine(desiredCameraOffset);
         }
 
