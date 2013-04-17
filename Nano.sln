@@ -7,6 +7,11 @@ Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "NanoContent", "Nano\NanoCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{CAD54AB3-92DD-4733-A6CF-6C6769702C71}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E8E867D-7441-4F40-ADA4-FB5716767860}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
