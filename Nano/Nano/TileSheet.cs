@@ -48,5 +48,9 @@ namespace Nano
 		{
 			spriteBatch.Draw(texture.Texture, transform.Position, new Rectangle(texture.TileSize * x, texture.TileSize * y, texture.TileSize, texture.TileSize), color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
 		}
+		public static void Draw(this SpriteBatch spriteBatch, Texture2D texture, Color color, Transform transform)
+		{
+			spriteBatch.Draw(texture, transform.Position, null, color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
+		}
 	}
 }
