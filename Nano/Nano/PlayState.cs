@@ -31,7 +31,7 @@ namespace Nano
 			uisheet = new TileSheet(nanoGame.Content.Load<Texture2D>("Interface"), 128);
 			root = new GameObjectList("play", true) {
 				(entities = new EntityManager("entities", true) {
-					new PlayerEntity()
+					new PlayerEntity(nanoGame.Content.Load<Texture2D>("Sprites/playerTexture"))
 				}),
 				(@interface = new InterfaceManager("interface", true) {
 					new CrossHair(uisheet, 0, 0)

@@ -58,10 +58,11 @@ namespace Nano.Entities
 		{
 			if (!draw)
 				return;
-
+            spriteBatch.Begin();
 			foreach (var entity in entities) {
 				entity.Draw(spriteBatch, isGridObject);
 			}
+            spriteBatch.End();
 		}
 
 		public override void Update(GameTime gameTime)
