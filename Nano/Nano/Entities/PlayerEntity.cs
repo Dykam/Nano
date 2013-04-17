@@ -7,5 +7,9 @@ namespace Nano.Entities
 {
 	class PlayerEntity : LivingEntity
 	{
+		public PlayerEntity()
+		{
+			Health = MaxHealth = 20;
+		}
 	}
 }

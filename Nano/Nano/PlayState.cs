@@ -7,6 +7,7 @@ using Engine.GameObjects;
 using Microsoft.Xna.Framework.Graphics;
 using Nano.Interface;
 using Microsoft.Xna.Framework;
+using Nano.Entities;
 
 namespace Nano
 {
@@ -15,6 +16,7 @@ namespace Nano
 		NanoGame nanoGame;
 		GameObjectList root;
 		InterfaceManager @interface;
+		EntityManager entities;
 		TileSheet uisheet;
 
 		public PlayState(NanoGame nanoGame)
@@ -24,6 +26,9 @@ namespace Nano
 			root = new GameObjectList("play", true) {
 				(@interface = new InterfaceManager("interface", true) {
 					new CrossHair(uisheet, 0, 0)
+				}),
+				(entities = new EntityManager("entities", true) {
+					new PlayerEntity()
 				})
 			};
 		}
