@@ -22,10 +22,17 @@ namespace Nano.Entities
 		}
 
 		public abstract bool Activate(LivingEntity activator, Vector2 aim);
+		public abstract bool HasTargets(LivingEntity activator, Vector2 aim);
 	}
 
 	abstract class AimSkillDNA : SkillDNA
 	{
+		// cache
+		LivingEntity cache_activator;
+		Vector2 cache_aim, cache_activatorPos;
+		LivingEntity[] cache_targets;
+
+
 		public float Radius { get; private set; }
 		public AimSkillDNA(float cooldown, float radius = 0)
 			: base(cooldown)
@@ -34,14 +41,28 @@ namespace Nano.Entities
 		}
 		public override bool Activate(LivingEntity activator, Vector2 aim)
 		{
-			var area = new Circle { Radius = Radius, Position = aim };
-			var attacked = false;
-			foreach (var entity in NanoGame.PlayState.Level.Entities.OfType<LivingEntity>()) {
-				if (!Collision.Intersects(area, entity.BoundingBox))
-					break;
-				attacked |= Attack(activator, entity);
+			if (cache_activator != activator || cache_aim != aim || cache_activatorPos != activator.Transform.LocalPosition) {
+				HasTargets(activator, aim);
+			}
+			foreach (var target in cache_targets) {
+				Attack(activator, target);
 			}
 			return true;
+		}
+
+		public override bool HasTargets(LivingEntity activator, Vector2 aim)
+		{
+			var area = new Circle { Radius = Radius, Position = aim };
+			cache_targets =
+				NanoGame.PlayState.Level.Entities
+				.OfType<LivingEntity>()
+				.Where(entity => entity is PlayerEntity != activator is PlayerEntity)
+				.Where(entity => Collision.Intersects(area, entity.BoundingBox))
+				.ToArray();
+			cache_activatorPos = activator.Transform.LocalPosition;
+			cache_activator = activator;
+			cache_aim = aim;
+			return cache_targets.Length > 0;
 		}
 
 		protected abstract bool Attack(LivingEntity attacker, LivingEntity defender);
@@ -49,6 +70,11 @@ namespace Nano.Entities
 
 	abstract class AreaSkillDNA : SkillDNA
 	{
+		// cache
+		LivingEntity cache_activator;
+		Vector2 cache_aim, cache_activatorPos;
+		LivingEntity[] cache_targets;
+
 		public float Radius { get; private set; }
 		public AreaSkillDNA(float cooldown, float radius = 0)
 			: base(cooldown)
@@ -57,17 +83,28 @@ namespace Nano.Entities
 		}
 		public override bool Activate(LivingEntity activator, Vector2 aim)
 		{
-			var area = new Circle { Radius = Radius, Position = activator.Transform.Position };
-			var attacked = false;
-			foreach (var entity in NanoGame.PlayState.Level.Entities.OfType<LivingEntity>()) {
-				//if (Vector2.Distance(area.Position, entity.Transform.Position) > Radius)
-					//continue;
-				if (!Collision.Intersects(area, entity.BoundingBox))
-					continue;
-
-				attacked |= Attack(activator, entity);
+			if (cache_activator != activator || cache_aim != aim || cache_activatorPos != activator.Transform.LocalPosition) {
+				HasTargets(activator, aim);
+			}
+			foreach (var target in cache_targets) {
+				Attack(activator, target);
 			}
 			return true;
+		}
+
+		public override bool HasTargets(LivingEntity activator, Vector2 aim)
+		{
+			var area = new Circle { Radius = Radius, Position = activator.Transform.Position };
+			cache_targets =
+				NanoGame.PlayState.Level.Entities
+				.OfType<LivingEntity>()
+				.Where(entity => entity is PlayerEntity != activator is PlayerEntity)
+				.Where(entity => Collision.Intersects(area, entity.BoundingBox))
+				.ToArray();
+			cache_activator = activator;
+			cache_aim = aim;
+			cache_activatorPos = activator.Transform.LocalPosition;
+			return cache_targets.Length > 0;
 		}
 
 		protected abstract bool Attack(LivingEntity attacker, LivingEntity defender);
@@ -98,6 +135,30 @@ namespace Nano.Entities
 				return false;
 
 			defender.Damage(10 * strength);
+			return true;
+		}
+	}
+
+	class TouchOfDeath : AreaSkillDNA
+	{
+		public TouchOfDeath()
+			: base(1000, 0.5f)
+		{
+
+		}
+
+		public override bool Activate(LivingEntity activator, Vector2 aim)
+		{
+			NanoGame.PlayState.Effects.Start(new ShockwaveEffect(Radius), activator.Transform.LocalPosition);
+			return base.Activate(activator, aim);
+		}
+
+		protected override bool Attack(LivingEntity attacker, LivingEntity defender)
+		{
+			if (defender == attacker)
+				return false;
+
+			defender.Damage(attacker.Strength);
 			return true;
 		}
 	}

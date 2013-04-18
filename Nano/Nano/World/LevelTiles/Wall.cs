@@ -12,6 +12,7 @@ namespace Nano.World.LevelTiles
             : base()
         {
             Texture = NanoGame.Engine.ResourceManager.GetSprite("Sprites/wallTexture");
+			Solid = true;
         }
     }
 }

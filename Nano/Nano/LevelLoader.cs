@@ -66,11 +66,12 @@ namespace Nano
 		{
 			switch ((String)data.Type) {
 				case "White":
-					var white = new White();
-					white.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
 					int minStrength = data.Strength[0];
 					int maxStrength = data.Strength[1];
-					white.Strength = random.Next(minStrength, maxStrength);
+					var strength = random.Next(minStrength, maxStrength);
+					var white = new White(strength);
+					white.DNA.Add(new TouchOfDeath());
+					white.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(white);
 					break;
 
@@ -84,6 +85,12 @@ namespace Nano
                     wall.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(wall);
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = wall;
+					break;
+				case "BloodClot":
+					var clot = new World.LevelTiles.BloodClot();
+					clot.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+					level.Entities.Add(clot);
+					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = clot;
 					break;
 				default:
 					Console.WriteLine("Missing entity: {0}", data.Type);

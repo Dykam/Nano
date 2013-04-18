@@ -8,20 +8,23 @@ namespace Nano.Entities.Enemies
 {
     class White : NPCEntity
     {
-		public int Strength { get; set; }
-		
-        public White()
-            : base(10, 1)
+        public White(int strength)
+            : base(20, 1, strength)
         {
             Texture = NanoGame.Engine.ResourceManager.GetSprite("sprites/whiteTexture");
         }
 
 		public override void Update(GameTime gameTime)
 		{
-			if (!HasPath) {
+			if (!HasPath && Vector2.DistanceSquared(State.Player.Transform.LocalPosition, this.Transform.LocalPosition) < 10 * 10) {
 				BuildPath(new Int2((int)State.Player.Transform.LocalPosition.X, (int)State.Player.Transform.LocalPosition.Y));
 			}
 			base.Update(gameTime);
+			foreach (var skill in DNA.SkillCooling.Where(kvp => kvp.Value <= TimeSpan.Zero).ToArray()) {
+				if (skill.Key.HasTargets(this, this.Transform.LocalPosition)) {
+					DNA.ActivateSkill(skill.Key, this, this.Transform.LocalPosition);
+				}
+			}
 		}
 	}
 }

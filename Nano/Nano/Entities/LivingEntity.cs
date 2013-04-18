@@ -17,13 +17,15 @@ namespace Nano.Entities
         public float Speed { get; set; }
         public bool Stunned { get; set; }
 		public DNACollection DNA { get; private set; }
+		public int Strength { get; set; }
 
-		public LivingEntity(float maxHealth, float speed)
+		public LivingEntity(float maxHealth, float speed, int strength)
 		{
 			statusses = new List<EntityStatus>();
 			DNA = new DNACollection();
 			MaxHealth = Health = maxHealth;
 			Speed = speed;
+			Strength = strength;
 		}
 
 		public override void Update(GameTime gameTime)
