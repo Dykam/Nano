@@ -10,16 +10,18 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Engine;
 using System.Threading.Tasks;
+using Nano.World;
 
 namespace Nano
 {
-	public class NanoGame : Microsoft.Xna.Framework.Game
+	class NanoGame : Microsoft.Xna.Framework.Game
 	{
 		GraphicsDeviceManager graphics;
 		public SpriteBatch SpriteBatch { get; set; }
 		public static GameEngine Engine { get; set; }
 		public static GameAwaiter Awaiter;
 		public static int TileSize { get; private set; }
+		public static PlayState PlayState { get; private set; }
 
 		public NanoGame()
 		{
@@ -42,7 +44,8 @@ namespace Nano
 			Engine = new GameEngine(this, SpriteBatch, Content, _ => {}, () => {});
 
 			Engine.GameStateManager.AddGameState("menu", new MenuState(this));
-			Engine.GameStateManager.AddGameState("play", new PlayState(this));
+			Engine.GameStateManager.AddGameState("play", PlayState = new PlayState(this));
+			PlayState.Reset();
 
 			Engine.GameStateManager.SetCurrentState("menu");
 

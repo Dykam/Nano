@@ -11,6 +11,7 @@ namespace Nano.Entities
 	class PlayerEntity : LivingEntity
 	{
         Level currentLevel;
+		AimSkillDNA currentAimSkill;
 
 		public PlayerEntity(Texture2D texture)
 		{
@@ -31,6 +32,10 @@ namespace Nano.Entities
 				Transform.LocalPosition.Y -= Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (inputHelper.IsKeyDown(Keys.S))
 				Transform.LocalPosition.Y += Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+			if (inputHelper.MouseLeftButtonPressed()) {
+
+			}
 
             base.HandleInput(inputHelper, gameTime);
         }

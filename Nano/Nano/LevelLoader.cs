@@ -43,7 +43,7 @@ namespace Nano
 					var color = new Color((int)entity.Tile[0], (int)entity.Tile[1], (int)entity.Tile[2]);
 					colorEntities.Add(color, entity);
 				} else {
-					entities.Add(SpawnEntity(entity));
+					SpawnEntity(entity, level);
 				}
 			}
 
@@ -54,7 +54,7 @@ namespace Nano
 					if (colorEntities.ContainsKey(color)) {
 						var entity = colorEntities[color];
 						entity.Position = new JArray(x, y);
-						entities.Add(SpawnEntity(entity));
+						SpawnEntity(entity, level);
 					}
 				}
 			}
@@ -62,7 +62,7 @@ namespace Nano
 			return level;
 		}
 
-		Entity SpawnEntity(dynamic data)
+		void SpawnEntity(dynamic data, Level level)
 		{
 			switch ((String)data.Type) {
 				case "White":
@@ -71,16 +71,20 @@ namespace Nano
 					int minStrength = data.Strength[0];
 					int maxStrength = data.Strength[1];
 					white.Strength = random.Next(minStrength, maxStrength);
-					return white;
+					level.Entities.Add(white);
+					break;
 
 				case "Player":
 					var player = new PlayerEntity(content.Load<Texture2D>("Sprites/playerTexture"));
 					player.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
-					return player;
+					level.Entities.Add(player);
+					break;
                 case "Wall":
                     var wall = new World.LevelTiles.Wall();
                     wall.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
-                    return wall;
+					level.Entities.Add(wall);
+					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = wall;
+					break;
 				default:
 					throw new Exception();
 			}

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Nano.Entities.Status;
-using Nano.Entities.Actions;
 using Microsoft.Xna.Framework;
 
 namespace Nano.Entities
@@ -16,35 +15,14 @@ namespace Nano.Entities
 		public bool Alive { get { return Health > 0; } }
         public float Speed { get; set; }
         public bool Stunned { get; set; }
+		public DNACollection DNA { get; private set; }
 
 		public LivingEntity()
 		{
 			statusses = new List<EntityStatus>();
 		}
 
-        public override void Update(GameTime gameTime)
-        {
-            if (Stunned)
-                return;
-            base.Update(gameTime);
-        }
-
 		public virtual void Damage(float hp)
-		{
-			Health = Math.Max(0, Health - hp);
-			if (Health == 0) Die();
-		}
-		public virtual void Damage(float hp, Entity cause)
-		{
-			Health = Math.Max(0, Health - hp);
-			if (Health == 0) Die();
-		}
-		public virtual void Damage(float hp, EntityStatus cause)
-		{
-			Health = Math.Max(0, Health - hp);
-			if (Health == 0) Die();
-		}
-		public virtual void Damage(float hp, EntityAttack cause)
 		{
 			Health = Math.Max(0, Health - hp);
 			if (Health == 0) Die();
@@ -68,7 +46,5 @@ namespace Nano.Entities
 		{
 			Manager.Remove(this);
 		}
-
-
     }
 }
