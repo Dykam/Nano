@@ -35,12 +35,7 @@ namespace Nano.Entities
             base.HandleInput(inputHelper, gameTime);
         }
 
-        public bool Collision(Rectangle entityRectangle)
-        {
-            if (entityRectangle.Intersects(BoundingBox))
-                return true;
-            return false;
-        }
+
 
 
 	}
