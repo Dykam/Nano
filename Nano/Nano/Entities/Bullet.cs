@@ -8,53 +8,45 @@ using Engine.GameObjects;
 
 namespace Nano.Entities
 {
-    class Bullet : InanimateEntity
-    {
-        private Vector2 target, velocity, direction;
-        private RectangleF boundingBox;
+	class Bullet : InanimateEntity
+	{
+		private Vector2 target, velocity, direction;
+		private RectangleF boundingBox;
 
-        public Bullet(Vector2 target, Vector2 startPos)
-            : base()
-        {
-            Texture = NanoGame.Engine.ResourceManager.GetSprite("Sprites/bulletTexture");
-            Transform.LocalScale = new Vector2(0.3f, 0.3f);
-            this.target = target;
-            Transform.Position = startPos;
-            
-            velocity = new Vector2(0.1f, 0.1f);
-            direction = target - startPos;
-            direction.Normalize();
-        }
+		public Bullet(Vector2 target, Vector2 startPos)
+			: base()
+		{
+			Texture = NanoGame.Engine.ResourceManager.GetSprite("Sprites/bulletTexture");
+			Transform.LocalScale = new Vector2(0.3f, 0.3f);
+			this.target = target;
+			Transform.Position = startPos;
 
-        public override void Update(GameTime gameTime)
-        {
-            Transform.Position += direction*velocity;
-            CheckCollision(gameTime);
-        }
+			velocity = new Vector2(0.1f, 0.1f);
+			direction = target - startPos;
+			direction.Normalize();
+		}
 
-        private void CheckCollision(GameTime gameTime)
-        {
+		public override void Update(GameTime gameTime)
+		{
+			Transform.LocalPosition += direction * velocity;
+			CheckCollision(gameTime);
+		}
 
-            foreach (Entity le in State.Level.Entities)
-            {
-                if (le == State.Player)
-                    return;
-                if (le.BoundingBox.Contains(Transform.Position))
-                {
-                    Destroy();
-                }
-                if (Transform.Position.X >= le.BoundingBox.X && Transform.Position.X <= le.BoundingBox.X + le.BoundingBox.Width && Transform.Position.Y >= le.BoundingBox.Y && Transform.Position.Y <= le.BoundingBox.Y + le.BoundingBox.Height)
-                {
-                    Destroy();
-                    Console.WriteLine("hit");
-                }
-            }
+		private void CheckCollision(GameTime gameTime)
+		{
+			var hit = State.Level.Entities.FirstOrDefault(w => !(w is PlayerEntity) && !(w is Bullet) && w.BoundingBox.Contains(Transform.LocalPosition));
+			if (hit == null)
+				return;
 
-        }
+			if (hit is LivingEntity)
+				((LivingEntity)hit).Damage(5);
+			Destroy();
 
-        private void Destroy()
-        {
-            State.Level.Entities.Remove(this);
-        }
-    }
+		}
+
+		private void Destroy()
+		{
+			State.Level.Entities.Remove(this);
+		}
+	}
 }

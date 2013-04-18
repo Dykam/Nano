@@ -9,15 +9,26 @@ namespace Nano.World
 {
 	class Tile : Node, ISolverTile<LivingEntity>
 	{
-		public Entity LevelEntity;
+		Entity levelEntity;
+		public Entity LevelEntity
+		{
+			get
+			{
+				verifyEntity();
+				return levelEntity;
+			}
+			set
+			{
+				levelEntity = value;
+			}
+		}
 		void verifyEntity()
 		{
-			if (LevelEntity is LivingEntity && !((LivingEntity)LevelEntity).Alive)
-				LevelEntity = null;
+			if (levelEntity is LivingEntity && !((LivingEntity)levelEntity).Alive)
+				levelEntity = null;
 		}
 		public bool IsWalkableBy(LivingEntity subject)
 		{
-			verifyEntity();
 			return LevelEntity == null || !LevelEntity.Solid;
 		}
 
