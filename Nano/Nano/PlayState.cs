@@ -77,7 +77,7 @@ namespace Nano
 			var offset = (NanoGame.Engine.Screen - new Vector2(player.BoundingBox.Width, player.BoundingBox.Height)) / 2;
 			var transform = Matrix.Identity
 				* Matrix.CreateTranslation(cameraOffset.X, cameraOffset.Y, 0)
-				* Matrix.CreateScale(20, 20, 1)
+				* Matrix.CreateScale(128, 128, 1)
 				* Matrix.CreateTranslation(offset.X, offset.Y, 1);
 			root.Draw(spriteBatch, transform);
 		}

@@ -34,7 +34,7 @@ namespace Nano.World
 				/* */
 
 				return (diff.X + diff.Y) + tieBreaker / 1000;
-			}, null, false);;
+			}, null, false);
 		}
 
 		public override void Update(Microsoft.Xna.Framework.GameTime gameTime)

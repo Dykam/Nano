@@ -1,11 +1,12 @@
 {
     "Entities": [ {
-            "Type": "Player",
-            "Position": [20, 20] /* X, Y */
+        "Type": "Player",
+        "Tile": [0, 255, 0]
     }, {
-            "Type": "Player",
-            "Tile": [0, 255, 0]
-    }],
+		"Type": "White",
+		"Tile": [255, 0, 0],
+		"Strength": [3, 10]
+	}],
     "Spawns": [{
         "Bounds": [ 20, 30, 10, 10 ] /* X, Y, Width, Height */,
         "Entities": [ {
