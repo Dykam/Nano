@@ -28,11 +28,13 @@ namespace Nano
 		TileSheet uisheet;
 		PlayerEntity player;
 		Vector2 cameraOffset;
+		LevelLoader loader;
 
 		public PlayState(NanoGame nanoGame)
 		{
 			this.nanoGame = nanoGame;
 			uisheet = new TileSheet(nanoGame.Content.Load<Texture2D>("Interface"), 128);
+			loader = new LevelLoader("Content\\Levels", nanoGame.Content);
 			Reset();
 		}
 
@@ -44,36 +46,40 @@ namespace Nano
 		public override void Reset()
 		{
 			entities = new EntityManager("entities", true) {
-				(player = new PlayerEntity(nanoGame.Content.Load<Texture2D>("Sprites/playerTexture")))
 			};
 			root = new GameObjectList("play", true) {
-				(level = new Level(100, 100, entities)),
+				(level = loader.Load("Level1", entities)),
 				(@interface = new InterfaceManager("interface", true) {
 					new CrossHair(uisheet, 0, 0)
 				}),
 				// TODO: Add world
 			};
-            player.Transform.Position = (NanoGame.Engine.Screen - new Vector2(player.BoundingBox.Width, player.BoundingBox.Height)) / 2;
+			player = (PlayerEntity)root.Find<PlayerEntity>();
 		}
 		public override void Update(GameTime gameTime)
 		{
 			root.Update(gameTime);
             UpdateCamera(gameTime);
-			root.HandleInput(NanoGame.Engine.InputHelper);
+			root.HandleInput(NanoGame.Engine.InputHelper, gameTime);
 		}
 
         private void UpdateCamera(GameTime gameTime)
         {
 			var bb = player.BoundingBox;
-			Vector2 desiredCameraOffset = -player.Transform.Position + NanoGame.Engine.Screen / 2 - new Vector2(bb.Width, bb.Height) / 2;
+			Vector2 desiredCameraOffset = -player.Transform.Position - Vector2.One / 2;
 			cameraOffset = Vector2.Lerp(cameraOffset, desiredCameraOffset, (float)(.99 * gameTime.ElapsedGameTime.TotalSeconds));
             
 			Console.WriteLine(desiredCameraOffset);
         }
 
-		public override void Draw(SpriteBatch spriteBatch)
-		{
-			root.Draw(spriteBatch, cameraOffset);
+		public override void Draw(SpriteBatch spriteBatch) {
+		
+			var offset = (NanoGame.Engine.Screen - new Vector2(player.BoundingBox.Width, player.BoundingBox.Height)) / 2;
+			var transform = Matrix.Identity
+				* Matrix.CreateTranslation(cameraOffset.X, cameraOffset.Y, 0)
+				* Matrix.CreateScale(20, 20, 1)
+				* Matrix.CreateTranslation(offset.X, offset.Y, 1);
+			root.Draw(spriteBatch, transform);
 		}
 	}
 }

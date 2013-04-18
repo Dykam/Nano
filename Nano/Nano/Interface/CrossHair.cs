@@ -21,14 +21,14 @@ namespace Nano.Interface
 			this.y = y;
 		}
 
-		public override void HandleInput(InputHelper inputHelper)
+		public override void HandleInput(InputHelper inputHelper, GameTime gameTime)
 		{
 			Transform.LocalPosition = inputHelper.MousePosition - Vector2.One * sheet.TileSize / 2;
 		}
 
-		public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
+		public override void Draw(SpriteBatch spriteBatch, Matrix transform)
 		{
-			spriteBatch.Draw(sheet, x, y, Color.Red, Transform);
+			spriteBatch.Draw(sheet, x, y, Color.Red, Transform, Matrix.Identity);
 		}
 	}
 }

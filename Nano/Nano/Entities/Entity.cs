@@ -10,7 +10,7 @@ namespace Nano.Entities
 	{
 		public EntityManager Manager { get; internal set; }
 		public Entity()
-			: base("entity")
+			: base()
 		{
 		}
 	}

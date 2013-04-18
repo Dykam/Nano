@@ -17,18 +17,18 @@ namespace Nano.Entities
             speed = 5;
 		}
 
-        public override void HandleInput(Engine.InputHelper inputHelper)
+        public override void HandleInput(Engine.InputHelper inputHelper, GameTime gameTime)
         {
             if (inputHelper.IsKeyDown(Keys.A))
-                Transform.LocalPosition.X -= speed;
+                Transform.LocalPosition.X -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (inputHelper.IsKeyDown(Keys.D))
-                Transform.LocalPosition.X += speed;
+				Transform.LocalPosition.X += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (inputHelper.IsKeyDown(Keys.W))
-                Transform.LocalPosition.Y -= speed;
+				Transform.LocalPosition.Y -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (inputHelper.IsKeyDown(Keys.S))
-                Transform.LocalPosition.Y += speed;
+				Transform.LocalPosition.Y += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            base.HandleInput(inputHelper);
+            base.HandleInput(inputHelper, gameTime);
         }
 
 	}

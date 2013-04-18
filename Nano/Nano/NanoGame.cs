@@ -19,6 +19,7 @@ namespace Nano
 		public SpriteBatch SpriteBatch { get; set; }
 		public static GameEngine Engine { get; set; }
 		public static GameAwaiter Awaiter;
+		public static int TileSize { get; private set; }
 
 		public NanoGame()
 		{

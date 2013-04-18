@@ -41,11 +41,11 @@ namespace Nano
 		public override void Update(GameTime gameTime)
 		{
 			root.Update(gameTime);
-			root.HandleInput(NanoGame.Engine.InputHelper);
+			root.HandleInput(NanoGame.Engine.InputHelper, gameTime);
 		}
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			root.Draw(spriteBatch, Vector2.Zero);
+			root.Draw(spriteBatch, Matrix.Identity);
 		}
 
 		class Button : GameObject
@@ -65,7 +65,7 @@ namespace Nano
 				Click = click;
 			}
 
-			public override void HandleInput(InputHelper inputHelper)
+			public override void HandleInput(InputHelper inputHelper, GameTime gameTime)
 			{
 				if (!inputHelper.MouseLeftButtonPressed())
 					return;
@@ -83,7 +83,7 @@ namespace Nano
 				}
 			}
 
-			public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
+			public override void Draw(SpriteBatch spriteBatch, Matrix transform)
 			{
 				spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 				for (int y = 0; y < 3; y++) {

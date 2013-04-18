@@ -15,10 +15,10 @@ namespace Nano.Interface
 		{
 		}
 
-		public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
+		public override void Draw(SpriteBatch spriteBatch, Matrix transform)
 		{
 			spriteBatch.Begin();
-			base.Draw(spriteBatch, viewingOffset);
+			base.Draw(spriteBatch, transform);
 			spriteBatch.End();
 		}
 	}

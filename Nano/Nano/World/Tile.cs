@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PathFinding;
+using Nano.Entities;
 
 namespace Nano.World
 {
-	class Tile : Node
+	class Tile : Node, ISolverTile<LivingEntity>
 	{
-		public Tile()
+		public bool IsWalkableBy(LivingEntity subject)
 		{
+			throw new NotImplementedException();
+		}
 
+		public float Cost(LivingEntity subject)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

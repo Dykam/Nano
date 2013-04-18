@@ -57,9 +57,9 @@ namespace Engine.GameObjects
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
+        public override void Draw(SpriteBatch spriteBatch, Matrix transform)
         {
-			drawPosition = this.Transform.Position + viewingOffset;
+			drawPosition = Vector2.Transform(this.Transform.Position, transform);
 
             spriteBatch.Draw(texture, drawPosition, new Rectangle(0,0,texture.Width,texture.Height),drawColor,0f,origin,scale,SpriteEffects.None,1f); //draws the sprite on its position minus the cameraposition
         }

@@ -50,13 +50,13 @@ namespace Engine.GameObjects
 			}
 		}
 
-		public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
+		public override void Draw(SpriteBatch spriteBatch, Matrix transform)
 		{
 			if (!draw)
 				return;
 
 			foreach (var obj in gameObjects) {
-				obj.Draw(spriteBatch, viewingOffset);
+				obj.Draw(spriteBatch, transform);
 			}
 		}
 
@@ -71,37 +71,36 @@ namespace Engine.GameObjects
 			lockMutations = false;
 		}
 
-		public override void HandleInput(InputHelper inputHelper)
+		public override void HandleInput(InputHelper inputHelper, GameTime gameTime)
 		{
 			lockMutations = true;
 			foreach (var obj in gameObjects)
-				obj.HandleInput(inputHelper);
+				obj.HandleInput(inputHelper, gameTime);
 			foreach (var mutation in mutations)
 				mutation();
 			mutations.Clear();
 			lockMutations = false;
 		}
 
-        public GameObject Find(string keyword)
-        {
-            foreach (GameObject obj in gameObjects)
-            {
-                if (obj.ID == keyword)
-                {
-                    return obj;
-                }
-                if (obj is GameObjectList)
-                {
-                    GameObjectList objectList = obj as GameObjectList;
-                    GameObject subObject = objectList.Find(keyword);
-                    if (subObject != null)
-                    {
-                        return subObject;
-                    }
-                }
-            }
-            return null;
-        }
+		public GameObject Find(string keyword)
+		{
+			foreach (GameObject obj in gameObjects) {
+				var result = obj.Find(keyword);
+				if (result != null)
+					return result;
+			}
+			return null;
+		}
+
+		public GameObject Find<T>()
+		{
+			foreach (GameObject obj in gameObjects) {
+				var result = obj.Find<T>();
+				if (result != null)
+					return result;
+			}
+			return null;
+		}
 
 
 		public IEnumerator<GameObject> GetEnumerator()

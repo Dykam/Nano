@@ -26,22 +26,41 @@ namespace Nano.World
 		{
 			Entities.Update(gameTime);
 			base.Update(gameTime);
+			new AStarSolver<Tile, LivingEntity>(Map, (start, current, goal) => {
+				var diff = current - goal;
+				diff.X = Math.Abs(diff.X);
+				diff.Y = Math.Abs(diff.Y);
+
+				/* A tiebreaker prevents A* from expanding all equal nodes at the same time. */
+				var diffDirect = start - goal;
+				diffDirect.X = Math.Abs(diffDirect.X);
+				diffDirect.Y = Math.Abs(diffDirect.Y);
+				var tieBreaker = Math.Abs(diff.X * diffDirect.Y - diffDirect.X * diff.Y);
+				/* */
+
+				return (diff.X + diff.Y) + tieBreaker / 1000;
+			}, null, false);
 		}
 
-		public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Vector2 viewingOffset)
+		public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Matrix transform)
 		{
-			Entities.Draw(spriteBatch, viewingOffset);
-			base.Draw(spriteBatch, viewingOffset);
+			Entities.Draw(spriteBatch, transform);
+			base.Draw(spriteBatch, transform);
 		}
 
-		public override void HandleInput(InputHelper inputHelper)
+		public override void HandleInput(InputHelper inputHelper, GameTime gameTime)
 		{
-			Entities.HandleInput(inputHelper);
-			base.HandleInput(inputHelper);
+			Entities.HandleInput(inputHelper, gameTime);
+			base.HandleInput(inputHelper, gameTime);
 		}
 
-		public static Level Load(string path, EntityManager entities) {
-			return null;
+		public override GameObject Find(string keyword)
+		{
+			return Entities.Find(keyword);
+		}
+		public override GameObject Find<T>()
+		{
+			return Entities.Find<T>();
 		}
 	}
 }

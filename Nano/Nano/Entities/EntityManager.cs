@@ -56,13 +56,13 @@ namespace Nano.Entities
 			}
 		}
 
-		public override void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
+		public override void Draw(SpriteBatch spriteBatch, Matrix transform)
 		{
 			if (!draw)
 				return;
             spriteBatch.Begin();
 			foreach (var entity in entities) {
-				entity.Draw(spriteBatch, viewingOffset);
+				entity.Draw(spriteBatch, transform);
 			}
             spriteBatch.End();
 		}
@@ -78,15 +78,34 @@ namespace Nano.Entities
 			lockMutations = false;
 		}
 
-		public override void HandleInput(InputHelper inputHelper)
+		public override void HandleInput(InputHelper inputHelper, GameTime gameTime)
 		{
 			lockMutations = true;
 			foreach (var entity in entities)
-				entity.HandleInput(inputHelper);
+				entity.HandleInput(inputHelper, gameTime);
 			foreach (var mutation in mutations)
 				mutation();
 			mutations.Clear();
 			lockMutations = false;
+		}
+
+		public override GameObject Find(string keyword)
+		{
+			foreach (Entity entity in entities) {
+				var result = entity.Find(keyword);
+				if (result != null)
+					return result;
+			}
+			return null;
+		}
+		public override GameObject Find<T>()
+		{
+			foreach (Entity entity in entities) {
+				var result = entity.Find<T>();
+				if (result != null)
+					return result;
+			}
+			return null;
 		}
 
 

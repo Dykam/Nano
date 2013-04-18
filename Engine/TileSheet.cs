@@ -44,13 +44,17 @@ namespace Engine
 		{
 			spriteBatch.Draw(texture.Texture, position, new Rectangle(texture.TileSize * x, texture.TileSize * y, texture.TileSize, texture.TileSize), color, rotation, origin, scale, effects, layerDepth);
 		}
-		public static void Draw(this SpriteBatch spriteBatch, TileSheet texture, int x, int y, Color color, Transform transform)
+		public static void Draw(this SpriteBatch spriteBatch, TileSheet texture, int x, int y, Color color, Transform transform, Matrix mTransform)
 		{
-			spriteBatch.Draw(texture.Texture, transform.Position, new Rectangle(texture.TileSize * x, texture.TileSize * y, texture.TileSize, texture.TileSize), color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
+			var pos = transform.Position;
+			pos = Vector2.Transform(pos, mTransform);
+			spriteBatch.Draw(texture.Texture, pos, new Rectangle(texture.TileSize * x, texture.TileSize * y, texture.TileSize, texture.TileSize), color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
 		}
-		public static void Draw(this SpriteBatch spriteBatch, Texture2D texture, Color color, Transform transform, Vector2 offset)
+		public static void Draw(this SpriteBatch spriteBatch, Texture2D texture, Color color, Transform transform, Matrix mTransform)
 		{
-			spriteBatch.Draw(texture, transform.Position + offset, null, color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
+			var pos = transform.Position;
+			pos = Vector2.Transform(pos, mTransform);
+			spriteBatch.Draw(texture, pos, null, color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
 		}
 	}
 }

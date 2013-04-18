@@ -30,7 +30,7 @@ namespace Engine.GameObjects
 		{
 		}
 
-        public virtual void HandleInput(InputHelper inputHelper)
+        public virtual void HandleInput(InputHelper inputHelper, GameTime gameTime)
         {
         }
 
@@ -38,10 +38,10 @@ namespace Engine.GameObjects
         {
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, Vector2 viewingOffset)
+        public virtual void Draw(SpriteBatch spriteBatch, Matrix transform)
         {
 			if (HasDefaultTexture) {
-				spriteBatch.Draw(Texture, Color.White, Transform, viewingOffset);
+				spriteBatch.Draw(Texture, Color.White, Transform, transform);
 			}
         }
 
@@ -56,6 +56,21 @@ namespace Engine.GameObjects
 				}
             }
         }
+
+
+
+		public virtual GameObject Find(string keyword)
+		{
+			if (keyword == id)
+				return this;
+			return null;
+		}
+		public virtual GameObject Find<T>()
+		{
+			if (this is T)
+				return this;
+			return null;
+		}
 
         public GameObject ParentObject
         {
