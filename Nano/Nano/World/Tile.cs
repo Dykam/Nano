@@ -9,15 +9,15 @@ namespace Nano.World
 {
 	class Tile : Node, ISolverTile<LivingEntity>
 	{
-		public bool IsWall;
+		public InanimateEntity LevelEntity;
 		public bool IsWalkableBy(LivingEntity subject)
 		{
-			return IsWall;
+			return LevelEntity == null || LevelEntity.Solid;
 		}
 
 		public float Cost(LivingEntity subject)
 		{
-			throw new NotImplementedException();
+			return 1;
 		}
 	}
 }

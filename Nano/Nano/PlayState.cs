@@ -24,9 +24,9 @@ namespace Nano
 		/// Contains all interactive gameobjects
 		/// </summary>
 		EntityManager entities;
-		Level level;
+		public Level Level { get; private set; }
 		TileSheet uisheet;
-		PlayerEntity player;
+		public PlayerEntity Player { get; private set; }
 		Vector2 cameraOffset;
 		LevelLoader loader;
 
@@ -35,7 +35,6 @@ namespace Nano
 			this.nanoGame = nanoGame;
 			uisheet = new TileSheet(nanoGame.Content.Load<Texture2D>("Interface"), 128);
 			loader = new LevelLoader("Content\\Levels", nanoGame.Content);
-			Reset();
 		}
 
 		public override void Enable()
@@ -48,13 +47,14 @@ namespace Nano
 			entities = new EntityManager("entities", true) {
 			};
 			root = new GameObjectList("play", true) {
-				(level = loader.Load("Level1", entities)),
+				(Level = loader.Load("Level1", entities)),
 				(@interface = new InterfaceManager("interface", true) {
 					new CrossHair(uisheet, 0, 0)
 				}),
 				// TODO: Add world
 			};
-			player = (PlayerEntity)root.Find<PlayerEntity>();
+			Player = (PlayerEntity)root.Find<PlayerEntity>();
+			cameraOffset = -Player.Transform.Position;
 		}
 		public override void Update(GameTime gameTime)
 		{
@@ -65,8 +65,8 @@ namespace Nano
 
         private void UpdateCamera(GameTime gameTime)
         {
-			var bb = player.BoundingBox;
-			Vector2 desiredCameraOffset = -player.Transform.Position - Vector2.One / 2;
+			var bb = Player.BoundingBox;
+			Vector2 desiredCameraOffset = -Player.Transform.Position;
 			cameraOffset = Vector2.Lerp(cameraOffset, desiredCameraOffset, (float)(.99 * gameTime.ElapsedGameTime.TotalSeconds));
             
 			Console.WriteLine(desiredCameraOffset);
@@ -74,7 +74,7 @@ namespace Nano
 
 		public override void Draw(SpriteBatch spriteBatch) {
 		
-			var offset = (NanoGame.Engine.Screen - new Vector2(player.BoundingBox.Width, player.BoundingBox.Height)) / 2;
+			var offset = (NanoGame.Engine.Screen - new Vector2(Player.BoundingBox.Width, Player.BoundingBox.Height)) / 2;
 			var transform = Matrix.Identity
 				* Matrix.CreateTranslation(cameraOffset.X, cameraOffset.Y, 0)
 				* Matrix.CreateScale(128, 128, 1)
