@@ -38,10 +38,10 @@ namespace Nano.Entities
 			for (float i = 1; i > 1f / 8; i /= 2) {
 				Transform.LocalPosition.X += move.X * i;
 				bool valid = true;
-				valid = valid && State.Level.Map[(int)BoundingBox.X, (int)BoundingBox.Y].IsWalkableBy(this);
-				valid = valid && State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)BoundingBox.Y].IsWalkableBy(this);
-				valid = valid && State.Level.Map[(int)BoundingBox.X, (int)(BoundingBox.Y + BoundingBox.Height)].IsWalkableBy(this);
-				valid = valid && State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)(BoundingBox.Y + BoundingBox.Height)].IsWalkableBy(this);
+				valid = valid && !collides(State.Level.Map[(int)BoundingBox.X, (int)BoundingBox.Y]);
+				valid = valid && !collides(State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)BoundingBox.Y]);
+				valid = valid && !collides(State.Level.Map[(int)BoundingBox.X, (int)(BoundingBox.Y + BoundingBox.Height)]);
+				valid = valid && !collides(State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)(BoundingBox.Y + BoundingBox.Height)]);
 				if (valid)
 					break;
 				Transform.LocalPosition.X -= move.X * i;
@@ -49,10 +49,10 @@ namespace Nano.Entities
 			for (float i = 1; i > 1f / 8; i /= 2) {
 				Transform.LocalPosition.Y += move.Y * i;
 				bool valid = true;
-				valid = valid && State.Level.Map[(int)BoundingBox.X, (int)BoundingBox.Y].IsWalkableBy(this);
-				valid = valid && State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)BoundingBox.Y].IsWalkableBy(this);
-				valid = valid && State.Level.Map[(int)BoundingBox.X, (int)(BoundingBox.Y + BoundingBox.Height)].IsWalkableBy(this);
-				valid = valid && State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)(BoundingBox.Y + BoundingBox.Height)].IsWalkableBy(this);
+				valid = valid && !collides(State.Level.Map[(int)BoundingBox.X, (int)BoundingBox.Y]);
+				valid = valid && !collides(State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)BoundingBox.Y]);
+				valid = valid && !collides(State.Level.Map[(int)BoundingBox.X, (int)(BoundingBox.Y + BoundingBox.Height)]);
+				valid = valid && !collides(State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)(BoundingBox.Y + BoundingBox.Height)]);
 				if (valid)
 					break;
 				Transform.LocalPosition.Y -= move.Y * i;
@@ -67,5 +67,12 @@ namespace Nano.Entities
 
             base.HandleInput(inputHelper, gameTime);
         }
+
+		bool collides(Tile tile)
+		{
+			if (tile.LevelEntity != null)
+				return Collision.Intersects(new Circle { Position = Transform.Position, Radius = .5f }, tile.LevelEntity.BoundingBox);
+			return !tile.IsWalkableBy(this);
+		}
 	}
 }
