@@ -12,6 +12,7 @@ namespace Nano.World
 {
 	class Level : GameObject
 	{
+		public AStarSolver<Tile,LivingEntity> Solver { get; private set; }
 		public Map<Tile> Map { get; private set; }
 		public EntityManager Entities { get; private set; }
 		public Level(int width, int height, EntityManager entities)
@@ -20,13 +21,7 @@ namespace Nano.World
 			Map = new Map<Tile>(width, height);
 			Entities = entities;
 			entities.ParentObject = this;
-		}
-
-		public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
-		{
-			Entities.Update(gameTime);
-			base.Update(gameTime);
-			new AStarSolver<Tile, LivingEntity>(Map, (start, current, goal) => {
+			Solver = new AStarSolver<Tile, LivingEntity>(Map, (start, current, goal) => {
 				var diff = current - goal;
 				diff.X = Math.Abs(diff.X);
 				diff.Y = Math.Abs(diff.Y);
@@ -39,7 +34,13 @@ namespace Nano.World
 				/* */
 
 				return (diff.X + diff.Y) + tieBreaker / 1000;
-			}, null, false);
+			}, null, false);;
+		}
+
+		public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+		{
+			Entities.Update(gameTime);
+			base.Update(gameTime);
 		}
 
 		public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Matrix transform)
