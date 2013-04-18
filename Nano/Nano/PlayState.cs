@@ -29,7 +29,7 @@ namespace Nano
 		TileSheet uisheet;
 		public PlayerEntity Player { get; private set; }
 		public EffectManager Effects { get; private set; }
-		Vector2 cameraOffset;
+		public Vector2 CameraOffset { get; private set; }
 		LevelLoader loader;
 
 		public PlayState(NanoGame nanoGame)
@@ -59,7 +59,7 @@ namespace Nano
 				// TODO: Add world
 			};
 			Player = (PlayerEntity)root.Find<PlayerEntity>();
-			cameraOffset = -Player.Transform.Position;
+			CameraOffset = -Player.Transform.Position;
 			Effects.FinishAll();
 			root.Transform.LocalScale *= .5f;
 		}
@@ -74,7 +74,7 @@ namespace Nano
         {
 			var bb = Player.BoundingBox;
 			Vector2 desiredCameraOffset = -Player.Transform.Position;
-			cameraOffset = Vector2.Lerp(cameraOffset, desiredCameraOffset, (float)(.99 * gameTime.ElapsedGameTime.TotalSeconds));
+			CameraOffset = Vector2.Lerp(CameraOffset, desiredCameraOffset, (float)(.99 * gameTime.ElapsedGameTime.TotalSeconds));
 
         }
 
@@ -82,11 +82,25 @@ namespace Nano
 		
 			var offset = (NanoGame.Engine.Screen - new Vector2(Player.BoundingBox.Width, Player.BoundingBox.Height)) / 2;
 			var transform = Matrix.Identity
-				* Matrix.CreateTranslation(cameraOffset.X, cameraOffset.Y, 0)
+				* Matrix.CreateTranslation(CameraOffset.X, CameraOffset.Y, 0)
 				* Matrix.CreateScale(128, 128, 1)
 				* Matrix.CreateScale(0.5f)
 				* Matrix.CreateTranslation(offset.X, offset.Y, 1);
 			root.Draw(spriteBatch, transform);
+		}
+
+		public Vector2 MouseLocation
+		{
+			get
+			{
+				var offset = (NanoGame.Engine.Screen - new Vector2(Player.BoundingBox.Width, Player.BoundingBox.Height)) / 2;
+				var transform = Matrix.Identity
+					* Matrix.CreateTranslation(CameraOffset.X, CameraOffset.Y, 0)
+					* Matrix.CreateScale(128, 128, 1)
+					* Matrix.CreateScale(0.5f)
+					* Matrix.CreateTranslation(offset.X, offset.Y, 1);
+				return Vector2.Transform(NanoGame.Engine.InputHelper.MousePosition, Matrix.Invert(transform));
+			}
 		}
 	}
 }
