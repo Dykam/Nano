@@ -14,6 +14,7 @@ namespace Nano.Entities
         Level currentLevel;
 		AimSkillDNA currentAimSkill;
 		ShockWave shockWave;
+        List<Bullet> bullets;
 
 		public PlayerEntity(Texture2D texture)
 			: base(20, 5, 10)
@@ -21,6 +22,7 @@ namespace Nano.Entities
             Texture = texture;
             currentLevel = this.ParentObject as Level;
 			DNA.Add(shockWave = new ShockWave());
+            bullets = new List<Bullet>();
 		}
 
         public override void HandleInput(Engine.InputHelper inputHelper, GameTime gameTime)
@@ -59,8 +61,10 @@ namespace Nano.Entities
 			}
 
 			if (inputHelper.MouseLeftButtonPressed()) {
-
+                Bullet b = new Bullet(inputHelper.MousePosition, Transform.LocalPosition);
+                State.Level.Entities.Add(b);
 			}
+
 			if (inputHelper.IsKeyDown(Keys.Space)) {
 				DNA.ActivateSkill(shockWave, this, Vector2.Zero);
 			}

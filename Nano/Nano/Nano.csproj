@@ -117,6 +117,7 @@
     <Compile Include="AsyncXnaIntegration.cs" />
     <Compile Include="Circle.cs" />
     <Compile Include="Collision.cs" />
+    <Compile Include="Entities\Bullet.cs" />
     <Compile Include="Entities\DNA.cs" />
     <Compile Include="Entities\DNACollection.cs" />
     <Compile Include="Entities\Effects\DamageEffect.cs" />
