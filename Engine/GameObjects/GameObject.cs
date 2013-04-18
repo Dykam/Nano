@@ -51,9 +51,9 @@ namespace Engine.GameObjects
             get
             {
 				if (!HasDefaultTexture) {
-					return new RectangleF((int)(Transform.Position.X), (int)(Transform.Position.Y), 0, 0);
+					return new RectangleF((Transform.Position.X), (Transform.Position.Y), 0, 0);
 				} else {
-					return new RectangleF((int)(Transform.Position.X), (int)(Transform.Position.Y), Texture.Width / 128f, Texture.Height / 128f);
+					return new RectangleF((Transform.Position.X), (Transform.Position.Y), Texture.Width / 128f, Texture.Height / 128f);
 				}
             }
         }
