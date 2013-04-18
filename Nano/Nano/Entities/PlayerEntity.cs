@@ -25,14 +25,38 @@ namespace Nano.Entities
 
         public override void HandleInput(Engine.InputHelper inputHelper, GameTime gameTime)
         {
+			Vector2 move = Vector2.Zero;
             if (inputHelper.IsKeyDown(Keys.A))
-                Transform.LocalPosition.X -= Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+				move.X -= Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (inputHelper.IsKeyDown(Keys.D))
-				Transform.LocalPosition.X += Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+				move.X += Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (inputHelper.IsKeyDown(Keys.W))
-				Transform.LocalPosition.Y -= Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+				move.Y -= Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (inputHelper.IsKeyDown(Keys.S))
-				Transform.LocalPosition.Y += Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+				move.Y += Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+			for (float i = 1; i > 1f / 8; i /= 2) {
+				Transform.LocalPosition.X += move.X * i;
+				bool valid = true;
+				valid = valid && State.Level.Map[(int)BoundingBox.X, (int)BoundingBox.Y].IsWalkableBy(this);
+				valid = valid && State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)BoundingBox.Y].IsWalkableBy(this);
+				valid = valid && State.Level.Map[(int)BoundingBox.X, (int)(BoundingBox.Y + BoundingBox.Height)].IsWalkableBy(this);
+				valid = valid && State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)(BoundingBox.Y + BoundingBox.Height)].IsWalkableBy(this);
+				if (valid)
+					break;
+				Transform.LocalPosition.X -= move.X * i;
+			}
+			for (float i = 1; i > 1f / 8; i /= 2) {
+				Transform.LocalPosition.Y += move.Y * i;
+				bool valid = true;
+				valid = valid && State.Level.Map[(int)BoundingBox.X, (int)BoundingBox.Y].IsWalkableBy(this);
+				valid = valid && State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)BoundingBox.Y].IsWalkableBy(this);
+				valid = valid && State.Level.Map[(int)BoundingBox.X, (int)(BoundingBox.Y + BoundingBox.Height)].IsWalkableBy(this);
+				valid = valid && State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)(BoundingBox.Y + BoundingBox.Height)].IsWalkableBy(this);
+				if (valid)
+					break;
+				Transform.LocalPosition.Y -= move.Y * i;
+			}
 
 			if (inputHelper.MouseLeftButtonPressed()) {
 
