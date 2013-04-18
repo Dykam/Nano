@@ -7,5 +7,10 @@ namespace Nano.Entities.Enemies
 {
     class White : NPCEntity
     {
+        public White()
+            : base()
+        {
+            Texture = NanoGame.Engine.ResourceManager.GetSprite("sprites/whiteTexture");
+        }
     }
 }

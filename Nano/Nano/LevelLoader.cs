@@ -52,7 +52,7 @@ namespace Nano
 		{
 			switch ((String)data.Type) {
 				case "White":
-					throw new Exception();
+                    throw new NotImplementedException();
 					break;
 
 				case "Player":
