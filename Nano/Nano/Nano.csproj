@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="AsyncXnaIntegration.cs" />
     <Compile Include="Entities\Actions\EntityAttack.cs" />
+    <Compile Include="Entities\Enemies\White.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityManager.cs" />
     <Compile Include="Entities\LivingEntity.cs" />
@@ -123,6 +124,8 @@
     <Compile Include="Entities\Status\EntityStatus.cs" />
     <Compile Include="Entities\Status\PoisonStatus.cs" />
     <Compile Include="Entities\Status\RegenerationStatus.cs" />
+    <Compile Include="Entities\Status\SlowingStatus.cs" />
+    <Compile Include="Entities\Status\StunnedStatus.cs" />
     <Compile Include="Interface\CrossHair.cs" />
     <Compile Include="Interface\InterfaceManager.cs" />
     <Compile Include="MenuState.cs" />

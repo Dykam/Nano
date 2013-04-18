@@ -10,11 +10,13 @@ namespace Nano.Entities.Status
 	abstract class EntityStatus
 	{
 		public LivingEntity Entity { get; private set; }
+
 		public EntityStatus(LivingEntity entity)
 		{
 			Entity = entity;
 		}
 
 		public abstract void Activate();
+
 	}
 }

@@ -9,24 +9,23 @@ namespace Nano.Entities
 {
 	class PlayerEntity : LivingEntity
 	{
-        int speed;
 		public PlayerEntity(Texture2D texture)
 		{
             Texture = texture;
 			Health = MaxHealth = 20;
-            speed = 5;
+            Speed = 5;
 		}
 
         public override void HandleInput(Engine.InputHelper inputHelper)
         {
             if (inputHelper.IsKeyDown(Keys.A))
-                Transform.LocalPosition.X -= speed;
+                Transform.LocalPosition.X -= Speed;
             if (inputHelper.IsKeyDown(Keys.D))
-                Transform.LocalPosition.X += speed;
+                Transform.LocalPosition.X += Speed;
             if (inputHelper.IsKeyDown(Keys.W))
-                Transform.LocalPosition.Y -= speed;
+                Transform.LocalPosition.Y -= Speed;
             if (inputHelper.IsKeyDown(Keys.S))
-                Transform.LocalPosition.Y += speed;
+                Transform.LocalPosition.Y += Speed;
 
             base.HandleInput(inputHelper);
         }
