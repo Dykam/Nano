@@ -9,15 +9,15 @@ namespace Nano.Entities.Enemies
     class White : NPCEntity
     {
         public White(int strength)
-            : base(20, 1, strength)
+            : base(20, 4, strength)
         {
             Texture = NanoGame.Engine.ResourceManager.GetSprite("sprites/whiteTexture");
         }
 
 		public override void Update(GameTime gameTime)
 		{
-			if (!HasPath && Vector2.DistanceSquared(State.Player.Transform.LocalPosition, this.Transform.LocalPosition) < 10 * 10) {
-				BuildPath(new Int2((int)State.Player.Transform.LocalPosition.X, (int)State.Player.Transform.LocalPosition.Y));
+			if (gameTime.TotalGameTime - LastSearch > TimeSpan.FromSeconds(1) && Vector2.DistanceSquared(State.Player.Transform.LocalPosition, this.Transform.LocalPosition) < 10 * 10) {
+				BuildPath(new Int2((int)State.Player.Transform.LocalPosition.X, (int)State.Player.Transform.LocalPosition.Y), gameTime);
 			}
 			base.Update(gameTime);
 			foreach (var skill in DNA.SkillCooling.Where(kvp => kvp.Value <= TimeSpan.Zero).ToArray()) {

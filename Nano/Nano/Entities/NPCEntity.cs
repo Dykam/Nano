@@ -10,20 +10,22 @@ namespace Nano.Entities
 	{
 		Queue<Int2> path;
 		public bool HasPath { get { return path != null && path.Count != 0; } }
+		public TimeSpan LastSearch { get; private set; }
 		public NPCEntity(float maxHealth, float speed, int strength)
 			: base(maxHealth, speed, strength)
-        {
-			
-        }
+		{
 
-        protected void BuildPath(Int2 target)
+		}
+
+		protected void BuildPath(Int2 target, GameTime gameTime)
 		{
 			var from = new Int2((int)Transform.LocalPosition.X, (int)Transform.LocalPosition.Y);
 			var searched = State.Level.Solver.Search(from, this, target);
 			if (searched != null) {
 				path = new Queue<Int2>(searched);
 			}
-        }
+			LastSearch = gameTime.TotalGameTime;
+		}
 
 		public override void Update(GameTime gameTime)
 		{

@@ -16,7 +16,7 @@ namespace Nano.Entities
 		ShockWave shockWave;
 
 		public PlayerEntity(Texture2D texture)
-			: base(20, 3, 10)
+			: base(20, 5, 10)
 		{
             Texture = texture;
             currentLevel = this.ParentObject as Level;
