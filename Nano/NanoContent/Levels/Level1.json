@@ -6,7 +6,10 @@
 		"Type": "White",
 		"Tile": [255, 0, 0],
 		"Strength": [3, 10]
-	}],
+	}, {
+		"Type": "Wall",
+		"Tile": [0,0,0]
+	},],
     "Spawns": [{
         "Bounds": [ 20, 30, 10, 10 ] /* X, Y, Width, Height */,
         "Entities": [ {

@@ -3,4 +3,5 @@ Content\Interface.xnb
 Content\Sprites\playerTexture.xnb
 Content\Levels\Level1.xnb
 Content\Sprites\whiteTexture.xnb
+Content\Sprites\wallTexture.xnb
 Content\Levels\Level1.json

@@ -119,6 +119,7 @@
     <Compile Include="Entities\Enemies\White.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityManager.cs" />
+    <Compile Include="Entities\InanimateEntity.cs" />
     <Compile Include="Entities\LivingEntity.cs" />
     <Compile Include="Entities\NPCEntity.cs" />
     <Compile Include="Entities\PlayerEntity.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="NanoGame.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="World\Level.cs" />
+    <Compile Include="World\LevelTiles\Wall.cs" />
     <Compile Include="World\Room.cs" />
     <Compile Include="World\Tile.cs" />
   </ItemGroup>

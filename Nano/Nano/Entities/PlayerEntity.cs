@@ -5,15 +5,20 @@ using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Nano.World;
 namespace Nano.Entities
 {
 	class PlayerEntity : LivingEntity
 	{
+        Level currentLevel;
+
 		public PlayerEntity(Texture2D texture)
 		{
             Texture = texture;
 			Health = MaxHealth = 20;
-            Speed = 5;
+            Speed = 2;
+            currentLevel = this.ParentObject as Level;
+            
 		}
 
         public override void HandleInput(Engine.InputHelper inputHelper, GameTime gameTime)
@@ -29,6 +34,14 @@ namespace Nano.Entities
 
             base.HandleInput(inputHelper, gameTime);
         }
+
+        public bool Collision(Rectangle entityRectangle)
+        {
+            if (entityRectangle.Intersects(BoundingBox))
+                return true;
+            return false;
+        }
+
 
 	}
 }

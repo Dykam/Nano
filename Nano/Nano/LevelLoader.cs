@@ -77,6 +77,10 @@ namespace Nano
 					var player = new PlayerEntity(content.Load<Texture2D>("Sprites/playerTexture"));
 					player.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
 					return player;
+                case "Wall":
+                    var wall = new World.LevelTiles.Wall();
+                    wall.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+                    return wall;
 				default:
 					throw new Exception();
 			}
