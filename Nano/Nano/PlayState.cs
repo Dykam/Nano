@@ -9,6 +9,7 @@ using Nano.Interface;
 using Microsoft.Xna.Framework;
 using Nano.Entities;
 using Nano.World;
+using Nano.Entities.Effects;
 
 namespace Nano
 {
@@ -27,6 +28,7 @@ namespace Nano
 		public Level Level { get; private set; }
 		TileSheet uisheet;
 		public PlayerEntity Player { get; private set; }
+		public EffectManager Effects { get; private set; }
 		Vector2 cameraOffset;
 		LevelLoader loader;
 
@@ -35,6 +37,7 @@ namespace Nano
 			this.nanoGame = nanoGame;
 			uisheet = new TileSheet(nanoGame.Content.Load<Texture2D>("Interface"), 128);
 			loader = new LevelLoader("Content\\Levels", nanoGame.Content);
+			Effects = new EffectManager();
 		}
 
 		public override void Enable()
@@ -47,7 +50,9 @@ namespace Nano
 			entities = new EntityManager("entities", true) {
 			};
 			root = new GameObjectList("play", true) {
+				new Background(),
 				(Level = loader.Load("Level1", entities)),
+				(Effects = new EffectManager()),
 				(@interface = new InterfaceManager("interface", true) {
 					new CrossHair(uisheet, 0, 0)
 				}),
@@ -55,6 +60,8 @@ namespace Nano
 			};
 			Player = (PlayerEntity)root.Find<PlayerEntity>();
 			cameraOffset = -Player.Transform.Position;
+			Effects.FinishAll();
+			root.Transform.LocalScale *= .5f;
 		}
 		public override void Update(GameTime gameTime)
 		{
@@ -68,8 +75,7 @@ namespace Nano
 			var bb = Player.BoundingBox;
 			Vector2 desiredCameraOffset = -Player.Transform.Position;
 			cameraOffset = Vector2.Lerp(cameraOffset, desiredCameraOffset, (float)(.99 * gameTime.ElapsedGameTime.TotalSeconds));
-            
-			Console.WriteLine(desiredCameraOffset);
+
         }
 
 		public override void Draw(SpriteBatch spriteBatch) {
@@ -78,6 +84,7 @@ namespace Nano
 			var transform = Matrix.Identity
 				* Matrix.CreateTranslation(cameraOffset.X, cameraOffset.Y, 0)
 				* Matrix.CreateScale(128, 128, 1)
+				* Matrix.CreateScale(0.5f)
 				* Matrix.CreateTranslation(offset.X, offset.Y, 1);
 			root.Draw(spriteBatch, transform);
 		}

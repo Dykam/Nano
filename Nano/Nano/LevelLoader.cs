@@ -86,7 +86,8 @@ namespace Nano
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = wall;
 					break;
 				default:
-					throw new Exception();
+					Console.WriteLine("Missing entity: {0}", data.Type);
+					break;
 			}
 		}
 	}

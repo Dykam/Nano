@@ -4,4 +4,7 @@ Content\Sprites\playerTexture.xnb
 Content\Levels\Level1.xnb
 Content\Sprites\whiteTexture.xnb
 Content\Sprites\wallTexture.xnb
+Content\Fonts\Damage.xnb
+Content\Sprites\Shockwave.xnb
+Content\Sprites\Background.xnb
 Content\Levels\Level1.json

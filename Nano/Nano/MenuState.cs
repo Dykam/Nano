@@ -75,11 +75,11 @@ namespace Nano
 				Click();
 			}
 
-			public override Rectangle BoundingBox
+			public override RectangleF BoundingBox
 			{
 				get
 				{
-					return new Rectangle((int)Transform.Position.X, (int)Transform.Position.Y, Width * Tiles.TileSize / 2, Height * Tiles.TileSize / 2);
+					return new RectangleF((int)Transform.Position.X, (int)Transform.Position.Y, Width * Tiles.TileSize / 2, Height * Tiles.TileSize / 2);
 				}
 			}
 

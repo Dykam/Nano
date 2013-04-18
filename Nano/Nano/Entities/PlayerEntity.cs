@@ -6,20 +6,21 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Nano.World;
+using Nano.Entities.Effects;
 namespace Nano.Entities
 {
 	class PlayerEntity : LivingEntity
 	{
         Level currentLevel;
 		AimSkillDNA currentAimSkill;
+		ShockWave shockWave;
 
 		public PlayerEntity(Texture2D texture)
+			: base(20, 2)
 		{
             Texture = texture;
-			Health = MaxHealth = 20;
-            Speed = 2;
             currentLevel = this.ParentObject as Level;
-            
+			DNA.Add(shockWave = new ShockWave());
 		}
 
         public override void HandleInput(Engine.InputHelper inputHelper, GameTime gameTime)
@@ -36,11 +37,14 @@ namespace Nano.Entities
 			if (inputHelper.MouseLeftButtonPressed()) {
 
 			}
+			if (inputHelper.IsKeyDown(Keys.Space)) {
+				DNA.ActivateSkill(shockWave, this, Vector2.Zero);
+			}
 
             base.HandleInput(inputHelper, gameTime);
         }
 
-        public bool Collision(Rectangle entityRectangle)
+        public bool Collision(RectangleF entityRectangle)
         {
             if (entityRectangle.Intersects(BoundingBox))
                 return true;

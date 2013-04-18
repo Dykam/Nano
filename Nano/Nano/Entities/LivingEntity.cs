@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Nano.Entities.Status;
 using Microsoft.Xna.Framework;
+using Nano.Entities.Effects;
 
 namespace Nano.Entities
 {
@@ -17,15 +18,25 @@ namespace Nano.Entities
         public bool Stunned { get; set; }
 		public DNACollection DNA { get; private set; }
 
-		public LivingEntity()
+		public LivingEntity(float maxHealth, float speed)
 		{
 			statusses = new List<EntityStatus>();
+			DNA = new DNACollection();
+			MaxHealth = Health = maxHealth;
+			Speed = speed;
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			DNA.Update(gameTime);
+			base.Update(gameTime);
 		}
 
 		public virtual void Damage(float hp)
 		{
 			Health = Math.Max(0, Health - hp);
 			if (Health == 0) Die();
+			State.Effects.Start(new DamageEffect(hp), this);
 		}
 		public virtual void Heal(float hp)
 		{

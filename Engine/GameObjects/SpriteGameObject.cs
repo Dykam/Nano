@@ -64,11 +64,11 @@ namespace Engine.GameObjects
             spriteBatch.Draw(texture, drawPosition, new Rectangle(0,0,texture.Width,texture.Height),drawColor,0f,origin,scale,SpriteEffects.None,1f); //draws the sprite on its position minus the cameraposition
         }
 
-        public override Rectangle BoundingBox
+		public override RectangleF BoundingBox
         {
             get
             {
-                return new Rectangle((int)this.drawPosition.X, (int)this.drawPosition.Y, texture.Width, texture.Height);
+				return new RectangleF((int)this.drawPosition.X, (int)this.drawPosition.Y, texture.Width, texture.Height);
             }
         }
 

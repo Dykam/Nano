@@ -14,6 +14,7 @@ namespace Engine.GameObjects
 		/// Optional texture. If omitted the gameobject has to override GameObject.Draw().
 		/// </summary>
 		protected Texture2D Texture;
+		protected float Opacity = 1;
 		protected bool HasDefaultTexture { get { return Texture != null; } }
 
 		public Transform Transform { get; private set; }
@@ -41,18 +42,18 @@ namespace Engine.GameObjects
         public virtual void Draw(SpriteBatch spriteBatch, Matrix transform)
         {
 			if (HasDefaultTexture) {
-				spriteBatch.Draw(Texture, Color.White, Transform, transform);
+				spriteBatch.Draw(Texture, new Color(1f, 1f, 1f, Opacity), Transform, transform);
 			}
         }
 
-        public virtual Rectangle BoundingBox
+        public virtual RectangleF BoundingBox
         {
             get
             {
 				if (!HasDefaultTexture) {
-					return new Rectangle((int)(Transform.Position.X), (int)(Transform.Position.Y), 0, 0);
+					return new RectangleF((int)(Transform.Position.X), (int)(Transform.Position.Y), 0, 0);
 				} else {
-					return new Rectangle((int)(Transform.Position.X), (int)(Transform.Position.Y), Texture.Width, Texture.Height);
+					return new RectangleF((int)(Transform.Position.X), (int)(Transform.Position.Y), Texture.Width / 128f, Texture.Height / 128f);
 				}
             }
         }

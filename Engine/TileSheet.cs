@@ -48,13 +48,19 @@ namespace Engine
 		{
 			var pos = transform.Position;
 			pos = Vector2.Transform(pos, mTransform);
-			spriteBatch.Draw(texture.Texture, pos, new Rectangle(texture.TileSize * x, texture.TileSize * y, texture.TileSize, texture.TileSize), color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
+			spriteBatch.Draw(texture.Texture, pos, new Rectangle(texture.TileSize * x, texture.TileSize * y, texture.TileSize, texture.TileSize), color, 0, Vector2.Zero, transform.Scale, SpriteEffects.None, 0);
 		}
-		public static void Draw(this SpriteBatch spriteBatch, Texture2D texture, Color color, Transform transform, Matrix mTransform)
+		public static void Draw(this SpriteBatch spriteBatch, Texture2D texture, Color color, Transform transform, Matrix mTransform, Rectangle? sourceRect = null)
 		{
 			var pos = transform.Position;
 			pos = Vector2.Transform(pos, mTransform);
-			spriteBatch.Draw(texture, pos, null, color, 0, Vector2.Zero, transform.LocalScale, SpriteEffects.None, 0);
+			spriteBatch.Draw(texture, pos, sourceRect, color, 0, Vector2.Zero, transform.Scale, SpriteEffects.None, 0);
+		}
+		public static void DrawString(this SpriteBatch spriteBatch, SpriteFont font, string text, Color color, Transform transform, Matrix mTransform)
+		{
+			var pos = transform.Position;
+			pos = Vector2.Transform(pos, mTransform);
+			spriteBatch.DrawString(font, text, pos, color, 0, Vector2.Zero, transform.Scale, SpriteEffects.None, 0);
 		}
 	}
 }

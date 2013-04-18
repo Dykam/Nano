@@ -119,6 +119,11 @@
     <Compile Include="Collision.cs" />
     <Compile Include="Entities\DNA.cs" />
     <Compile Include="Entities\DNACollection.cs" />
+    <Compile Include="Entities\Effects\DamageEffect.cs" />
+    <Compile Include="Entities\Effects\EffectEntity.cs" />
+    <Compile Include="Entities\Effects\EffectManager.cs" />
+    <Compile Include="Entities\Effects\FadeEffect.cs" />
+    <Compile Include="Entities\Effects\ShockwaveEffect.cs" />
     <Compile Include="Entities\Enemies\White.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityManager.cs" />
@@ -140,6 +145,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="NanoGame.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="World\Background.cs" />
     <Compile Include="World\Level.cs" />
     <Compile Include="World\LevelTiles\Wall.cs" />
     <Compile Include="World\Room.cs" />
@@ -190,6 +196,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

@@ -11,7 +11,7 @@ namespace Nano.Entities.Enemies
 		public int Strength { get; set; }
 		
         public White()
-            : base()
+            : base(10, 1)
         {
             Texture = NanoGame.Engine.ResourceManager.GetSprite("sprites/whiteTexture");
         }

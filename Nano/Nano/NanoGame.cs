@@ -23,6 +23,8 @@ namespace Nano
 		public static int TileSize { get; private set; }
 		public static PlayState PlayState { get; private set; }
 
+		public static SpriteFont DamageFont { get; private set; }
+
 		public NanoGame()
 		{
 			graphics = new GraphicsDeviceManager(this) {
@@ -48,6 +50,8 @@ namespace Nano
 			PlayState.Reset();
 
 			Engine.GameStateManager.SetCurrentState("menu");
+
+			DamageFont = Content.Load<SpriteFont>("Fonts/Damage");
 
 		}
 		protected override void UnloadContent()

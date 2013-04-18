@@ -18,7 +18,8 @@ namespace Engine
 			LocalScale = Vector2.One;
 		}
 
-		public Vector2 Position {
+		public Vector2 Position
+		{
 			get { return Parent != null ? LocalPosition * Parent.LocalScale + Parent.Position : LocalPosition; }
 			set
 			{
@@ -28,6 +29,11 @@ namespace Engine
 					LocalPosition = value;
 				}
 			}
+		}
+
+		public Vector2 Scale
+		{
+			get { return Parent != null ? LocalScale * Parent.Scale : LocalScale; }
 		}
 	}
 }

@@ -45,7 +45,9 @@ namespace Nano.Entities
 			} else {
 				entities.Remove(entity);
 			}
-			entity.ParentObject = null;
+			if (entity.ParentObject == this) {
+				entity.ParentObject = null;
+			}
 		}
 		public void Clear()
 		{
@@ -60,7 +62,7 @@ namespace Nano.Entities
 		{
 			if (!draw)
 				return;
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 			foreach (var entity in entities) {
 				entity.Draw(spriteBatch, transform);
 			}

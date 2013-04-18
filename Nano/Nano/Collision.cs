@@ -8,7 +8,7 @@ namespace Nano
 {
 	static class Collision
 	{
-		public static bool Intersects(Circle circle, Rectangle rect)
+		public static bool Intersects(Circle circle, RectangleF rect)
 		{
 			var circleDistance = new Vector2(Math.Abs(circle.Position.X - rect.X), Math.Abs(circle.Position.Y - rect.Y));
 			
