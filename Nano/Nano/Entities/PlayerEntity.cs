@@ -72,6 +72,12 @@ namespace Nano.Entities
             base.HandleInput(inputHelper, gameTime);
         }
 
+		public override void Die()
+		{
+			base.Die();
+			State.Reset();
+		}
+
 		/// <summary>
 		/// Starts constant regeneration.
 		/// </summary>
