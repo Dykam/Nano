@@ -19,7 +19,7 @@ namespace Nano.Entities.Status
         {
             float originalSpeed = Entity.Speed;
             Entity.Speed = Entity.Speed / 2;
-            NanoGame.Awaiter.Delay(duration).ContinueWith(t => { Entity.Speed = originalSpeed; Entity.RemoveStatus(this); });
+			NanoGame.Awaiter.Delay(duration).ContinueWith(t => { Entity.Speed = originalSpeed; Entity.RemoveStatus(this); }, System.Threading.Tasks.TaskContinuationOptions.ExecuteSynchronously);
         }
     }
 }

@@ -103,7 +103,7 @@ namespace Nano.Entities
 		void RegenLoop(float delay, float amount)
 		{
 			Heal(amount);
-			NanoGame.Awaiter.Delay(delay * 1000).ContinueWith(t => RegenLoop(delay, amount));
+			NanoGame.Awaiter.Delay(delay * 1000).ContinueWith(t => RegenLoop(delay, amount), System.Threading.Tasks.TaskContinuationOptions.ExecuteSynchronously);
 		}
 
 		IEnumerable<Tile> touchedTiles

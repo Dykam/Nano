@@ -21,7 +21,7 @@ namespace Nano.Interface
 
         public override void Update(GameTime gameTime)
         {
-            NanoGame.Awaiter.Delay(5000).ContinueWith(t => NanoGame.PlayState.Interface.Remove(this));
+            NanoGame.Awaiter.Delay(5000).ContinueWith(t => NanoGame.PlayState.Interface.Remove(this), System.Threading.Tasks.TaskContinuationOptions.ExecuteSynchronously);
         }
 
         public override void Draw(SpriteBatch spriteBatch, Matrix transform)

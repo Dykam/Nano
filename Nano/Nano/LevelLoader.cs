@@ -38,13 +38,16 @@ namespace Nano
 
 			dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(path), new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Ignore });
 			Dictionary<Color, dynamic> colorEntities = new Dictionary<Color, dynamic>();
+			int i = 0;
 			foreach (var entity in json.Entities) {
+				entity.ID = i;
 				if (entity.Tile != null) {
 					var color = new Color((int)entity.Tile[0], (int)entity.Tile[1], (int)entity.Tile[2]);
 					colorEntities.Add(color, entity);
 				} else {
 					SpawnEntity(entity, level);
 				}
+				i++;
 			}
 
 			for (var y = 0; y < mapTex.Height; y++) {
