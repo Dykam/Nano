@@ -140,6 +140,7 @@
     <Compile Include="Interface\Button.cs" />
     <Compile Include="Interface\CrossHair.cs" />
     <Compile Include="Interface\InterfaceManager.cs" />
+    <Compile Include="Interface\StoryNarrative.cs" />
     <Compile Include="Interface\TutorialBox.cs" />
     <Compile Include="LevelLoader.cs" />
     <Compile Include="MenuState.cs" />

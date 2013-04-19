@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Nano.World;
 using Nano.Entities.Effects;
+using Nano.World.LevelTiles;
+
 namespace Nano.Entities
 {
 	class PlayerEntity : LivingEntity
@@ -69,6 +71,21 @@ namespace Nano.Entities
 			if (inputHelper.IsKeyDown(Keys.Space)) {
 				DNA.ActivateSkill(shockWave, this, Vector2.Zero);
 			}
+
+            foreach (Tile touched in touchedTiles)
+            {
+                if (touched.LevelEntity is StoryCheckpoint)
+                {
+                    ((StoryCheckpoint)touched.LevelEntity).Passed = true;
+                    foreach (Entity e in State.Level.Entities)
+                    {
+                        if (e is StoryCheckpoint && e.ID == ((StoryCheckpoint)touched.LevelEntity).ID)
+                        {
+                            (e as StoryCheckpoint).Passed = true;
+                        }
+                    }
+                }
+            }
 
             base.HandleInput(inputHelper, gameTime);
         }

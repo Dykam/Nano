@@ -73,6 +73,11 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
+    <Compile Include="Fonts\storyFont.spritefont">
+      <Name>storyFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="Levels\Level1.json">
       <Name>Level1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
