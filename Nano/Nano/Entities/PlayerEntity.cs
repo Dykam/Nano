@@ -24,6 +24,7 @@ namespace Nano.Entities
 			DNA.Add(shockWave = new ShockWave());
             bullets = new List<Bullet>();
 			RegenLoop(1, 1);
+			Transform.LocalScale *= 0.9f;
 		}
 
         public override void HandleInput(Engine.InputHelper inputHelper, GameTime gameTime)
@@ -60,6 +61,15 @@ namespace Nano.Entities
 					break;
 				Transform.LocalPosition.Y -= move.Y * i;
 			}
+			var correction = 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+			if (move.Y == 0) {
+				float diff = (float)Math.Round(Transform.LocalPosition.Y) - Transform.LocalPosition.Y;
+				Transform.LocalPosition.Y += Math.Min(Math.Abs(diff), Math.Abs(move.X)) / 5 * Math.Sign(diff);
+			}
+			if (move.X == 0) {
+				float diff = (float)Math.Round(Transform.LocalPosition.X) - Transform.LocalPosition.X;
+				Transform.LocalPosition.X += Math.Min(Math.Abs(diff), Math.Abs(move.Y)) / 5 * Math.Sign(diff);
+			}
 
 			if (inputHelper.MouseLeftButtonPressed()) {
                 Bullet b = new Bullet(State.MouseLocation, Transform.LocalPosition + new Vector2(BoundingBox.Width, BoundingBox.Height) / 2);;
@@ -87,7 +97,7 @@ namespace Nano.Entities
 		bool collides(Tile tile)
 		{
 			if (tile.LevelEntity != null)
-				return Collision.Intersects(new Circle { Position = Transform.Position, Radius = .5f }, tile.LevelEntity.BoundingBox);
+				return Collision.Intersects(new Circle { Position = Transform.Position, Radius = .5f * Transform.LocalScale.X }, tile.LevelEntity.BoundingBox);
 			return !tile.IsWalkableBy(this);
 		}
 	}
