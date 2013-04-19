@@ -14,11 +14,14 @@ namespace Nano
 		NanoGame nanoGame;
 		TileSheet tileSheet;
 		GameObjectList root;
+        Texture2D splash;
 
 		public MenuState(NanoGame nanoGame)
 		{
 			this.nanoGame = nanoGame;
 			tileSheet = new TileSheet(nanoGame.Content.Load<Texture2D>("MenuSheet"), 128);
+            splash = NanoGame.Engine.ResourceManager.GetSprite("Sprites/splash");
+
 			Button button = null;
 			root = new GameObjectList("menu", true) {
 				(button = new Button(tileSheet, 3, 3, () => NanoGame.Engine.GameStateManager.SetCurrentState("play")) {
@@ -45,6 +48,9 @@ namespace Nano
 		}
 		public override void Draw(SpriteBatch spriteBatch)
 		{
+            spriteBatch.Begin();
+            spriteBatch.Draw(splash, Vector2.Zero, Color.White);
+            spriteBatch.End();
 			root.Draw(spriteBatch, Matrix.Identity);
 		}
 
