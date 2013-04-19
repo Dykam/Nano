@@ -15,11 +15,13 @@ namespace Nano
 		TileSheet tileSheet;
 		GameObjectList root;
         Texture2D splash;
+        SpriteFont font;
 
 		public MenuState(NanoGame nanoGame)
 		{
 			this.nanoGame = nanoGame;
 			tileSheet = new TileSheet(nanoGame.Content.Load<Texture2D>("MenuSheet"), 128);
+            font = NanoGame.Engine.ResourceManager.GetFont("Fonts/Tutorial");
             splash = NanoGame.Engine.ResourceManager.GetSprite("Sprites/splash");
 
 			Button button = null;
@@ -52,6 +54,9 @@ namespace Nano
             spriteBatch.Draw(splash, Vector2.Zero, Color.White);
             spriteBatch.End();
 			root.Draw(spriteBatch, Matrix.Identity);
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, "Play!", new Vector2(50, 100), Color.Red);
+            spriteBatch.End();
 		}
 
 	}
