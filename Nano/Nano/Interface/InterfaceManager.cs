@@ -19,7 +19,7 @@ namespace Nano.Interface
 		{
 			spriteBatch.Begin();
 			base.Draw(spriteBatch, transform);
-			spriteBatch.End();
+			//spriteBatch.End();
 		}
 	}
 }

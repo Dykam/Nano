@@ -137,8 +137,10 @@
     <Compile Include="Entities\Status\RegenerationStatus.cs" />
     <Compile Include="Entities\Status\SlowingStatus.cs" />
     <Compile Include="Entities\Status\StunnedStatus.cs" />
+    <Compile Include="Interface\Button.cs" />
     <Compile Include="Interface\CrossHair.cs" />
     <Compile Include="Interface\InterfaceManager.cs" />
+    <Compile Include="Interface\TutorialBox.cs" />
     <Compile Include="LevelLoader.cs" />
     <Compile Include="MenuState.cs" />
     <Compile Include="PlayState.cs" />

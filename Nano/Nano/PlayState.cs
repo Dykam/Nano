@@ -15,7 +15,7 @@ namespace Nano
 {
 	class PlayState : GameState
 	{
-		NanoGame nanoGame;
+		public NanoGame nanoGame;
 		GameObjectList root;
 		/// <summary>
 		/// Contains all GUI gameobjects
@@ -54,7 +54,8 @@ namespace Nano
 				(Level = loader.Load("Level1", entities)),
 				(Effects = new EffectManager()),
 				(@interface = new InterfaceManager("interface", true) {
-					new CrossHair(uisheet, 0, 0)
+					new CrossHair(uisheet, 0, 0),
+                    new TutorialBox()
 				}),
 				// TODO: Add world
 			};
