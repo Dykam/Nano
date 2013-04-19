@@ -5,7 +5,7 @@ using System.Text;
 using Engine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Nano;
 namespace Nano.Interface
 {
     class StoryNarrative : GameObject
@@ -19,10 +19,14 @@ namespace Nano.Interface
             this.text = text;
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            NanoGame.Awaiter.Delay(5000).ContinueWith(t => NanoGame.PlayState.Interface.Remove(this));
+        }
 
         public override void Draw(SpriteBatch spriteBatch, Matrix transform)
         {
-            spriteBatch.DrawString(font, text, new Vector2(0, NanoGame.Engine.Screen.Y - 15), Color.Red);
+            spriteBatch.DrawString(font, text, new Vector2(0, NanoGame.Engine.Screen.Y - 30), Color.Red);
             base.Draw(spriteBatch, transform);
         }
     }

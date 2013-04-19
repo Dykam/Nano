@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Nano.Entities;
+using Nano.Interface;
 
 namespace Nano.World.LevelTiles
 {
@@ -23,7 +24,7 @@ namespace Nano.World.LevelTiles
             if (Passed)
             {
                 Console.WriteLine(text);
-                
+                State.Interface.Add(new StoryNarrative(text));
                 State.Level.Entities.Remove(this);
             }
                 
