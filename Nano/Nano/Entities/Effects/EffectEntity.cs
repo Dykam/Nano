@@ -8,6 +8,6 @@ namespace Nano.Entities.Effects
 {
 	abstract class EffectEntity : Entity
 	{
-		public EffectManager Manager { get; internal set; }
+		public new EffectManager Manager { get; internal set; }
 	}
 }

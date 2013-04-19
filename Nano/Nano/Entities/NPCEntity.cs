@@ -19,7 +19,8 @@ namespace Nano.Entities
 
 		protected void BuildPath(Int2 target, GameTime gameTime)
 		{
-			var from = new Int2((int)Transform.LocalPosition.X, (int)Transform.LocalPosition.Y);
+			var vfrom = BoundingBox.Center;
+			var from = new Int2((int)vfrom.X, (int)vfrom.Y);
 			var searched = State.Level.Solver.Search(from, this, target);
 			if (searched != null) {
 				path = new Queue<Int2>(searched);

@@ -71,24 +71,24 @@ namespace Nano
 					var strength = random.Next(minStrength, maxStrength);
 					var white = new White(strength);
 					white.DNA.Add(new TouchOfDeath());
-					white.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+					white.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(white);
 					break;
 
 				case "Player":
 					var player = new PlayerEntity(content.Load<Texture2D>("Sprites/playerTexture"));
-					player.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+					player.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(player);
 					break;
                 case "Wall":
                     var wall = new World.LevelTiles.Wall();
-                    wall.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+					wall.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(wall);
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = wall;
 					break;
 				case "BloodClot":
 					var clot = new World.LevelTiles.BloodClot();
-					clot.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+					clot.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(clot);
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = clot;
 					break;

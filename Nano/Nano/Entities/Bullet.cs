@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Engine.GameObjects;
 using Engine;
+using Nano.World.LevelTiles;
 namespace Nano.Entities
 {
 	class Bullet : Entity
@@ -35,7 +36,12 @@ namespace Nano.Entities
 
 		private void CheckCollision(GameTime gameTime)
 		{
-			var hit = State.Level.Entities.FirstOrDefault(w => !(w is PlayerEntity) && !(w is Bullet) && w.BoundingBox.Contains(Transform.LocalPosition));
+			GameObject hit = null;
+			var tile = State.Level.Map[(int)Transform.LocalPosition.X, (int)Transform.LocalPosition.Y];
+			if (!tile.IsWalkableBy(this))
+				hit = tile.LevelEntity;
+			if(hit == null)
+				hit = State.Level.Entities.EntitiesInDistance.FirstOrDefault(w => !(w is PlayerEntity) && !(w is Bullet) && !(w is  Wall) && w.BoundingBox.Contains(Transform.LocalPosition));
 			if (hit == null)
 				return;
 

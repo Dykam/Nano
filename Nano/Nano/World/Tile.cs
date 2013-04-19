@@ -7,7 +7,7 @@ using Nano.Entities;
 
 namespace Nano.World
 {
-	class Tile : Node, ISolverTile<LivingEntity>
+	class Tile : Node, ISolverTile<Entity>
 	{
 		Entity levelEntity;
 		public Entity LevelEntity
@@ -27,12 +27,12 @@ namespace Nano.World
 			if (levelEntity is LivingEntity && !((LivingEntity)levelEntity).Alive)
 				levelEntity = null;
 		}
-		public bool IsWalkableBy(LivingEntity subject)
+		public bool IsWalkableBy(Entity subject)
 		{
 			return LevelEntity == null || !LevelEntity.Solid;
 		}
 
-		public float Cost(LivingEntity subject)
+		public float Cost(Entity subject)
 		{
 			return 1;
 		}

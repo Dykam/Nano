@@ -9,14 +9,12 @@ namespace Nano.Entities
 	class DNACollection : IEnumerable<DNA>
 	{
 		public List<SkillDNA> Skills { get; private set; }
-		public List<AimSkillDNA> AimSkills { get; private set; }
 		public List<AreaSkillDNA> AreaSkills { get; private set; }
 		public List<DNA> DNA { get; private set; }
 		public Dictionary<SkillDNA, TimeSpan> SkillCooling { get; private set; }
 		public DNACollection()
 		{
 			Skills = new List<SkillDNA>();
-			AimSkills = new List<AimSkillDNA>();
 			AreaSkills = new List<AreaSkillDNA>();
 			DNA = new List<DNA>();
 			SkillCooling = new Dictionary<SkillDNA, TimeSpan>();
@@ -28,9 +26,6 @@ namespace Nano.Entities
 			if (dna is SkillDNA) {
 				Skills.Add((SkillDNA)dna);
 				SkillCooling.Add((SkillDNA)dna, TimeSpan.Zero);
-				if (dna is AimSkillDNA) {
-					AimSkills.Add((AimSkillDNA)dna);
-				}
 				if (dna is AreaSkillDNA) {
 					AreaSkills.Add((AreaSkillDNA)dna);
 				}

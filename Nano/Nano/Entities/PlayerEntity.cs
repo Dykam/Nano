@@ -14,7 +14,6 @@ namespace Nano.Entities
 	class PlayerEntity : LivingEntity
 	{
         Level currentLevel;
-		AimSkillDNA currentAimSkill;
 		ShockWave shockWave;
         List<Bullet> bullets;
 
@@ -89,6 +88,12 @@ namespace Nano.Entities
 
             base.HandleInput(inputHelper, gameTime);
         }
+
+		public override void Die()
+		{
+			base.Die();
+			State.Reset();
+		}
 
 		/// <summary>
 		/// Starts constant regeneration.
