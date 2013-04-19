@@ -96,7 +96,7 @@ namespace Nano.Entities
 
 		bool collides(Tile tile)
 		{
-			if (tile.LevelEntity != null)
+			if (tile.LevelEntity != null && tile.LevelEntity.Solid)
 				return Collision.Intersects(new Circle { Position = Transform.Position, Radius = .5f * Transform.LocalScale.X }, tile.LevelEntity.BoundingBox);
 			return !tile.IsWalkableBy(this);
 		}
