@@ -29,7 +29,8 @@ namespace Nano
 		{
 			graphics = new GraphicsDeviceManager(this) {
 				PreferredBackBufferHeight = 720,
-				PreferredBackBufferWidth = 1280
+				PreferredBackBufferWidth = 1280,
+				PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8
 			};
 			Content.RootDirectory = "Content";
 		}

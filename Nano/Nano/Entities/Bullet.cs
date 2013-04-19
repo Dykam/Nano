@@ -5,12 +5,13 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Engine.GameObjects;
-
+using Engine;
 namespace Nano.Entities
 {
-	class Bullet : InanimateEntity
+	class Bullet : Entity
 	{
-		private Vector2 target, velocity, direction;
+		Vector2 target, direction;
+		float velocity;
 		private RectangleF boundingBox;
 
 		public Bullet(Vector2 target, Vector2 startPos)
@@ -21,14 +22,14 @@ namespace Nano.Entities
 			this.target = target;
 			Transform.Position = startPos;
 
-			velocity = new Vector2(0.1f, 0.1f);
+			velocity = 10f;
 			direction = target - startPos;
 			direction.Normalize();
 		}
 
 		public override void Update(GameTime gameTime)
 		{
-			Transform.LocalPosition += direction * velocity;
+			Transform.LocalPosition += direction * velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 			CheckCollision(gameTime);
 		}
 
@@ -42,6 +43,12 @@ namespace Nano.Entities
 				((LivingEntity)hit).Damage(5);
 			Destroy();
 
+		}
+
+		public override void Draw(SpriteBatch spriteBatch, Matrix transform)
+		{
+			transform = transform * Matrix.CreateTranslation(new Vector3(Texture.Width, Texture.Height, 0) / -4 * new Vector3(Transform.LocalScale, 0));
+			spriteBatch.Draw(Texture, new Color(1f, 1f, 1f, Opacity), Transform, transform);
 		}
 
 		private void Destroy()

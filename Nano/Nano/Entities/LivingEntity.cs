@@ -5,6 +5,8 @@ using System.Text;
 using Nano.Entities.Status;
 using Microsoft.Xna.Framework;
 using Nano.Entities.Effects;
+using Engine;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Nano.Entities
 {
@@ -50,10 +52,17 @@ namespace Nano.Entities
 			status.Activate();
 		}
 
-        internal void RemoveStatus(EntityStatus status)
+        public virtual void RemoveStatus(EntityStatus status)
         {
             statusses.Remove(status);
         }
+
+		public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Matrix transform)
+		{
+			if (HasDefaultTexture) {
+				spriteBatch.Draw(Texture, new Color(1f, Health / MaxHealth, Health / MaxHealth, Opacity * (Health / MaxHealth / 2f + 0.5f)), Transform, transform);
+			}
+		}
 
 		public virtual void Die()
 		{

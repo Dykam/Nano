@@ -23,6 +23,7 @@ namespace Nano.Entities
             currentLevel = this.ParentObject as Level;
 			DNA.Add(shockWave = new ShockWave());
             bullets = new List<Bullet>();
+			RegenLoop(1, 1);
 		}
 
         public override void HandleInput(Engine.InputHelper inputHelper, GameTime gameTime)
@@ -61,7 +62,7 @@ namespace Nano.Entities
 			}
 
 			if (inputHelper.MouseLeftButtonPressed()) {
-                Bullet b = new Bullet(State.MouseLocation, Transform.LocalPosition + new Vector2(BoundingBox.Width, BoundingBox.Height) / 2);
+                Bullet b = new Bullet(State.MouseLocation, Transform.LocalPosition + new Vector2(BoundingBox.Width, BoundingBox.Height) / 2);;
                 State.Level.Entities.Add(b);
 			}
 
@@ -71,6 +72,17 @@ namespace Nano.Entities
 
             base.HandleInput(inputHelper, gameTime);
         }
+
+		/// <summary>
+		/// Starts constant regeneration.
+		/// </summary>
+		/// <param name="delay">Delay between each boost in seconds</param>
+		/// <param name="amount">Amount of healing</param>
+		void RegenLoop(float delay, float amount)
+		{
+			Heal(amount);
+			NanoGame.Awaiter.Delay(delay * 1000).ContinueWith(t => RegenLoop(delay, amount));
+		}
 
 		bool collides(Tile tile)
 		{

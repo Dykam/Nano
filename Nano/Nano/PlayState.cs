@@ -83,7 +83,7 @@ namespace Nano
 
 		public override void Draw(SpriteBatch spriteBatch) {
 
-			var offset = (NanoGame.Engine.Screen - new Vector2(Player.BoundingBox.Width, Player.BoundingBox.Height)) / 2;
+			var offset = (NanoGame.Engine.Screen - new Vector2(Player.Texture.Width, Player.Texture.Height) / 2) / 2;
 			var transform = Matrix.Identity
 				* Matrix.CreateTranslation(CameraOffset.X, CameraOffset.Y, 0)
 				* Matrix.CreateScale(128, 128, 1)
@@ -96,7 +96,7 @@ namespace Nano
 		{
 			get
 			{
-				var offset = (NanoGame.Engine.Screen - new Vector2(Player.BoundingBox.Width, Player.BoundingBox.Height)) / 2;
+				var offset = (NanoGame.Engine.Screen) / 2;
 				var transform = Matrix.Identity
 					* Matrix.CreateTranslation(CameraOffset.X, CameraOffset.Y, 0)
 					* Matrix.CreateScale(128, 128, 1)

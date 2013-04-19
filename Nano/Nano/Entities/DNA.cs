@@ -41,9 +41,7 @@ namespace Nano.Entities
 		}
 		public override bool Activate(LivingEntity activator, Vector2 aim)
 		{
-			if (cache_activator != activator || cache_aim != aim || cache_activatorPos != activator.Transform.LocalPosition) {
-				HasTargets(activator, aim);
-			}
+			HasTargets(activator, aim);
 			foreach (var target in cache_targets) {
 				Attack(activator, target);
 			}
@@ -52,6 +50,8 @@ namespace Nano.Entities
 
 		public override bool HasTargets(LivingEntity activator, Vector2 aim)
 		{
+			if (cache_activator == activator && cache_aim == aim && cache_activatorPos == activator.Transform.LocalPosition)
+				return cache_targets.Length > 0;
 			var area = new Circle { Radius = Radius, Position = aim };
 			cache_targets =
 				NanoGame.PlayState.Level.Entities
@@ -83,17 +83,17 @@ namespace Nano.Entities
 		}
 		public override bool Activate(LivingEntity activator, Vector2 aim)
 		{
-			if (cache_activator != activator || cache_aim != aim || cache_activatorPos != activator.Transform.LocalPosition) {
-				HasTargets(activator, aim);
-			}
+			HasTargets(activator, aim);
 			foreach (var target in cache_targets) {
-				Attack(activator, target);
+				Attack(activator, activator.Transform.LocalPosition, target);
 			}
 			return true;
 		}
 
 		public override bool HasTargets(LivingEntity activator, Vector2 aim)
 		{
+			if (cache_activator == activator && cache_aim == aim && cache_activatorPos == activator.Transform.LocalPosition)
+				return cache_targets.Length > 0;
 			var area = new Circle { Radius = Radius, Position = activator.Transform.Position };
 			cache_targets =
 				NanoGame.PlayState.Level.Entities
@@ -107,7 +107,7 @@ namespace Nano.Entities
 			return cache_targets.Length > 0;
 		}
 
-		protected abstract bool Attack(LivingEntity attacker, LivingEntity defender);
+		protected abstract bool Attack(LivingEntity attacker, Vector2 position, LivingEntity defender);
 	}
 
 	class ShockWave : AreaSkillDNA
@@ -122,12 +122,12 @@ namespace Nano.Entities
 			NanoGame.PlayState.Effects.Start(new ShockwaveEffect(Radius), activator.Transform.LocalPosition);
 			return base.Activate(activator, aim);
 		}
-		protected override bool Attack(LivingEntity attacker, LivingEntity defender)
+		protected override bool Attack(LivingEntity attacker, Vector2 position, LivingEntity defender)
 		{
 			if (attacker == defender)
 				return false;
 
-			var distance = Vector2.DistanceSquared(attacker.Transform.LocalPosition, defender.Transform.LocalPosition);
+			var distance = Vector2.DistanceSquared(position, defender.Transform.LocalPosition);
 			var fallOff = 5 * 5f;
 			var strength = Math.Max(0, 1 - distance / fallOff);
 
@@ -153,7 +153,7 @@ namespace Nano.Entities
 			return base.Activate(activator, aim);
 		}
 
-		protected override bool Attack(LivingEntity attacker, LivingEntity defender)
+		protected override bool Attack(LivingEntity attacker, Vector2 position, LivingEntity defender)
 		{
 			if (defender == attacker)
 				return false;

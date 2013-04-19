@@ -13,7 +13,7 @@ namespace Engine.GameObjects
 		/// <summary>
 		/// Optional texture. If omitted the gameobject has to override GameObject.Draw().
 		/// </summary>
-		protected Texture2D Texture;
+		public Texture2D Texture { get; protected set; }
 		protected float Opacity = 1;
 		protected bool HasDefaultTexture { get { return Texture != null; } }
 
@@ -53,12 +53,11 @@ namespace Engine.GameObjects
 				if (!HasDefaultTexture) {
 					return new RectangleF((Transform.Position.X), (Transform.Position.Y), 0, 0);
 				} else {
-					return new RectangleF((Transform.Position.X), (Transform.Position.Y), Texture.Width / 128f, Texture.Height / 128f);
+					var size = new Vector2(Texture.Width, Texture.Height) / 128 * Transform.LocalScale;
+					return new RectangleF((Transform.Position.X), (Transform.Position.Y), size.X, size.Y);
 				}
             }
         }
-
-
 
 		public virtual GameObject Find(string keyword)
 		{
