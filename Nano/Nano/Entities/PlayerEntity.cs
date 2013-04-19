@@ -12,7 +12,6 @@ namespace Nano.Entities
 	class PlayerEntity : LivingEntity
 	{
         Level currentLevel;
-		AimSkillDNA currentAimSkill;
 		ShockWave shockWave;
         List<Bullet> bullets;
 
