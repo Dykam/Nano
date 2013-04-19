@@ -23,6 +23,7 @@ namespace Nano.World.LevelTiles
             if (Passed)
             {
                 Console.WriteLine(text);
+                
                 State.Level.Entities.Remove(this);
             }
                 
