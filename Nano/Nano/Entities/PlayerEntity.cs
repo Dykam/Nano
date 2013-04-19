@@ -41,23 +41,13 @@ namespace Nano.Entities
 
 			for (float i = 1; i > 1f / 8; i /= 2) {
 				Transform.LocalPosition.X += move.X * i;
-				bool valid = true;
-				valid = valid && !collides(State.Level.Map[(int)BoundingBox.X, (int)BoundingBox.Y]);
-				valid = valid && !collides(State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)BoundingBox.Y]);
-				valid = valid && !collides(State.Level.Map[(int)BoundingBox.X, (int)(BoundingBox.Y + BoundingBox.Height)]);
-				valid = valid && !collides(State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)(BoundingBox.Y + BoundingBox.Height)]);
-				if (valid)
+				if (!touchedTiles.Any(tile => collides(tile)))
 					break;
 				Transform.LocalPosition.X -= move.X * i;
 			}
 			for (float i = 1; i > 1f / 8; i /= 2) {
 				Transform.LocalPosition.Y += move.Y * i;
-				bool valid = true;
-				valid = valid && !collides(State.Level.Map[(int)BoundingBox.X, (int)BoundingBox.Y]);
-				valid = valid && !collides(State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)BoundingBox.Y]);
-				valid = valid && !collides(State.Level.Map[(int)BoundingBox.X, (int)(BoundingBox.Y + BoundingBox.Height)]);
-				valid = valid && !collides(State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)(BoundingBox.Y + BoundingBox.Height)]);
-				if (valid)
+				if (!touchedTiles.Any(tile => collides(tile)))
 					break;
 				Transform.LocalPosition.Y -= move.Y * i;
 			}
@@ -92,6 +82,17 @@ namespace Nano.Entities
 		{
 			Heal(amount);
 			NanoGame.Awaiter.Delay(delay * 1000).ContinueWith(t => RegenLoop(delay, amount));
+		}
+
+		IEnumerable<Tile> touchedTiles
+		{
+			get
+			{
+				yield return State.Level.Map[(int)BoundingBox.X, (int)BoundingBox.Y];
+				yield return State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)BoundingBox.Y];
+				yield return State.Level.Map[(int)BoundingBox.X, (int)(BoundingBox.Y + BoundingBox.Height)];
+				yield return State.Level.Map[(int)(BoundingBox.X + BoundingBox.Width), (int)(BoundingBox.Y + BoundingBox.Height)];
+			}
 		}
 
 		bool collides(Tile tile)
