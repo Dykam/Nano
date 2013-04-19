@@ -147,6 +147,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="NanoGame.cs" />
+    <Compile Include="World\LevelTiles\StoryCheckpoint.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="World\Background.cs" />
     <Compile Include="World\Level.cs" />

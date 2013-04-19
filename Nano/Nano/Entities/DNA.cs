@@ -11,7 +11,7 @@ namespace Nano.Entities
 	abstract class DNA
 	{
 	}
-
+    
 	abstract class SkillDNA : DNA
 	{
 		public float Cooldown { get; private set; }

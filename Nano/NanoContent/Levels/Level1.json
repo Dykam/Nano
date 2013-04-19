@@ -12,6 +12,9 @@
 	}, {
 		"Type": "BloodClot",
 		"Tile": [255, 242, 0]
+	}, {
+		"Tyle": "StoryCheckpoint",
+		"Tile": [137, 61, 137]
 	}],
     "Spawns": [{
         "Bounds": [ 20, 30, 10, 10 ] /* X, Y, Width, Height */,

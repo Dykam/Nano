@@ -92,6 +92,9 @@ namespace Nano
 					level.Entities.Add(clot);
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = clot;
 					break;
+                case "StoryCheckPoint":
+                    var checkpoint = new World.LevelTiles.StoryCheckpoint();
+                    
 				default:
 					Console.WriteLine("Missing entity: {0}", data.Type);
 					break;
