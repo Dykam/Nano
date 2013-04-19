@@ -34,11 +34,11 @@ namespace Nano.Interface
             tutorials = new Dictionary<int, string>();
             tutorialTracker = new Dictionary<int, bool>();
             tutorials.Add(0, "Use the [W, A, S, D] keys to move around!"); tutorialTracker.Add(0, false);
-            tutorials.Add(1, "Press the left mouse button to shoot!"); tutorialTracker.Add(1, false);
-            tutorials.Add(2, "Press the spacebar to use Shockwave!"); tutorialTracker.Add(2, false);
+            tutorials.Add(1, "Use the mouse to aim and press the left mouse button to shoot!"); tutorialTracker.Add(1, false);
+            tutorials.Add(2, "Press the spacebar to use Shockwave! This is an area of effect attack that damages all nearby enemies within range."); tutorialTracker.Add(2, false);
         }
 
-        public void New(int id)
+        public void New(int id) 
         {
             activeTutorial = id;
             tutorialMessage = tutorials[id];
