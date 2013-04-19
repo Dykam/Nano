@@ -77,7 +77,7 @@ namespace Nano
 		{
 			var bb = Player.BoundingBox;
 			Vector2 desiredCameraOffset = -Player.Transform.Position;
-			CameraOffset = Vector2.Lerp(CameraOffset, desiredCameraOffset, (float)(.99 * gameTime.ElapsedGameTime.TotalSeconds));
+			CameraOffset = Vector2.Lerp(CameraOffset, desiredCameraOffset, (float)(.999 * gameTime.ElapsedGameTime.TotalSeconds));
 
         }
 
@@ -96,7 +96,7 @@ namespace Nano
 		{
 			get
 			{
-				var offset = (NanoGame.Engine.Screen) / 2;
+				var offset = (NanoGame.Engine.Screen - new Vector2(Player.Texture.Width, Player.Texture.Height) / 2) / 2;
 				var transform = Matrix.Identity
 					* Matrix.CreateTranslation(CameraOffset.X, CameraOffset.Y, 0)
 					* Matrix.CreateScale(128, 128, 1)

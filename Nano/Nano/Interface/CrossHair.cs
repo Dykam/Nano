@@ -23,12 +23,12 @@ namespace Nano.Interface
 
 		public override void HandleInput(InputHelper inputHelper, GameTime gameTime)
 		{
-			Transform.LocalPosition = inputHelper.MousePosition - Vector2.One * sheet.TileSize / 2;
+			Transform.LocalPosition = inputHelper.MousePosition;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Matrix transform)
 		{
-			spriteBatch.Draw(sheet, x, y, Color.Red, Transform, Matrix.Identity);
+			spriteBatch.Draw(sheet, x, y, Color.Red, Transform, Matrix.CreateTranslation(sheet.TileSize / -4f, sheet.TileSize / -4f, 0));
 		}
 	}
 }
