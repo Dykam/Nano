@@ -30,7 +30,6 @@ namespace Nano
 			graphics = new GraphicsDeviceManager(this) {
 				PreferredBackBufferHeight = 720,
 				PreferredBackBufferWidth = 1280,
-				PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8
 			};
 			Content.RootDirectory = "Content";
 		}
@@ -44,7 +43,7 @@ namespace Nano
 		protected override void LoadContent()
 		{
 			SpriteBatch = new SpriteBatch(GraphicsDevice);
-			Engine = new GameEngine(this, SpriteBatch, Content, _ => {}, () => {});
+			Engine = new GameEngine(this, SpriteBatch, Content, _ => { }, () => { });
 
 			Engine.GameStateManager.AddGameState("menu", new MenuState(this));
 			Engine.GameStateManager.AddGameState("play", PlayState = new PlayState(this));
@@ -58,9 +57,19 @@ namespace Nano
 		protected override void UnloadContent()
 		{
 		}
-
+#if DEBUG
+		Queue<double> frameLengths = new Queue<double>();
+#endif
 		protected override void Update(GameTime gameTime)
 		{
+#if DEBUG
+			frameLengths.Enqueue(gameTime.ElapsedGameTime.TotalSeconds);
+			var fps = 1 / frameLengths.Average();
+			if (frameLengths.Count > fps && frameLengths.Count > 10) {
+				frameLengths.Dequeue();
+			}
+			Window.Title = fps.ToString("0.0");
+#endif
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 				this.Exit();
 			Awaiter.Update(gameTime);
