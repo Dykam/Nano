@@ -20,7 +20,7 @@ namespace Nano
 		/// <summary>
 		/// Contains all GUI gameobjects
 		/// </summary>
-		InterfaceManager @interface;
+		public InterfaceManager Interface { get; private set; }
 		/// <summary>
 		/// Contains all interactive gameobjects
 		/// </summary>
@@ -54,7 +54,7 @@ namespace Nano
 				new Background(),
 				(Level = loader.Load("Level1", entities)),
 				(Effects = new EffectManager()),
-				(@interface = new InterfaceManager("interface", true) {
+				(Interface = new InterfaceManager("interface", true) {
 					new CrossHair(uisheet, 0, 0),
                     new TutorialBox()
 				}),
