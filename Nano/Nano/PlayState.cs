@@ -85,7 +85,6 @@ namespace Nano
 			if (Math.Abs(diff.Y) > 2)
 				diff.Y = 2 * Math.Sign(diff.Y);
 				interpolatedOffset = desiredCameraOffset - diff;
-			Console.WriteLine(diff);
 			CameraOffset = interpolatedOffset;
         }
 
