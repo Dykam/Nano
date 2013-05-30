@@ -9,9 +9,11 @@ namespace Nano.Entities.Enemies
     class White : NPCEntity
     {
         public White(int strength)
-            : base(20, 4, strength)
+			: base(20 * strength / 10f, 4, strength)
         {
             Texture = NanoGame.Engine.ResourceManager.GetSprite("sprites/whiteTexture");
+			Transform.LocalScale *= strength / 10f;
+			Transform.LocalPosition += (Vector2.One - Vector2.One * Transform.LocalScale) / 2;
         }
 
 		public override void Update(GameTime gameTime)

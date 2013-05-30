@@ -20,7 +20,7 @@ namespace Nano
 		/// <summary>
 		/// Contains all GUI gameobjects
 		/// </summary>
-		InterfaceManager @interface;
+		public InterfaceManager Interface { get; private set; }
 		/// <summary>
 		/// Contains all interactive gameobjects
 		/// </summary>
@@ -31,6 +31,7 @@ namespace Nano
 		public EffectManager Effects { get; private set; }
 		public Vector2 CameraOffset { get; private set; }
 		LevelLoader loader;
+		Matrix gameToScreenUnits, screenToGameUnits;
 
 		public PlayState(NanoGame nanoGame)
 		{
@@ -47,13 +48,13 @@ namespace Nano
 
 		public override void Reset()
 		{
-			entities = new EntityManager("entities", true) {
+			entities = new EntityManager(20, 20, null, true) {
 			};
 			root = new GameObjectList("play", true) {
 				new Background(),
 				(Level = loader.Load("Level1", entities)),
 				(Effects = new EffectManager()),
-				(@interface = new InterfaceManager("interface", true) {
+				(Interface = new InterfaceManager("interface", true) {
 					new CrossHair(uisheet, 0, 0),
                     new TutorialBox()
 				}),
@@ -69,8 +70,8 @@ namespace Nano
 			if (!nanoGame.IsActive)
 				return;
 			root.Update(gameTime);
-            UpdateCamera(gameTime);
 			root.HandleInput(NanoGame.Engine.InputHelper, gameTime);
+			UpdateCamera(gameTime);
 		}
 
         private void UpdateCamera(GameTime gameTime)
@@ -78,38 +79,31 @@ namespace Nano
 			// Calculate the desired camera position, interpolate it with the current position, and clamp if it spaces too far apart.
 			var bb = Player.BoundingBox;
 			Vector2 desiredCameraOffset = -Player.Transform.Position;
-			var interpolatedOffset = Vector2.Lerp(CameraOffset, desiredCameraOffset, (float)(.999 * gameTime.ElapsedGameTime.TotalSeconds));
-			var diff = desiredCameraOffset - interpolatedOffset;
-			if (Math.Abs(diff.X) > 4)
-				diff.X = 4 * Math.Sign(diff.X);
-			if (Math.Abs(diff.Y) > 2)
-				diff.Y = 2 * Math.Sign(diff.Y);
-				interpolatedOffset = desiredCameraOffset - diff;
-			CameraOffset = interpolatedOffset;
-        }
-
-		public override void Draw(SpriteBatch spriteBatch) {
+			CameraOffset = Vector2.Lerp(CameraOffset, desiredCameraOffset, (float)(.999 * gameTime.ElapsedGameTime.TotalSeconds));
 
 			var offset = (NanoGame.Engine.Screen - new Vector2(Player.Texture.Width, Player.Texture.Height) / 2) / 2;
-			var transform = Matrix.Identity
+			gameToScreenUnits = Matrix.Identity
 				* Matrix.CreateTranslation(CameraOffset.X, CameraOffset.Y, 0)
 				* Matrix.CreateScale(128, 128, 1)
 				* Matrix.CreateScale(0.5f)
 				* Matrix.CreateTranslation(offset.X, offset.Y, 1);
-				root.Draw(spriteBatch, transform);
+			screenToGameUnits = Matrix.Invert(gameToScreenUnits);
+
+			var screenRatio = new Vector2(NanoGame.Engine.ScreenRect.Width, NanoGame.Engine.ScreenRect.Height) / NanoGame.Engine.ScreenRect.Width;
+			CameraOffset = Vector2.Clamp(CameraOffset, desiredCameraOffset - screenRatio * 3, desiredCameraOffset + screenRatio * 3);
+			//CameraOffset = desiredCameraOffset;
+        }
+
+		public override void Draw(SpriteBatch spriteBatch) {
+
+				root.Draw(spriteBatch, gameToScreenUnits);
 		}
 
 		public Vector2 MouseLocation
 		{
 			get
 			{
-				var offset = (NanoGame.Engine.Screen - new Vector2(Player.Texture.Width, Player.Texture.Height) / 2) / 2;
-				var transform = Matrix.Identity
-					* Matrix.CreateTranslation(CameraOffset.X, CameraOffset.Y, 0)
-					* Matrix.CreateScale(128, 128, 1)
-					* Matrix.CreateScale(0.5f)
-					* Matrix.CreateTranslation(offset.X, offset.Y, 1);
-				return Vector2.Transform(NanoGame.Engine.InputHelper.MousePosition, Matrix.Invert(transform));
+				return Vector2.Transform(NanoGame.Engine.InputHelper.MousePosition, screenToGameUnits);
 			}
 		}
 	}

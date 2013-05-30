@@ -19,7 +19,7 @@ namespace Nano.Entities.Status
         public override void Activate()
         {
             for (int i = 1; i == nTicks; i++)
-                NanoGame.Awaiter.Delay(1000*i).ContinueWith(t => Entity.Heal(amountPerTick));
+				NanoGame.Awaiter.Delay(1000 * i).ContinueWith(t => Entity.Heal(amountPerTick), System.Threading.Tasks.TaskContinuationOptions.ExecuteSynchronously);
             Entity.RemoveStatus(this);
         }
     }

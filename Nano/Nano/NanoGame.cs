@@ -25,17 +25,11 @@ namespace Nano
 
 		public static SpriteFont DamageFont { get; private set; }
 
-#if DEBUG
-		TimeSpan nextFPSUpdate;
-		int draws, updates;
-#endif
-
 		public NanoGame()
 		{
 			graphics = new GraphicsDeviceManager(this) {
 				PreferredBackBufferHeight = 720,
 				PreferredBackBufferWidth = 1280,
-				PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8
 			};
 			Content.RootDirectory = "Content";
 		}
@@ -49,7 +43,7 @@ namespace Nano
 		protected override void LoadContent()
 		{
 			SpriteBatch = new SpriteBatch(GraphicsDevice);
-			Engine = new GameEngine(this, SpriteBatch, Content, _ => {}, () => {});
+			Engine = new GameEngine(this, SpriteBatch, Content, _ => { }, () => { });
 
 			Engine.GameStateManager.AddGameState("menu", new MenuState(this));
 			Engine.GameStateManager.AddGameState("play", PlayState = new PlayState(this));
@@ -63,18 +57,18 @@ namespace Nano
 		protected override void UnloadContent()
 		{
 		}
-
+#if DEBUG
+		Queue<double> frameLengths = new Queue<double>();
+#endif
 		protected override void Update(GameTime gameTime)
 		{
 #if DEBUG
-			updates++;
-			if (nextFPSUpdate < gameTime.TotalGameTime) {
-				nextFPSUpdate += TimeSpan.FromSeconds(1);
-				Window.Title = string.Format("FPS: {0}; UPS: {1}", draws, updates);
-				updates = 0;
-				draws = 0;
-
+			frameLengths.Enqueue(gameTime.ElapsedGameTime.TotalSeconds);
+			var fps = 1 / frameLengths.Average();
+			if (frameLengths.Count > fps && frameLengths.Count > 10) {
+				frameLengths.Dequeue();
 			}
+			Window.Title = fps.ToString("0.0");
 #endif
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 				this.Exit();
@@ -86,9 +80,6 @@ namespace Nano
 
 		protected override void Draw(GameTime gameTime)
 		{
-#if DEBUG
-			draws++;
-#endif
 			GraphicsDevice.Clear(new Color(240, 240, 240));
 
 			Engine.Draw(SpriteBatch);

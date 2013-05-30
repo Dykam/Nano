@@ -38,13 +38,16 @@ namespace Nano
 
 			dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(path), new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Ignore });
 			Dictionary<Color, dynamic> colorEntities = new Dictionary<Color, dynamic>();
+			int i = 0;
 			foreach (var entity in json.Entities) {
+				entity.ID = i;
 				if (entity.Tile != null) {
 					var color = new Color((int)entity.Tile[0], (int)entity.Tile[1], (int)entity.Tile[2]);
 					colorEntities.Add(color, entity);
 				} else {
 					SpawnEntity(entity, level);
 				}
+				i++;
 			}
 
 			for (var y = 0; y < mapTex.Height; y++) {
@@ -71,27 +74,33 @@ namespace Nano
 					var strength = random.Next(minStrength, maxStrength);
 					var white = new White(strength);
 					white.DNA.Add(new TouchOfDeath());
-					white.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+					white.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(white);
 					break;
 
 				case "Player":
 					var player = new PlayerEntity(content.Load<Texture2D>("Sprites/playerTexture"));
-					player.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+					player.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(player);
 					break;
                 case "Wall":
                     var wall = new World.LevelTiles.Wall();
-                    wall.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+					wall.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(wall);
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = wall;
 					break;
 				case "BloodClot":
 					var clot = new World.LevelTiles.BloodClot();
-					clot.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+					clot.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(clot);
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = clot;
 					break;
+                case "StoryCheckpoint":
+                    var checkpoint = new World.LevelTiles.StoryCheckpoint((string)data.Text, (int)data.ID);
+                    checkpoint.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+                    level.Entities.Add(checkpoint);
+                    level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = checkpoint;
+                    break;
 				default:
 					Console.WriteLine("Missing entity: {0}", data.Type);
 					break;

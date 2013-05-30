@@ -12,6 +12,34 @@
 	}, {
 		"Type": "BloodClot",
 		"Tile": [255, 242, 0]
+	}, {
+		"Type": "StoryCheckpoint",
+		"Tile": [137, 61, 137],
+		"Text": "You are a virus, weak, and you are about to have the adventure of a lifetime!"
+	}, {
+		"Type": "StoryCheckpoint",
+		"Tile": [137, 61, 138],
+		"Text": "You survived your first challenge. Many more will lie ahead... watch out!"
+	}, {
+		"Type": "StoryCheckpoint",
+		"Tile": [137, 61, 139],
+		"Text": "Cafeful with what you blow up... you might accidentally free those virusses!"
+	}, {
+		"Type": "StoryCheckpoint",
+		"Tile": [137, 61, 140],
+		"Text": "Time for a rest... but you're not there yet!"
+	}, {
+		"Type": "StoryCheckpoint",
+		"Tile": [137, 61, 141],
+		"Text": "What a strange room..."
+	}, {
+		"Type": "StoryCheckpoint",
+		"Tile": [137, 61, 142],
+		"Text": "Phew... oh dear, more to come. Almost there!"
+	}, {
+		"Type": "StoryCheckpoint",
+		"Tile": [137, 61, 143],
+		"Text": "This is it, right?"
 	}],
     "Spawns": [{
         "Bounds": [ 20, 30, 10, 10 ] /* X, Y, Width, Height */,

@@ -18,7 +18,7 @@ namespace Nano.Entities.Status
         public override void Activate()
         {
             Entity.Stunned = true;
-            NanoGame.Awaiter.Delay(duration).ContinueWith(t => { Entity.Stunned = false; Entity.RemoveStatus(this);  });
+			NanoGame.Awaiter.Delay(duration).ContinueWith(t => { Entity.Stunned = false; Entity.RemoveStatus(this); }, System.Threading.Tasks.TaskContinuationOptions.ExecuteSynchronously);
         }
     }
 }
