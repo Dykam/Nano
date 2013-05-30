@@ -32,6 +32,10 @@ namespace Nano
 		public Vector2 CameraOffset { get; private set; }
 		LevelLoader loader;
 		Matrix gameToScreenUnits, screenToGameUnits;
+		bool reset = false;
+		string levelToResetTo;
+		bool updating = false;
+		TutorialBox tutorialBox = new TutorialBox();
 
 		public PlayState(NanoGame nanoGame)
 		{
@@ -48,15 +52,26 @@ namespace Nano
 
 		public override void Reset()
 		{
-			entities = new EntityManager(20, 20, null, true) {
-			};
+			Reset(Level != null ? Level.Name : "Level1");
+		}
+		public void Reset(string level)
+		{
+			if (updating) {
+				levelToResetTo = level;
+				reset = true;
+				return;
+			}
+			reset = false;
+
+			entities = new EntityManager(20, 20, null, true);
+			Level = loader.Load(level, entities);
 			root = new GameObjectList("play", true) {
 				new Background(),
-				(Level = loader.Load("Level1", entities)),
+				Level,
 				(Effects = new EffectManager()),
 				(Interface = new InterfaceManager("interface", true) {
 					new CrossHair(uisheet, 0, 0),
-                    new TutorialBox()
+					tutorialBox
 				}),
 				// TODO: Add world
 			};
@@ -69,9 +84,13 @@ namespace Nano
 		{
 			if (!nanoGame.IsActive)
 				return;
+			updating = true;
 			root.Update(gameTime);
 			root.HandleInput(NanoGame.Engine.InputHelper, gameTime);
 			UpdateCamera(gameTime);
+			updating = false;
+			if (reset)
+				Reset(levelToResetTo);
 		}
 
         private void UpdateCamera(GameTime gameTime)

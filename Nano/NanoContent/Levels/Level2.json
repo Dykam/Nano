@@ -7,11 +7,6 @@
 		"Tile": [237, 28, 36],
 		"Strength": [3, 10]
 	}, {
-		"Type": "White",
-		"Tile": [182, 14, 22],
-		"Strength": [3, 10],
-		"Essential": true
-	}, {
 		"Type": "Wall",
 		"Tile": [0,0,0]
 	}, {
@@ -20,35 +15,31 @@
 	}, {
 		"Type": "StoryCheckpoint",
 		"Tile": [137, 61, 137],
-		"Text": "You just got injected into the bloodstream of this random hobo the professor found..."
+		"Text": "You are a virus, weak, and you are about to have the adventure of a lifetime!"
 	}, {
 		"Type": "StoryCheckpoint",
 		"Tile": [137, 61, 138],
-		"Text": "This guy isn't all too healthy... bloodcloths everywhere. We want to find the heart"
+		"Text": "You survived your first challenge. Many more will lie ahead... watch out!"
 	}, {
 		"Type": "StoryCheckpoint",
 		"Tile": [137, 61, 139],
-		"Text": "Ho! Those white blood cells want to eliminate you! Watch out"
+		"Text": "Cafeful with what you blow up... you might accidentally free those virusses!"
 	}, {
 		"Type": "StoryCheckpoint",
 		"Tile": [137, 61, 140],
-		"Text": "Oh, it becomes a bit messy here..."
+		"Text": "Time for a rest... but you're not there yet!"
 	}, {
 		"Type": "StoryCheckpoint",
 		"Tile": [137, 61, 141],
-		"Text": "Left, right? Lets try both!"
+		"Text": "What a strange room..."
 	}, {
 		"Type": "StoryCheckpoint",
 		"Tile": [137, 61, 142],
-		"Text": "Approaching the heart, we must kill all blood cells here"
+		"Text": "Phew... oh dear, more to come. Almost there!"
 	}, {
 		"Type": "StoryCheckpoint",
 		"Tile": [137, 61, 143],
-		"Text": "Ooh, carefull now... almost there! Eliminate all blood cells"
-	}, {
-		"Type": "SwitchLevel",
-		"Tile": [34, 177, 76],
-		"Level": "Level2"
+		"Text": "This is it, right?"
 	}],
     "Spawns": [{
         "Bounds": [ 20, 30, 10, 10 ] /* X, Y, Width, Height */,

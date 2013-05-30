@@ -24,6 +24,8 @@ namespace Nano.World.LevelTiles
             if (Passed)
             {
                 Console.WriteLine(text);
+				foreach (var oldNarrative in State.Interface.OfType<StoryNarrative>().ToArray())
+					State.Interface.Remove(oldNarrative);
                 State.Interface.Add(new StoryNarrative(text));
                 State.Level.Entities.Remove(this);
             }

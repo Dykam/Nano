@@ -17,7 +17,7 @@ namespace Nano.Interface
 
 		public override void Draw(SpriteBatch spriteBatch, Matrix transform)
 		{
-			spriteBatch.Begin();
+			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
 			base.Draw(spriteBatch, transform);
 			spriteBatch.End();
 		}

@@ -33,7 +33,7 @@ namespace Nano
 				throw new ArgumentException("Level does not exist or is incomplete", "level");
 
 			var map = new Color[mapTex.Width * mapTex.Height];
-			var level = new Level(mapTex.Width, mapTex.Height, entities);
+			var level = new Level(levelName, mapTex.Width, mapTex.Height, entities);
 			mapTex.GetData(map);
 
 			dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(path), new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Ignore });
@@ -74,6 +74,7 @@ namespace Nano
 					var strength = random.Next(minStrength, maxStrength);
 					var white = new White(strength);
 					white.DNA.Add(new TouchOfDeath());
+					white.Essential = data.Essential == true;
 					white.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(white);
 					break;
@@ -95,12 +96,18 @@ namespace Nano
 					level.Entities.Add(clot);
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = clot;
 					break;
-                case "StoryCheckpoint":
-                    var checkpoint = new World.LevelTiles.StoryCheckpoint((string)data.Text, (int)data.ID);
-                    checkpoint.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
-                    level.Entities.Add(checkpoint);
-                    level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = checkpoint;
-                    break;
+				case "StoryCheckpoint":
+					var checkpoint = new World.LevelTiles.StoryCheckpoint((string)data.Text, (int)data.ID);
+					checkpoint.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+					level.Entities.Add(checkpoint);
+					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = checkpoint;
+					break;
+				case "SwitchLevel":
+					var switcher = new World.LevelTiles.SwitchLevel((string)data.Level, (int)data.ID);
+					switcher.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
+					level.Entities.Add(switcher);
+					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = switcher;
+					break;
 				default:
 					Console.WriteLine("Missing entity: {0}", data.Type);
 					break;

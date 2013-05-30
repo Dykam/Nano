@@ -22,6 +22,7 @@ namespace Nano
 		public static GameAwaiter Awaiter;
 		public static int TileSize { get; private set; }
 		public static PlayState PlayState { get; private set; }
+		public static GameTime LastGameTime { get; private set; }
 
 		public static SpriteFont DamageFont { get; private set; }
 
@@ -70,6 +71,7 @@ namespace Nano
 			}
 			Window.Title = fps.ToString("0.0");
 #endif
+			LastGameTime = gameTime;
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 				this.Exit();
 			Awaiter.Update(gameTime);

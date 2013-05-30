@@ -11,11 +11,13 @@ namespace Nano.Interface
     class StoryNarrative : GameObject
     {
         SpriteFont font;
+		Texture2D pixel;
         string text;
 
         public StoryNarrative(string text)
         {
             font = NanoGame.Engine.ResourceManager.GetFont("fonts/storyFont");
+			pixel = NanoGame.Engine.ResourceManager.GetSprite("Sprites/Pixel");
             this.text = text;
         }
 
@@ -25,8 +27,10 @@ namespace Nano.Interface
         }
 
         public override void Draw(SpriteBatch spriteBatch, Matrix transform)
-        {
-            spriteBatch.DrawString(font, text, new Vector2(0, NanoGame.Engine.Screen.Y - 30), Color.Red);
+		{
+			var drawedTextSize = font.MeasureString(text);
+			spriteBatch.Draw(pixel, new Vector2(0, NanoGame.Engine.Screen.Y - 30), null, new Color(1f, 1f, 1f, 0.8f), 0, Vector2.Zero, drawedTextSize, SpriteEffects.None, 0);
+			spriteBatch.DrawString(font, text, new Vector2(0, NanoGame.Engine.Screen.Y - 30), Color.Black);
             base.Draw(spriteBatch, transform);
         }
     }
