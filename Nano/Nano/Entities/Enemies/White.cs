@@ -16,7 +16,10 @@ namespace Nano.Entities.Enemies
 
 		public override void Update(GameTime gameTime)
 		{
-			if (gameTime.TotalGameTime - LastSearch > TimeSpan.FromSeconds(1) && Vector2.DistanceSquared(State.Player.Transform.LocalPosition, this.Transform.LocalPosition) < 10 * 10) {
+			// Calculation distance.
+			if (Vector2.DistanceSquared(State.Player.Transform.LocalPosition, this.Transform.LocalPosition) > 12 * 12)
+				return;
+			if (gameTime.TotalGameTime - LastSearch > TimeSpan.FromSeconds(1)) {
 				var target = State.Player.Transform.LocalPosition + Vector2.One * .5f;
 				BuildPath(new Int2((int)target.X, (int)target.Y), gameTime);
 			}
