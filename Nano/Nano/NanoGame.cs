@@ -25,6 +25,11 @@ namespace Nano
 
 		public static SpriteFont DamageFont { get; private set; }
 
+#if DEBUG
+		TimeSpan nextFPSUpdate;
+		int draws, updates;
+#endif
+
 		public NanoGame()
 		{
 			graphics = new GraphicsDeviceManager(this) {
@@ -61,6 +66,16 @@ namespace Nano
 
 		protected override void Update(GameTime gameTime)
 		{
+#if DEBUG
+			updates++;
+			if (nextFPSUpdate < gameTime.TotalGameTime) {
+				nextFPSUpdate += TimeSpan.FromSeconds(1);
+				Window.Title = string.Format("FPS: {0}; UPS: {1}", draws, updates);
+				updates = 0;
+				draws = 0;
+
+			}
+#endif
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 				this.Exit();
 			Awaiter.Update(gameTime);
@@ -71,6 +86,9 @@ namespace Nano
 
 		protected override void Draw(GameTime gameTime)
 		{
+#if DEBUG
+			draws++;
+#endif
 			GraphicsDevice.Clear(new Color(240, 240, 240));
 
 			Engine.Draw(SpriteBatch);
