@@ -8,38 +8,40 @@ using Microsoft.Xna.Framework;
 using Nano.World;
 using Nano.Entities.Effects;
 using Nano.World.LevelTiles;
+using Nano.Entities.Enemies;
 
 namespace Nano.Entities
 {
 	class PlayerEntity : LivingEntity
 	{
-        Level currentLevel;
+		Level currentLevel;
 		ShockWave shockWave;
-        List<Bullet> bullets;
-		Cooldown bulletCooldown;
+		List<Bullet> bullets;
+		Cooldown bulletCooldown, damageCooldown;
 
 		public PlayerEntity(Texture2D texture)
-			: base(20, 5, 10)
+			: base(20, 7, 10)
 		{
-            Texture = texture;
-            currentLevel = this.ParentObject as Level;
+			Texture = texture;
+			currentLevel = this.ParentObject as Level;
 			DNA.Add(shockWave = new ShockWave());
-            bullets = new List<Bullet>();
+			bullets = new List<Bullet>();
 			RegenLoop(1, 1);
 			Transform.LocalScale *= 0.9f;
 			bulletCooldown = new Cooldown(0.2);
+			damageCooldown = new Cooldown(0.2);
 		}
 
-        public override void HandleInput(Engine.InputHelper inputHelper, GameTime gameTime)
-        {
+		public override void HandleInput(Engine.InputHelper inputHelper, GameTime gameTime)
+		{
 			Vector2 move = Vector2.Zero;
-            if (inputHelper.IsKeyDown(Keys.A))
+			if (inputHelper.IsKeyDown(Keys.A))
 				move.X -= Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (inputHelper.IsKeyDown(Keys.D))
+			if (inputHelper.IsKeyDown(Keys.D))
 				move.X += Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (inputHelper.IsKeyDown(Keys.W))
+			if (inputHelper.IsKeyDown(Keys.W))
 				move.Y -= Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (inputHelper.IsKeyDown(Keys.S))
+			if (inputHelper.IsKeyDown(Keys.S))
 				move.Y += Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 			for (float i = 1; i > 1f / 8; i /= 2) {
@@ -65,36 +67,48 @@ namespace Nano.Entities
 			}
 
 			if (inputHelper.MouseState.LeftButton == ButtonState.Pressed && bulletCooldown.TryTick(gameTime)) {
-                Bullet b = new Bullet(State.MouseLocation, Transform.LocalPosition + new Vector2(BoundingBox.Width, BoundingBox.Height) / 2);;
-                State.Level.Entities.Add(b);
+				Bullet b = new Bullet(State.MouseLocation, Transform.LocalPosition + new Vector2(BoundingBox.Width, BoundingBox.Height) / 2); ;
+				State.Level.Entities.Add(b);
 			}
 
 			if (inputHelper.IsKeyDown(Keys.Space)) {
 				DNA.ActivateSkill(shockWave, this, Vector2.Zero);
 			}
 
-            foreach (Tile touched in touchedTiles)
-            {
-                if (touched.LevelEntity is StoryCheckpoint)
-                {
-                    ((StoryCheckpoint)touched.LevelEntity).Passed = true;
-                    foreach (Entity e in State.Level.Entities)
-                    {
-                        if (e is StoryCheckpoint && e.ID == ((StoryCheckpoint)touched.LevelEntity).ID)
-                        {
-                            (e as StoryCheckpoint).Passed = true;
-                        }
-                    }
-                }
-            }
+			foreach (Tile touched in touchedTiles) {
+				if (touched.LevelEntity is StoryCheckpoint) {
+					((StoryCheckpoint)touched.LevelEntity).Passed = true;
+					foreach (Entity e in State.Level.Entities) {
+						if (e is StoryCheckpoint && e.ID == ((StoryCheckpoint)touched.LevelEntity).ID) {
+							(e as StoryCheckpoint).Passed = true;
+						}
+					}
+				} else if (touched.LevelEntity is SwitchLevel) {
+					if (!State.Level.Entities.OfType<White>().Any(w => w.Essential)) {
+						NanoGame.PlayState.Reset(((SwitchLevel)touched.LevelEntity).Level);
+					}
+				}
+			}
 
-            base.HandleInput(inputHelper, gameTime);
-        }
+			if (inputHelper.KeyPressed(Keys.C) && inputHelper.KeyPressed(Keys.H) && inputHelper.KeyPressed(Keys.LeftShift)) {
+				var switcher = State.Level.Entities.OfType<SwitchLevel>().FirstOrDefault();
+				if (switcher != null)
+					State.Reset(switcher.Level);
+			}
+
+			base.HandleInput(inputHelper, gameTime);
+		}
 
 		public override void Die()
 		{
 			base.Die();
 			State.Reset();
+		}
+
+		public override void Damage(float hp)
+		{
+			if (damageCooldown.TryTick(NanoGame.LastGameTime))
+				base.Damage(hp);
 		}
 
 		/// <summary>
