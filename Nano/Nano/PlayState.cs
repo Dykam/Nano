@@ -75,10 +75,18 @@ namespace Nano
 
         private void UpdateCamera(GameTime gameTime)
 		{
+			// Calculate the desired camera position, interpolate it with the current position, and clamp if it spaces too far apart.
 			var bb = Player.BoundingBox;
 			Vector2 desiredCameraOffset = -Player.Transform.Position;
-			CameraOffset = Vector2.Lerp(CameraOffset, desiredCameraOffset, (float)(.999 * gameTime.ElapsedGameTime.TotalSeconds));
-
+			var interpolatedOffset = Vector2.Lerp(CameraOffset, desiredCameraOffset, (float)(.999 * gameTime.ElapsedGameTime.TotalSeconds));
+			var diff = desiredCameraOffset - interpolatedOffset;
+			if (diff.LengthSquared() > 3 * 3) {
+				diff.Normalize();
+				diff *= 3;
+				interpolatedOffset = desiredCameraOffset - diff;
+			}
+			Console.WriteLine(diff);
+			CameraOffset = interpolatedOffset;
         }
 
 		public override void Draw(SpriteBatch spriteBatch) {
