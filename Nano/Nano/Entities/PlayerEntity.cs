@@ -15,6 +15,7 @@ namespace Nano.Entities
 		AimSkillDNA currentAimSkill;
 		ShockWave shockWave;
         List<Bullet> bullets;
+		Cooldown bulletCooldown;
 
 		public PlayerEntity(Texture2D texture)
 			: base(20, 5, 10)
@@ -25,6 +26,7 @@ namespace Nano.Entities
             bullets = new List<Bullet>();
 			RegenLoop(1, 1);
 			Transform.LocalScale *= 0.9f;
+			bulletCooldown = new Cooldown(0.2);
 		}
 
         public override void HandleInput(Engine.InputHelper inputHelper, GameTime gameTime)
@@ -71,7 +73,7 @@ namespace Nano.Entities
 				Transform.LocalPosition.X += Math.Min(Math.Abs(diff), Math.Abs(move.Y)) / 5 * Math.Sign(diff);
 			}
 
-			if (inputHelper.MouseLeftButtonPressed()) {
+			if (inputHelper.MouseState.LeftButton == ButtonState.Pressed && bulletCooldown.TryTick(gameTime)) {
                 Bullet b = new Bullet(State.MouseLocation, Transform.LocalPosition + new Vector2(BoundingBox.Width, BoundingBox.Height) / 2);;
                 State.Level.Entities.Add(b);
 			}
