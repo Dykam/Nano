@@ -8,6 +8,7 @@ namespace Nano.Entities.Enemies
 {
     class White : NPCEntity
     {
+		public bool Essential { get; set; }
         public White(int strength)
 			: base(20 * strength / 10f, 4, strength)
         {
