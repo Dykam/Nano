@@ -35,7 +35,7 @@ namespace Nano.Entities
 				return;
 			float distanceLeft = Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 			while (distanceLeft > 0 && path.Count > 0) {
-				var target = new Vector2(path.Peek().X, path.Peek().Y);
+				var target = new Vector2(path.Peek().X, path.Peek().Y) + (Vector2.One - Vector2.One * Transform.LocalScale) / 2;
 				var movement = target - Transform.LocalPosition;
 				var distance = movement.Length();
 				distance = Math.Min(distance, distanceLeft);
