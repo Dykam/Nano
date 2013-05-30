@@ -80,11 +80,11 @@ namespace Nano
 			Vector2 desiredCameraOffset = -Player.Transform.Position;
 			var interpolatedOffset = Vector2.Lerp(CameraOffset, desiredCameraOffset, (float)(.999 * gameTime.ElapsedGameTime.TotalSeconds));
 			var diff = desiredCameraOffset - interpolatedOffset;
-			if (diff.LengthSquared() > 3 * 3) {
-				diff.Normalize();
-				diff *= 3;
+			if (Math.Abs(diff.X) > 4)
+				diff.X = 4 * Math.Sign(diff.X);
+			if (Math.Abs(diff.Y) > 2)
+				diff.Y = 2 * Math.Sign(diff.Y);
 				interpolatedOffset = desiredCameraOffset - diff;
-			}
 			Console.WriteLine(diff);
 			CameraOffset = interpolatedOffset;
         }
