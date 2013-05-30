@@ -4,8 +4,9 @@ using Microsoft.Xna.Framework.Input;
 namespace Engine
 {
     public class InputHelper
-    {
-
+	{
+		public MouseState MouseState { get { return currentMouseState; } }
+		public KeyboardState KeyboardState { get { return currentKeyboardState; } }
         MouseState currentMouseState, previousMouseState, originalMouseState;
         KeyboardState currentKeyboardState, previousKeyboardState;
 
