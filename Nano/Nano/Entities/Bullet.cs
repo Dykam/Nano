@@ -15,10 +15,10 @@ namespace Nano.Entities
 		Vector2 target, direction;
 		float velocity;
 		private RectangleF boundingBox;
-		public Entity Shooter { get; private set; }
-		SoundEffect[] sounds;
+		public LivingEntity Shooter { get; private set; }
+		SoundEffect[] shootSounds;
 
-		public Bullet(Entity shooter, Vector2 target, Vector2 startPos)
+		public Bullet(LivingEntity shooter, Vector2 target, Vector2 startPos)
 			: base()
 		{
 			Shooter = shooter;
@@ -30,15 +30,16 @@ namespace Nano.Entities
 			velocity = 10f;
 			direction = target - startPos;
 			direction.Normalize();
+			direction = Vector2.Transform(direction, Quaternion.CreateFromAxisAngle(Vector3.UnitZ, (float)(NanoGame.Random.NextDouble() - .5) / 10 ));
 
-			if (sounds == null) {
-				sounds = new SoundEffect[7];
-				for (int i = 0; i < sounds.Length; i++) {
-					sounds[i] = State.nanoGame.Content.Load<SoundEffect>("Sound/plop (" + (i + 1) + ")");
+			if (shootSounds == null) {
+				shootSounds = new SoundEffect[7];
+				for (int i = 0; i < shootSounds.Length; i++) {
+					shootSounds[i] = State.nanoGame.Content.Load<SoundEffect>("Sound/plop (" + (i + 1) + ")");
 				}
 			}
 
-			sounds[NanoGame.Random.Next(sounds.Length)].Play(.4f, 0, Vector2.Transform(startPos, State.GameToScreenUnits).X / State.nanoGame.Window.ClientBounds.Width * 2 - 1);
+			shootSounds[NanoGame.Random.Next(shootSounds.Length)].Play(.5f, 0, MathHelper.Clamp(Vector2.Transform(startPos, State.GameToScreenUnits).X / State.nanoGame.Window.ClientBounds.Width * 2 - 1, -1, 1));
 		}
 
 		public override void Update(GameTime gameTime)
@@ -58,8 +59,9 @@ namespace Nano.Entities
 			if (hit == null)
 				return;
 
-			if (hit is LivingEntity)
-				((LivingEntity)hit).Damage(5);
+			if (hit is LivingEntity) {
+				((LivingEntity)hit).Damage(0.5f * Shooter.Strength);
+			}
 			Destroy();
 
 		}

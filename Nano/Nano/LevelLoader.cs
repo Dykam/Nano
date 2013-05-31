@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Nano.Entities.Enemies;
 using Nano.World.LevelTiles;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Nano
 {
@@ -33,11 +34,13 @@ namespace Nano
 			if (!File.Exists(path) || (mapTex = content.Load<Texture2D>("Levels/" + levelName)) == null)
 				throw new ArgumentException("Level does not exist or is incomplete", "level");
 
+			dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(path), new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Ignore });
+
 			var map = new Color[mapTex.Width * mapTex.Height];
-			var level = new Level(levelName, mapTex.Width, mapTex.Height, entities);
+			SoundEffect backgroundSound = json.Music != null ? content.Load<SoundEffect>("Music/" + json.Music) : null;
+			var level = new Level(levelName, mapTex.Width, mapTex.Height, entities, backgroundSound);
 			mapTex.GetData(map);
 
-			dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(path), new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Ignore });
 			Dictionary<Color, dynamic> colorEntities = new Dictionary<Color, dynamic>();
 			int i = 0;
 			foreach (var entity in json.Entities) {

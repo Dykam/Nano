@@ -7,6 +7,8 @@ using PathFinding;
 using Engine;
 using Nano.Entities;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Nano.World
 {
@@ -16,13 +18,15 @@ namespace Nano.World
 		public Map<Tile> Map { get; private set; }
 		public EntityManager Entities { get; private set; }
 		public string Name { get; private set; }
-		public Level(string name, int width, int height, EntityManager entities)
+		public SoundEffect BackgroundSound { get; private set; }
+		public Level(string name, int width, int height, EntityManager entities, SoundEffect backgroundSound)
 			: base("level")
 		{
 			Name = name;
 			Map = new Map<Tile>(width, height);
 			Entities = entities;
 			entities.ParentObject = this;
+			BackgroundSound = backgroundSound;
 			Solver = new AStarSolver<Tile, LivingEntity>(Map, (start, current, goal) => {
 				var diff = current - goal;
 				diff.X = Math.Abs(diff.X);

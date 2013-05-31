@@ -72,7 +72,7 @@ namespace Nano.Entities
 			}
 
 			if (inputHelper.MouseState.LeftButton == ButtonState.Pressed && bulletCooldown.TryTick()) {
-				Bullet b = new Bullet(this, State.MouseLocation, Transform.LocalPosition + new Vector2(BoundingBox.Width, BoundingBox.Height) / 2); ;
+				Bullet b = new Bullet(this, State.MouseLocation, Transform.LocalPosition + new Vector2(BoundingBox.Width, BoundingBox.Height) / 2);
 				State.Level.Entities.Add(b);
 			}
 

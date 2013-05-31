@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework;
 using Nano.Entities;
 using Nano.World;
 using Nano.Entities.Effects;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Nano
 {
@@ -38,6 +40,7 @@ namespace Nano
 		bool updating = false;
 		TutorialBox tutorialBox = new TutorialBox();
 		Vector2 scale = Vector2.One * 0.3f;
+		SoundEffectInstance backgroundSound;
 
 		public PlayState(NanoGame nanoGame)
 		{
@@ -81,6 +84,13 @@ namespace Nano
 			CameraOffset = -Player.Transform.Position;
 			Effects.FinishAll();
 			root.Transform.LocalScale *= scale;
+
+			if (backgroundSound != null)
+				backgroundSound.Stop();
+			if (Level.BackgroundSound != null) {
+				backgroundSound = Level.BackgroundSound.CreateInstance();
+				backgroundSound.Play();
+			}
 		}
 		public override void Update(GameTime gameTime)
 		{

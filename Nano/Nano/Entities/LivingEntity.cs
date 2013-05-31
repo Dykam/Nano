@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Nano.Entities.Effects;
 using Engine;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Nano.Entities
 {
@@ -20,6 +21,7 @@ namespace Nano.Entities
         public bool Stunned { get; set; }
 		public DNACollection DNA { get; private set; }
 		public int Strength { get; set; }
+		SoundEffect hitEntity;
 
 		public LivingEntity(float maxHealth, float speed, int strength)
 		{
@@ -28,6 +30,9 @@ namespace Nano.Entities
 			MaxHealth = Health = maxHealth;
 			Speed = speed;
 			Strength = strength;
+			if (hitEntity == null) {
+				hitEntity = State.nanoGame.Content.Load<SoundEffect>("Sound/hitEntity");
+			}
 		}
 
 		public override void Update(GameTime gameTime)
@@ -39,8 +44,9 @@ namespace Nano.Entities
 		public virtual void Damage(float hp)
 		{
 			Health = Math.Max(0, Health - hp);
-			if (Health == 0) Die();
+			if (Health == 0) { Die(); return; }
 			State.Effects.Start(new DamageEffect(hp), this);
+			hitEntity.Play(1f, 0, MathHelper.Clamp(Vector2.Transform(Transform.LocalPosition, State.GameToScreenUnits).X / State.nanoGame.Window.ClientBounds.Width * 2 - 1, -1, 1));
 		}
 		public virtual void Heal(float hp)
 		{

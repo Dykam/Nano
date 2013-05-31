@@ -9,7 +9,7 @@ namespace Nano.Entities.Enemies
     class AntiBody : NPCEntity
     {
 		public AntiBody(int strength)
-			: base(20 * strength / 10f, 4, strength)
+			: base(40 * strength / 10f, 2, strength)
         {
             Texture = NanoGame.Engine.ResourceManager.GetSprite("sprites/antibodyTexture");
 			Transform.LocalScale *= strength / 10f;

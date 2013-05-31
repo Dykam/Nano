@@ -176,12 +176,12 @@
     <Compile Include="Music\Impact Lento.mp3">
       <Name>Impact Lento</Name>
       <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
     <Compile Include="Music\One Sly Move.mp3">
       <Name>One Sly Move</Name>
       <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +217,13 @@
     </Compile>
     <Compile Include="Sound\plop %287%29.wav">
       <Name>plop %287%29</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sound\hitEntity.wav">
+      <Name>hitEntity</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

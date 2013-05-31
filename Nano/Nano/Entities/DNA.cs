@@ -132,17 +132,22 @@ namespace Nano.Entities
 			-Vector2.UnitY,
 			 Vector2.UnitX - Vector2.UnitY
 		};
+
+		bool even;
 		public BulletWave()
-			: base(2)
+			: base(500)
 		{
 
 		}
 		public override bool Activate(LivingEntity activator, Vector2 aim)
 		{
-			foreach(Vector2 direction in directions) {
-				Bullet b = new Bullet(activator, activator.Transform.LocalPosition + direction, activator.Transform.LocalPosition);
+			var center = activator.Transform.LocalPosition + new Vector2(activator.BoundingBox.Width, activator.BoundingBox.Height) / 2;
+			for(int i = even ? 0 : 1; i < directions.Length; i += 2) {
+				var direction = directions[i];
+				Bullet b = new Bullet(activator, center + direction, center);
 				activator.State.Level.Entities.Add(b);
 			}
+			even = !even;
 			return true;
 		}
 
