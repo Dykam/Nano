@@ -120,6 +120,38 @@ namespace Nano.Entities
 		}
 	}
 
+	class BulletWave : SkillDNA
+	{
+		static Vector2[] directions = new[] {
+			 Vector2.UnitX,
+			 Vector2.UnitX + Vector2.UnitY,
+			 Vector2.UnitY,
+			-Vector2.UnitX + Vector2.UnitY,
+			-Vector2.UnitX,
+			-Vector2.UnitX - Vector2.UnitY,
+			-Vector2.UnitY,
+			 Vector2.UnitX - Vector2.UnitY
+		};
+		public BulletWave()
+			: base(2)
+		{
+
+		}
+		public override bool Activate(LivingEntity activator, Vector2 aim)
+		{
+			foreach(Vector2 direction in directions) {
+				Bullet b = new Bullet(activator, activator.Transform.LocalPosition + direction, activator.Transform.LocalPosition);
+				activator.State.Level.Entities.Add(b);
+			}
+			return true;
+		}
+
+		public override bool HasTargets(LivingEntity activator, Vector2 aim)
+		{
+			return true;
+		}
+	}
+
 	class PropertyDNA : DNA
 	{
 

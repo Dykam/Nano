@@ -8,7 +8,7 @@ namespace Nano.Entities
 {
 	abstract class Entity : GameObject
 	{
-		protected PlayState State { get; private set; }
+		public PlayState State { get; private set; }
 
 		public EntityManager Manager { get; internal set; }
 		public bool Solid { get; protected set; }

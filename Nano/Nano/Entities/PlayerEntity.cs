@@ -9,6 +9,7 @@ using Nano.World;
 using Nano.Entities.Effects;
 using Nano.World.LevelTiles;
 using Nano.Entities.Enemies;
+using Engine;
 
 namespace Nano.Entities
 {
@@ -18,6 +19,9 @@ namespace Nano.Entities
 		ShockWave shockWave;
 		List<Bullet> bullets;
 		Cooldown bulletCooldown, damageCooldown;
+		Vector2? spawn;
+		int lives = 3;
+		SpriteFont font;
 
 		public PlayerEntity(Texture2D texture)
 			: base(20, 7, 10)
@@ -30,6 +34,7 @@ namespace Nano.Entities
 			Transform.LocalScale *= 0.9f;
 			bulletCooldown = new Cooldown(0.2);
 			damageCooldown = new Cooldown(0.2);
+			font = NanoGame.Engine.ResourceManager.GetFont("fonts/storyFont");
 		}
 
 		public override void HandleInput(Engine.InputHelper inputHelper, GameTime gameTime)
@@ -66,8 +71,8 @@ namespace Nano.Entities
 				Transform.LocalPosition.X += Math.Min(Math.Abs(diff), Math.Abs(move.Y)) / 5 * Math.Sign(diff);
 			}
 
-			if (inputHelper.MouseState.LeftButton == ButtonState.Pressed && bulletCooldown.TryTick(gameTime)) {
-				Bullet b = new Bullet(State.MouseLocation, Transform.LocalPosition + new Vector2(BoundingBox.Width, BoundingBox.Height) / 2); ;
+			if (inputHelper.MouseState.LeftButton == ButtonState.Pressed && bulletCooldown.TryTick()) {
+				Bullet b = new Bullet(this, State.MouseLocation, Transform.LocalPosition + new Vector2(BoundingBox.Width, BoundingBox.Height) / 2); ;
 				State.Level.Entities.Add(b);
 			}
 
@@ -99,15 +104,37 @@ namespace Nano.Entities
 			base.HandleInput(inputHelper, gameTime);
 		}
 
+		public override void Update(GameTime gameTime)
+		{
+			if (spawn == null)
+				spawn = Transform.LocalPosition;
+			base.Update(gameTime);
+		}
+
 		public override void Die()
 		{
-			base.Die();
-			State.Reset();
+			if (lives-- > 0) {
+				Transform.LocalPosition = spawn.Value;
+				Heal(MaxHealth);
+			} else {
+				base.Die();
+				State.Reset();
+			}
+		}
+
+		public override void Draw(SpriteBatch spriteBatch, Matrix transform)
+		{
+			base.Draw(spriteBatch, transform);
+			Transform.LocalScale *= 4;
+			Transform.LocalPosition += Vector2.One * 0.1f;
+			spriteBatch.DrawString(font, "+" + (lives - 1).ToString(), Color.Green, Transform, transform);
+			Transform.LocalPosition -= Vector2.One * 0.1f;
+			Transform.LocalScale /= 4;
 		}
 
 		public override void Damage(float hp)
 		{
-			if (damageCooldown.TryTick(NanoGame.LastGameTime))
+			if (damageCooldown.TryTick())
 				base.Damage(hp);
 		}
 

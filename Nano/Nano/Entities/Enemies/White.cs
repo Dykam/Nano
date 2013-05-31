@@ -8,7 +8,6 @@ namespace Nano.Entities.Enemies
 {
     class White : NPCEntity
     {
-		public bool Essential { get; set; }
         public White(int strength)
 			: base(20 * strength / 10f, 4, strength)
         {
@@ -19,17 +18,16 @@ namespace Nano.Entities.Enemies
 
 		public override void Update(GameTime gameTime)
 		{
-			// Calculation distance.
-			if (Vector2.DistanceSquared(State.Player.Transform.LocalPosition, this.Transform.LocalPosition) > 12 * 12)
-				return;
 			if (gameTime.TotalGameTime - LastSearch > TimeSpan.FromSeconds(1)) {
 				var target = State.Player.Transform.LocalPosition + Vector2.One * .5f;
 				BuildPath(new Int2((int)target.X, (int)target.Y), gameTime);
 			}
 			base.Update(gameTime);
+			Vector2 aim = State.Player.Transform.LocalPosition - Transform.LocalPosition;
+			aim.Normalize();
 			foreach (var skill in DNA.SkillCooling.Where(kvp => kvp.Value <= TimeSpan.Zero).ToArray()) {
-				if (skill.Key.HasTargets(this, this.Transform.LocalPosition)) {
-					DNA.ActivateSkill(skill.Key, this, this.Transform.LocalPosition);
+				if (skill.Key.HasTargets(this, aim)) {
+					DNA.ActivateSkill(skill.Key, this, aim);
 				}
 			}
 		}

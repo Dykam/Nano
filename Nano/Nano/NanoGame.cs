@@ -23,6 +23,7 @@ namespace Nano
 		public static int TileSize { get; private set; }
 		public static PlayState PlayState { get; private set; }
 		public static GameTime LastGameTime { get; private set; }
+		public static Random Random { get; private set; }
 
 		public static SpriteFont DamageFont { get; private set; }
 
@@ -31,8 +32,10 @@ namespace Nano
 			graphics = new GraphicsDeviceManager(this) {
 				PreferredBackBufferHeight = 720,
 				PreferredBackBufferWidth = 1280,
+				PreferMultiSampling = true
 			};
 			Content.RootDirectory = "Content";
+			Random = new Random();
 		}
 
 		protected override void Initialize()
@@ -59,17 +62,17 @@ namespace Nano
 		{
 		}
 #if DEBUG
-		Queue<double> frameLengths = new Queue<double>();
+		Queue<TimeSpan> updates = new Queue<TimeSpan>(), draws = new Queue<TimeSpan>();
 #endif
 		protected override void Update(GameTime gameTime)
 		{
 #if DEBUG
-			frameLengths.Enqueue(gameTime.ElapsedGameTime.TotalSeconds);
-			var fps = 1 / frameLengths.Average();
-			if (frameLengths.Count > fps && frameLengths.Count > 10) {
-				frameLengths.Dequeue();
-			}
-			Window.Title = fps.ToString("0.0");
+			updates.Enqueue(gameTime.TotalGameTime);
+			while (draws.Count > 0 && updates.Peek() < gameTime.TotalGameTime - TimeSpan.FromSeconds(1))
+				updates.Dequeue();
+			while (draws.Count > 0 && draws.Peek() < gameTime.TotalGameTime - TimeSpan.FromSeconds(1))
+				draws.Dequeue();
+			Window.Title = string.Format("FPS: {0:0}; UPS: {1:0}", draws.Count, updates.Count);
 #endif
 			LastGameTime = gameTime;
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -82,6 +85,9 @@ namespace Nano
 
 		protected override void Draw(GameTime gameTime)
 		{
+#if DEBUG
+			draws.Enqueue(gameTime.TotalGameTime + TimeSpan.FromSeconds(1));
+#endif
 			GraphicsDevice.Clear(new Color(240, 240, 240));
 
 			Engine.Draw(SpriteBatch);

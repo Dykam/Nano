@@ -14,7 +14,7 @@ namespace Nano.Entities.Effects
 		EntityManager manager;
 		public EffectManager()
 		{
-			manager = new EntityManager(20, 20, null, true) {
+			manager = new EntityManager(30, 30, null, true) {
 				ParentObject = this,
 			};
 		}

@@ -8,6 +8,7 @@ namespace Nano.Entities
 {
 	class NPCEntity : LivingEntity
 	{
+		public bool Essential { get; set; }
 		Queue<Int2> path;
 		public bool HasPath { get { return path != null && path.Count != 0; } }
 		public TimeSpan LastSearch { get; private set; }
@@ -17,7 +18,7 @@ namespace Nano.Entities
 
 		}
 
-		protected void BuildPath(Int2 target, GameTime gameTime)
+		protected int BuildPath(Int2 target, GameTime gameTime)
 		{
 			var vfrom = BoundingBox.Center;
 			var from = new Int2((int)vfrom.X, (int)vfrom.Y);
@@ -26,6 +27,7 @@ namespace Nano.Entities
 				path = new Queue<Int2>(searched);
 			}
 			LastSearch = gameTime.TotalGameTime;
+			return searched != null ? searched.Steps : Int16.MaxValue;
 		}
 
 		public override void Update(GameTime gameTime)

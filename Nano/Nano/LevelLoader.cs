@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Nano.Entities.Enemies;
+using Nano.World.LevelTiles;
 
 namespace Nano
 {
@@ -53,7 +54,6 @@ namespace Nano
 			for (var y = 0; y < mapTex.Height; y++) {
 				for (var x = 0; x < mapTex.Width; x++) {
 					var color = map[x + y * mapTex.Width];
-
 					if (colorEntities.ContainsKey(color)) {
 						var entity = colorEntities[color];
 						entity.Position = new JArray(x, y);
@@ -78,32 +78,41 @@ namespace Nano
 					white.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(white);
 					break;
-
+				case "AntiBody":
+					minStrength = data.Strength[0];
+					maxStrength = data.Strength[1];
+					strength = random.Next(minStrength, maxStrength);
+					var antibody = new AntiBody(strength);
+					antibody.DNA.Add(new BulletWave());
+					antibody.Essential = data.Essential == true;
+					antibody.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
+					level.Entities.Add(antibody);
+					break;
 				case "Player":
 					var player = new PlayerEntity(content.Load<Texture2D>("Sprites/playerTexture"));
 					player.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(player);
 					break;
                 case "Wall":
-                    var wall = new World.LevelTiles.Wall();
+                    var wall = new Wall();
 					wall.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(wall);
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = wall;
 					break;
 				case "BloodClot":
-					var clot = new World.LevelTiles.BloodClot();
+					var clot = new BloodClot();
 					clot.Transform.LocalPosition += new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(clot);
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = clot;
 					break;
 				case "StoryCheckpoint":
-					var checkpoint = new World.LevelTiles.StoryCheckpoint((string)data.Text, (int)data.ID);
+					var checkpoint = new StoryCheckpoint((string)data.Text, (int)data.ID);
 					checkpoint.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(checkpoint);
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = checkpoint;
 					break;
 				case "SwitchLevel":
-					var switcher = new World.LevelTiles.SwitchLevel((string)data.Level, (int)data.ID);
+					var switcher = new SwitchLevel((string)data.Level, (int)data.ID);
 					switcher.Transform.Position = new Vector2((float)data.Position[0], (float)data.Position[1]);
 					level.Entities.Add(switcher);
 					level.Map[(int)data.Position[0], (int)data.Position[1]].LevelEntity = switcher;

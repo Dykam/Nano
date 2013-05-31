@@ -19,11 +19,11 @@ namespace Nano
 		{
 		}
 
-		public bool TryTick(GameTime gameTime)
+		public bool TryTick()
 		{
-			if (gameTime.TotalGameTime < nextTick)
+			if (NanoGame.LastGameTime.TotalGameTime < nextTick)
 				return false;
-			nextTick = gameTime.TotalGameTime + Time;
+			nextTick = NanoGame.LastGameTime.TotalGameTime + Time;
 			return true;
 		}
 	}

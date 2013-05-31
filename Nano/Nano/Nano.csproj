@@ -114,7 +114,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsyncXnaIntegration.cs" />
+    <Compile Include="Entities\Enemies\AntiBody.cs" />
+    <Compile Include="World\AsyncXnaIntegration.cs" />
     <Compile Include="Circle.cs" />
     <Compile Include="Collision.cs" />
     <Compile Include="Cooldown.cs" />

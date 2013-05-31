@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Engine.GameObjects;
 using Engine;
 using Nano.World.LevelTiles;
+using Microsoft.Xna.Framework.Audio;
 namespace Nano.Entities
 {
 	class Bullet : Entity
@@ -14,10 +15,13 @@ namespace Nano.Entities
 		Vector2 target, direction;
 		float velocity;
 		private RectangleF boundingBox;
+		public Entity Shooter { get; private set; }
+		SoundEffect[] sounds;
 
-		public Bullet(Vector2 target, Vector2 startPos)
+		public Bullet(Entity shooter, Vector2 target, Vector2 startPos)
 			: base()
 		{
+			Shooter = shooter;
 			Texture = NanoGame.Engine.ResourceManager.GetSprite("Sprites/bulletTexture");
 			Transform.LocalScale = new Vector2(0.3f, 0.3f);
 			this.target = target;
@@ -26,6 +30,15 @@ namespace Nano.Entities
 			velocity = 10f;
 			direction = target - startPos;
 			direction.Normalize();
+
+			if (sounds == null) {
+				sounds = new SoundEffect[7];
+				for (int i = 0; i < sounds.Length; i++) {
+					sounds[i] = State.nanoGame.Content.Load<SoundEffect>("Sound/plop (" + (i + 1) + ")");
+				}
+			}
+
+			sounds[NanoGame.Random.Next(sounds.Length)].Play(.4f, 0, Vector2.Transform(startPos, State.GameToScreenUnits).X / State.nanoGame.Window.ClientBounds.Width * 2 - 1);
 		}
 
 		public override void Update(GameTime gameTime)
@@ -41,7 +54,7 @@ namespace Nano.Entities
 			if (!tile.IsWalkableBy(this))
 				hit = tile.LevelEntity;
 			if(hit == null)
-				hit = State.Level.Entities.EntitiesInDistance.FirstOrDefault(w => !(w is PlayerEntity) && !(w is Bullet) && !(w is  Wall) && w.BoundingBox.Contains(Transform.LocalPosition));
+				hit = State.Level.Entities.EntitiesInDistance.FirstOrDefault(w => w.GetType() != Shooter.GetType() && !(w is Bullet) && !(w is Wall) && w.BoundingBox.Contains(Transform.LocalPosition));
 			if (hit == null)
 				return;
 
