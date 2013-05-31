@@ -170,5 +170,6 @@ namespace Nano.Entities
 				return Collision.Intersects(new Circle { Position = Transform.Position, Radius = .5f * Transform.LocalScale.X }, tile.LevelEntity.BoundingBox);
 			return !tile.IsWalkableBy(this);
 		}
-	}
+
+    }
 }

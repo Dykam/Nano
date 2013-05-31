@@ -23,6 +23,10 @@
 		"Type": "BloodClot",
 		"Tile": [255, 242, 0]
 	}, {
+		"Type": "BloodClot",
+		"Tile": [128, 128, 0],
+		"Essential": true
+	}, {
 		"Type": "StoryCheckpoint",
 		"Tile": [137, 61, 137],
 		"Text": "Seems like you've entered the mouth of a child..."
@@ -37,7 +41,19 @@
 	}, {
 		"Type": "StoryCheckpoint",
 		"Tile": [183, 94, 183],
-		"Text": "Leaving the stomach, guess where we go next."
+		"Text": "Leaving the stomach, guess where we go next?"
+	}, {
+		"Type": "StoryCheckpoint",
+		"Tile": [198, 128, 198],
+		"Text": "Hmm. It is a bit smelly here."
+	}, {
+		"Type": "StoryCheckpoint",
+		"Tile": [213, 162, 213],
+		"Text": "Almost there! Shoot the barrier so that the poo will flow inside the body."
+	}, {
+		"Type": "SwitchLevel",
+		"Tile": [153, 217, 234],
+		"Level": "Level1"
 	}],
     "Spawns": [{
         "Bounds": [ 20, 30, 10, 10 ] /* X, Y, Width, Height */,
@@ -48,7 +64,7 @@
     }],
 	"Rooms":  [ {
 		"Type": "Acid",
-		"Dimensions": [24,37,28,27],
+		"Dimensions": [34,61,31,28],
 		"Strength": 1
 	}]
 }

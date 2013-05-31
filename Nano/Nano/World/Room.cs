@@ -13,6 +13,7 @@ namespace Nano.World
 		public RectangleF Location { get; private set; }
 		protected abstract void OnPlayerEnter(PlayerEntity player);
 		protected abstract void OnPlayerLeave(PlayerEntity player);
+        protected abstract void OnUpdate(PlayerEntity player);
 
         public Room(RectangleF location)
         {
@@ -29,6 +30,8 @@ namespace Nano.World
 				else
 					OnPlayerLeave(entity);
 			}
+            if (playerInRoom)
+                OnUpdate(entity);
 		}
 	}
 }

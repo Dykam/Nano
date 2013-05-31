@@ -8,15 +8,16 @@ namespace Nano.Entities.Status
 {
 	class PoisonStatus : EntityStatus
 	{
+        float strength;
 		public PoisonStatus(LivingEntity entity, float strength, float duration)
 			: base(entity)
 		{
-			
+            this.strength = strength;
 		}
 
 		public override void Activate()
 		{
-			NanoGame.Awaiter.Delay(1000).ContinueWith(t => Entity.Damage(5), System.Threading.Tasks.TaskContinuationOptions.ExecuteSynchronously);
+			NanoGame.Awaiter.Delay(1000).ContinueWith(t => Entity.Damage(strength), System.Threading.Tasks.TaskContinuationOptions.ExecuteSynchronously);
 		}
 	}
 }
