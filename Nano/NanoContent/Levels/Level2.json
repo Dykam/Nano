@@ -9,8 +9,13 @@
 		"Strength": [3, 10]
 	}, {
 		"Type": "AntiBody",
-		"Tile": [236, 194, 0],
+		"Tile": [255, 201, 14],
 		"Strength": [6, 10]
+	}, {
+		"Type": "AntiBody",
+		"Tile": [210, 163, 0],
+		"Strength": [6, 10],
+		"Essential": true
 	}, {
 		"Type": "Wall",
 		"Tile": [0,0,0]
@@ -28,7 +33,11 @@
 	}, {
 		"Type": "StoryCheckpoint",
 		"Tile": [166, 74, 166],
-		"Text": "That's right, this is the stomach."
+		"Text": "That's right, this is the stomach. You must kill all the enemies here."
+	}, {
+		"Type": "StoryCheckpoint",
+		"Tile": [183, 94, 183],
+		"Text": "Leaving the stomach, guess where we go next."
 	}],
     "Spawns": [{
         "Bounds": [ 20, 30, 10, 10 ] /* X, Y, Width, Height */,
