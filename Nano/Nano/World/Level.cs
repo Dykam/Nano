@@ -15,12 +15,14 @@ namespace Nano.World
 		public AStarSolver<Tile,LivingEntity> Solver { get; private set; }
 		public Map<Tile> Map { get; private set; }
 		public EntityManager Entities { get; private set; }
+        public List<Room> Rooms;
 		public string Name { get; private set; }
 		public Level(string name, int width, int height, EntityManager entities)
 			: base("level")
 		{
 			Name = name;
 			Map = new Map<Tile>(width, height);
+            Rooms = new List<Room>();
 			Entities = entities;
 			entities.ParentObject = this;
 			Solver = new AStarSolver<Tile, LivingEntity>(Map, (start, current, goal) => {

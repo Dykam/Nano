@@ -23,5 +23,9 @@
             "Type": "White",
             "Strength": [3, 10]
         } ]
-    }]
+    }],
+	"Rooms":  [ {
+		"Type": "Acid",
+		"Dimensions": [0,0,5,8]
+	}]
 }

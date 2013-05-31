@@ -133,7 +133,7 @@ namespace Nano.Entities
 			 Vector2.UnitX - Vector2.UnitY
 		};
 		public BulletWave()
-			: base(2)
+			: base(1000)
 		{
 
 		}
