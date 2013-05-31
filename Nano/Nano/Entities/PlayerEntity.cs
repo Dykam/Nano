@@ -10,6 +10,7 @@ using Nano.Entities.Effects;
 using Nano.World.LevelTiles;
 using Nano.Entities.Enemies;
 using Engine;
+using Nano.Interface;
 
 namespace Nano.Entities
 {
@@ -33,7 +34,7 @@ namespace Nano.Entities
 			RegenLoop(1, 1);
 			Transform.LocalScale *= 0.9f;
 			bulletCooldown = new Cooldown(0.2);
-			damageCooldown = new Cooldown(0.2);
+			damageCooldown = new Cooldown(0.1);
 			font = NanoGame.Engine.ResourceManager.GetFont("fonts/storyFont");
 		}
 
@@ -134,8 +135,11 @@ namespace Nano.Entities
 
 		public override void Damage(float hp)
 		{
+			bool properHealth = Health > 5;
 			if (damageCooldown.TryTick())
 				base.Damage(hp);
+			if (properHealth && Health <= 5)
+				StoryNarrative.Set(State.Interface, "Dangerously low health!");
 		}
 
 		/// <summary>
