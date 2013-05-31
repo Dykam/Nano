@@ -6,6 +6,7 @@ using Engine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nano;
+using Microsoft.Xna.Framework.Audio;
 namespace Nano.Interface
 {
     class StoryNarrative : GameObject
@@ -13,12 +14,17 @@ namespace Nano.Interface
         SpriteFont font;
 		Texture2D pixel;
         string text;
+		static SoundEffect beep;
 
         public StoryNarrative(string text)
         {
             font = NanoGame.Engine.ResourceManager.GetFont("fonts/storyFont");
 			pixel = NanoGame.Engine.ResourceManager.GetSprite("Sprites/Pixel");
             this.text = text;
+			if (beep == null) {
+				beep = NanoGame.PlayState.nanoGame.Content.Load<SoundEffect>("Sound/beep");
+			}
+			beep.Play();
         }
 
         public override void Update(GameTime gameTime)
@@ -29,9 +35,17 @@ namespace Nano.Interface
         public override void Draw(SpriteBatch spriteBatch, Matrix transform)
 		{
 			var drawedTextSize = font.MeasureString(text);
-			spriteBatch.Draw(pixel, new Vector2(0, NanoGame.Engine.Screen.Y - 30), null, new Color(1f, 1f, 1f, 0.8f), 0, Vector2.Zero, drawedTextSize, SpriteEffects.None, 0);
-			spriteBatch.DrawString(font, text, new Vector2(0, NanoGame.Engine.Screen.Y - 30), Color.Black);
+			var pos = new Vector2(NanoGame.Engine.Screen.X - drawedTextSize.X, 30);
+			spriteBatch.Draw(pixel, pos, null, new Color(1f, 1f, 1f, 0.8f), 0, Vector2.Zero, drawedTextSize, SpriteEffects.None, 0);
+			spriteBatch.DrawString(font, text, pos, Color.Black);
             base.Draw(spriteBatch, transform);
         }
+
+		public static void Set(InterfaceManager @interface, string text) {
+			Console.WriteLine(text);
+			foreach (var oldNarrative in @interface.OfType<StoryNarrative>().ToArray())
+				@interface.Remove(oldNarrative);
+			@interface.Add(new StoryNarrative(text));
+		}
     }
 }

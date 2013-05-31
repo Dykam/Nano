@@ -97,6 +97,9 @@ namespace Nano
 			if (!nanoGame.IsActive)
 				return;
 			updating = true;
+			foreach (var room in Level.Rooms) {
+				room.UpdateWithPlayer(Player);
+			}
 			root.Update(gameTime);
 			root.HandleInput(NanoGame.Engine.InputHelper, gameTime);
 			UpdateCamera(gameTime);

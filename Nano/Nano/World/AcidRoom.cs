@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Nano.Entities;
 namespace Nano.World
 {
     class AcidRoom : Room
     {
-        public AcidRoom(Rectangle location)
-            :base(location)
+        public AcidRoom(RectangleF location)
+            : base(location)
         {
             
         }
-        public override void OnPlayerEnter()
+        protected override void OnPlayerEnter(PlayerEntity player)
         {
-            throw new NotImplementedException();
+            
         }
 
-        public override void OnPlayerLeave()
+		protected override void OnPlayerLeave(PlayerEntity player)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

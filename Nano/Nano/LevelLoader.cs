@@ -140,7 +140,7 @@ namespace Nano
         {
             switch ((String)data.Type) {
                 case "Acid":
-                    Rectangle dimensions = new Rectangle((int)data.Dimensions[0], (int)data.Dimensions[1], (int)data.Dimensions[2], (int)data.Dimensions[3]);
+                    RectangleF dimensions = new RectangleF((int)data.Dimensions[0], (int)data.Dimensions[1], (int)data.Dimensions[2], (int)data.Dimensions[3]);
                     var room = new AcidRoom(dimensions);
                     level.Rooms.Add(room);
                     break;
