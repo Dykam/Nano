@@ -65,6 +65,16 @@ namespace Nano
 				}
 			}
 
+            //Parsing Rooms data.
+            i = 0;
+            if (json.Rooms != null)
+            {
+                foreach (var room in json.Rooms)
+                {
+                    room.ID = i;
+                    AddRoom(room, level);
+                }
+            }
 			return level;
 		}
 
@@ -125,5 +135,19 @@ namespace Nano
 					break;
 			}
 		}
+
+        void AddRoom(dynamic data, Level level)
+        {
+            switch ((String)data.Type) {
+                case "Acid":
+                    Rectangle dimensions = new Rectangle((int)data.Dimensions[0], (int)data.Dimensions[1], (int)data.Dimensions[2], (int)data.Dimensions[3]);
+                    var room = new AcidRoom(dimensions);
+                    level.Rooms.Add(room);
+                    break;
+                default:
+                    Console.WriteLine("Missing room type {0}:", data.Type);
+                    break;
+            }
+        }
 	}
 }

@@ -11,5 +11,10 @@ namespace Nano.World
 		public Rectangle Location { get; private set; }
 		public abstract void OnPlayerEnter();
 		public abstract void OnPlayerLeave();
+
+        public Room(Rectangle location)
+        {
+            Location = location;
+        }
 	}
 }

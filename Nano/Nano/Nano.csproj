@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Enemies\AntiBody.cs" />
+    <Compile Include="World\AcidRoom.cs" />
     <Compile Include="World\AsyncXnaIntegration.cs" />
     <Compile Include="Circle.cs" />
     <Compile Include="Collision.cs" />
